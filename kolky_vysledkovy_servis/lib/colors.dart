@@ -31,3 +31,6 @@ MaterialColor secondaryColorSwatch = const MaterialColor(
     900: Color(0xFF0a7ec2),
   },
 );
+
+const primaryColor = Color(0xFFc12428);
+const secondaryColor = Color(0xFF0a7ec2);
