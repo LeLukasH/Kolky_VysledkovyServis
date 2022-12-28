@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: primaryColorSwatch,
       ),
-      home: const HomePage(title: 'Domov'),
+      home: const HomePage(),
     );
   }
 }

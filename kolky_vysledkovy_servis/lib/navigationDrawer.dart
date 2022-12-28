@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'homePage.dart';
+import 'colors.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -16,6 +18,7 @@ class NavigationDrawer extends StatelessWidget {
       ));
 
   Widget buildHeader(BuildContext context) => Container(
+        color: secondaryColor,
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top,
         ),
@@ -28,7 +31,8 @@ class NavigationDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Domov'),
-            onTap: () => {},
+            onTap: () => Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomePage())),
           ),
           ExpansionTile(
             leading: const Icon(Icons.ballot_outlined),
