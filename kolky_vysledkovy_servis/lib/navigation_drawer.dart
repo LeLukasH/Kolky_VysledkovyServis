@@ -41,7 +41,7 @@ class NavigationDrawer extends StatelessWidget {
                 child: ListTile(
                   title: const Text('Interliga'),
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const InterligaPage())),
+                      builder: (context) => const Interliga())),
                 ),
               ),
               Padding(
@@ -53,14 +53,18 @@ class NavigationDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('Extraliga muži'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const ExtraligaMuzi())),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('AGRO CS - RONA Extraliga ženy'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const ExtraligaZeny())),
                       ),
                     ),
                   ],
@@ -75,14 +79,18 @@ class NavigationDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('1.KL Východ'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const Liga1Vychod())),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('1.KL Západ'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const Liga1Zapad())),
                       ),
                     ),
                   ],
@@ -92,7 +100,8 @@ class NavigationDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
                   title: const Text('2.KL Západ'),
-                  onTap: () => {},
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const Liga2Zapad())),
                 ),
               ),
               Padding(
@@ -104,14 +113,18 @@ class NavigationDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('DL Západ'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const DLZapad())),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('DL Východ'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const DLVychod())),
                       ),
                     ),
                   ],
@@ -126,14 +139,18 @@ class NavigationDrawer extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('3. liga TT + NR kraj'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const Liga3TTNR())),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 16.0),
                       child: ListTile(
                         title: const Text('3. liga TN kraja'),
-                        onTap: () => {},
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => const Liga3TN())),
                       ),
                     ),
                   ],
@@ -143,7 +160,8 @@ class NavigationDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
                   title: const Text('Slovenský pohár mužov'),
-                  onTap: () => {},
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const SlovenskyPoharMuzov())),
                 ),
               ),
             ],
