@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-MaterialColor primaryColorSwatch = const MaterialColor(
+MaterialColor secondaryColorSwatch = const MaterialColor(
   0xFFc12428,
   <int, Color>{
     50: Color(0xFFc12428),
@@ -16,7 +16,7 @@ MaterialColor primaryColorSwatch = const MaterialColor(
   },
 );
 
-MaterialColor secondaryColorSwatch = const MaterialColor(
+MaterialColor primaryColorSwatch = const MaterialColor(
   0xFF0a7ec2,
   <int, Color>{
     50: Color(0xFF0a7ec2),
@@ -32,5 +32,5 @@ MaterialColor secondaryColorSwatch = const MaterialColor(
   },
 );
 
-const primaryColor = Color(0xFFc12428);
-const secondaryColor = Color(0xFF0a7ec2);
+const secondaryColor = Color(0xFFc12428);
+const primaryColor = Color(0xFF0a7ec2);

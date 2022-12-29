@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homePage.dart';
+import 'screens/screens.dart';
 import 'colors.dart';
 
 class NavigationDrawer extends StatelessWidget {
@@ -18,11 +18,9 @@ class NavigationDrawer extends StatelessWidget {
       ));
 
   Widget buildHeader(BuildContext context) => Container(
-        color: secondaryColor,
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-        ),
-      );
+      color: secondaryColor,
+      //padding: const EdgeInsets.only(top: 250.0),
+      child: Image.asset('images/logo200x200.png'));
 
   Widget buildMenuItems(BuildContext context) => Container(
       padding: const EdgeInsets.all(16),
@@ -42,7 +40,8 @@ class NavigationDrawer extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 16.0),
                 child: ListTile(
                   title: const Text('Interliga'),
-                  onTap: () => {},
+                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const InterligaPage())),
                 ),
               ),
               Padding(
