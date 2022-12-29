@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'screens/screens.dart';
-import 'colors.dart';
 
 class NavigationDrawer extends StatelessWidget {
   const NavigationDrawer({Key? key}) : super(key: key);
@@ -18,9 +17,14 @@ class NavigationDrawer extends StatelessWidget {
       ));
 
   Widget buildHeader(BuildContext context) => Container(
-      color: secondaryColor,
-      //padding: const EdgeInsets.only(top: 250.0),
-      child: Image.asset('images/logo200x200.png'));
+      padding: const EdgeInsets.only(bottom: 5.0),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 50),
+        child: Image.asset(
+          'images/logo200x200.png',
+          height: 200,
+        ),
+      ));
 
   Widget buildMenuItems(BuildContext context) => Container(
       padding: const EdgeInsets.all(16),
@@ -29,11 +33,11 @@ class NavigationDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home_outlined),
             title: const Text('Domov'),
-            onTap: () => Navigator.of(context).pushReplacement(
+            onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => const HomePage())),
           ),
           ExpansionTile(
-            leading: const Icon(Icons.ballot_outlined),
+            leading: const Icon(Icons.sports_score_outlined),
             title: const Text('Súťaže'),
             children: [
               Padding(
