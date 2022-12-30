@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/colors.dart';
-import 'package:kolky_vysledkovy_servis/screens/komentar.dart';
+import 'package:kolky_vysledkovy_servis/widgets/komentar.dart';
+import 'package:kolky_vysledkovy_servis/widgets/zapasy.dart';
 
 class Interliga extends StatelessWidget {
   const Interliga({super.key});
@@ -20,14 +21,44 @@ class Interliga extends StatelessWidget {
             text: '$i.',
           )));
 
-      const String komentar =
-          'Překvapení kola se odehrálo ve Valašském Meziříčí. Domácí borci porazili favorita soutěže z Podbrezové, když bodově vyrovnané utkání, o 13 kuželek získali pro sebe. Je to již druhá prohra Podbrezové v tomto ročníku. Přitom v sobotu se Podbrezová prezentovala na drahách Husovic o téměř 130 kuželek lepším výsledkem. Však také v Brně vyhrála celkem jasně poměrem 7:1. Rokycany zdá se našli optimální formu. Výsledkově se jim daří podle představ a nic na tom nezměnili ani hostující Rakovice. Dva slabší výsledky v sestavě je stáli lepší výsledek. Vyrovnané utkání se hrálo také v Jihlavě, kam zajížděla Trstená Stárek. Hosté byli o 51 kuželek lepší v konečném součtu a upevnili si vedoucí pozici na čele tabulky. Domácím snad k remíze chybělo 10 kuželek u čtvrtého hráče sestavy. Valašské Meziříčí v sobotu o pouhých 6 kuželek prohráli na kuželně Slavoje Praha. Vysoké výkony na obou stranách předvedli Jaroslav Hažva a Tomáš Cabák. Oba shodně 664 p.k. v Posledním utkání kola porazili Vrútky kanárem Tatran Sučany. Marián Ruttkaj výkonem 651 p.k  potvrdil dominanci domácích a byl nejlepším hráčem utkání. Příští kolo je volno, které vyplní pohárové soutěže.';
-
+      const String komentar = 'Překvapení kola se odehrálo vziříčí. .';
+      List<Zapas> zapasy = [];
+      zapasy.add(const Zapas(
+        domaci: 'KK zlata Klasy',
+        hostia: 'Priatelia Bratislava',
+        hasBeenPlayed: true,
+        date: '1969-07-20 20:18:04Z',
+        domaciBody: 10.0,
+        hostiaBody: 7.1,
+        domaciSpolu: 3485,
+        hostiaSpolu: 3225,
+      ));
+      zapasy.add(const Zapas(
+        domaci: 'KK zlata Klasy',
+        hostia: 'Priatelia Bratislava',
+        hasBeenPlayed: true,
+        date: '1969-07-20 20:18:04Z',
+        domaciBody: 10.0,
+        hostiaBody: 7.1,
+        domaciSpolu: 3485,
+        hostiaSpolu: 3225,
+      ));
+      zapasy.add(const Zapas(
+        domaci: 'KK zlata Klasy',
+        hostia: 'Priatelia Bratislava',
+        hasBeenPlayed: false,
+        date: '1969-07-20 20:18:04Z',
+      ));
       tabsContent.add(Container(
         padding: const EdgeInsets.all(20),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            komentar.isNotEmpty ? const Komentar(text: komentar) : Container()
+            komentar.isNotEmpty ? const Komentar(text: komentar) : Container(),
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Zapasy(zapasy: zapasy),
+            )
           ],
         ),
       ));

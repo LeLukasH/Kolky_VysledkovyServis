@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Výsledkový servis',
-      theme: ThemeData(
-        primarySwatch: primaryColorSwatch,
-      ),
+      theme: ThemeData(primarySwatch: primaryColorSwatch, fontFamily: "Arial"),
       home: const HomePage(),
     );
   }
