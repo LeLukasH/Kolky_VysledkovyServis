@@ -21,7 +21,8 @@ class Interliga extends StatelessWidget {
             text: '$i.',
           )));
 
-      const String komentar = 'Překvapení kola se odehrálo vziříčí. .';
+      const String komentar =
+          'Překvapení kola se odehrálo vziříčí. Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí PřekvPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí.';
       List<Zapas> zapasy = [];
       zapasy.add(const Zapas(
         domaci: 'KK zlata Klasy',
