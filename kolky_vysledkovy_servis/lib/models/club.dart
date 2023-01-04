@@ -9,7 +9,7 @@ class Club {
 
   int id;
   String name;
-  String photo;
+  dynamic photo;
   String type;
   int foreignId;
 

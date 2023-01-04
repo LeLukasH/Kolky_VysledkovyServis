@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:kolky_vysledkovy_servis/models/category.dart';
+
 Leagues leaguesFromJson(String str) => Leagues.fromJson(json.decode(str));
 
 String leaguesToJson(Leagues data) => json.encode(data.toJson());
@@ -43,6 +45,7 @@ class League {
     required this.modified,
     required this.seasonId,
     required this.countryIds,
+    required this.category,
   });
 
   int id;
@@ -62,6 +65,7 @@ class League {
   DateTime modified;
   int seasonId;
   List<int> countryIds;
+  Category category;
 
   factory League.fromJson(Map<String, dynamic> json) => League(
         id: json["id"],
@@ -81,6 +85,7 @@ class League {
         modified: DateTime.parse(json["modified"]),
         seasonId: json["seasonId"],
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
+        category: Category.fromJson(json["category"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -101,5 +106,6 @@ class League {
         "modified": modified.toIso8601String(),
         "seasonId": seasonId,
         "countryIds": List<dynamic>.from(countryIds.map((x) => x)),
+        "category": category.toJson(),
       };
 }

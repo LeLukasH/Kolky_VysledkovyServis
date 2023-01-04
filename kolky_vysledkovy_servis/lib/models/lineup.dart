@@ -53,7 +53,7 @@ class LineUp {
   int teamId;
   dynamic clubId;
   int playerOrder;
-  int changeThrow;
+  dynamic changeThrow;
   dynamic throwsCount;
   int full;
   int clean;

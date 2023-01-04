@@ -10,13 +10,13 @@ class API {
   };
 
   Future<http.Response> send(String path, {dynamic body}) async {
-    var jsonBody = json.encode(body);
     var url = '$_baseUrl/$path';
-    var response = await http.post(
-      Uri.parse(url),
-      headers: headers,
-      body: jsonEncode(body),
-    );
+    var request = http.Request('POST', Uri.parse(url));
+    request.body = json.encode(body);
+    request.headers.addAll(headers);
+
+    var streamedResponse = await request.send();
+    var response = await http.Response.fromStream(streamedResponse);
     return response;
   }
 }

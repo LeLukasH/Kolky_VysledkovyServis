@@ -67,17 +67,17 @@ class Match {
   dynamic awayClubPhoto;
   int hallId;
   String hallName;
-  int homeFull;
-  int homeClean;
-  double homeSetPoints;
-  double homeTeamPoints;
-  int homeTotal;
-  int awayFull;
-  int awayClean;
-  double awaySetPoints;
-  double awayTeamPoints;
-  int awayTotal;
-  String videoUrl;
+  dynamic homeFull;
+  dynamic homeClean;
+  dynamic homeSetPoints;
+  dynamic homeTeamPoints;
+  dynamic homeTotal;
+  dynamic awayFull;
+  dynamic awayClean;
+  dynamic awaySetPoints;
+  dynamic awayTeamPoints;
+  dynamic awayTotal;
+  dynamic videoUrl;
 
   factory Match.fromJson(Map<String, dynamic> json) => Match(
         id: json["id"],
@@ -94,17 +94,25 @@ class Match {
         awayClubPhoto: json["awayClubPhoto"],
         hallId: json["hallId"],
         hallName: json["hallName"],
-        homeFull: json["homeFull"],
-        homeClean: json["homeClean"],
-        homeSetPoints: json["homeSetPoints"],
-        homeTeamPoints: json["homeTeamPoints"],
-        homeTotal: json["homeTotal"],
-        awayFull: json["awayFull"],
-        awayClean: json["awayClean"],
-        awaySetPoints: json["awaySetPoints"],
-        awayTeamPoints: json["awayTeamPoints"],
-        awayTotal: json["awayTotal"],
-        videoUrl: json["videoUrl"],
+        homeFull: json["homeFull"] ?? null,
+        homeClean: json["homeClean"] ?? null,
+        homeSetPoints: json["homeSetPoints"] == null
+            ? null
+            : json["homeSetPoints"].toDouble(),
+        homeTeamPoints: json["homeTeamPoints"] == null
+            ? null
+            : json["homeTeamPoints"].toDouble(),
+        homeTotal: json["homeTotal"] ?? null,
+        awayFull: json["awayFull"] ?? null,
+        awayClean: json["awayClean"] ?? null,
+        awaySetPoints: json["awaySetPoints"] == null
+            ? null
+            : json["awaySetPoints"].toDouble(),
+        awayTeamPoints: json["awayTeamPoints"] == null
+            ? null
+            : json["awayTeamPoints"].toDouble(),
+        awayTotal: json["awayTotal"] ?? null,
+        videoUrl: json["videoUrl"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {

@@ -3,9 +3,7 @@ import 'API.dart';
 import 'models/all_models.dart';
 
 class DAO {
-  final API _api;
-
-  DAO(this._api);
+  final API _api = API();
 
   Future<List<Season>> getSeasons() async {
     var response = await _api.send('season/list');
@@ -32,7 +30,10 @@ class DAO {
   }
 
   Future<List<League>> getLeagues(int seasonId) async {
-    var body = {'seasonId': '$seasonId'};
+    var body = {
+      'seasonId': seasonId,
+      "fields": ["category"]
+    };
     var response = await _api.send('league/list', body: body);
     if (response.statusCode == 200) {
       var leaguesJson = json.decode(response.body)['list'] as List;
@@ -44,13 +45,10 @@ class DAO {
     }
   }
 
-  Future<List<Match>> getMatches(
-      List<int> leagueIds, String dateFrom, String dateTo) async {
-    //var body = {'leagueIds': leagueIds, 'dateFrom': dateFrom, 'dateTo': dateTo};
+  Future<List<Match>> getMatches(List<int> leagueIds, int round) async {
     var body = {
-      "leagueIds": [309],
-      "dateFrom": "2023-01-02",
-      "dateTo": "2023-02-03"
+      "leagueIds": leagueIds,
+      "round": round,
     };
     var response = await _api.send('match/list', body: body);
     if (response.statusCode == 200) {
@@ -58,6 +56,53 @@ class DAO {
       return matchesJson.map((matchJson) => Match.fromJson(matchJson)).toList();
     } else {
       throw Exception('Failed to get matches');
+    }
+  }
+
+  Future<MatchDetail> getMatchDetail(int id, List<String> fields) async {
+    var body = {"id": id, "fields": fields};
+    var response = await _api.send('match/detail', body: body);
+    if (response.statusCode == 200) {
+      return MatchDetail.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get match detail');
+    }
+  }
+
+  Future<LeagueDetail> getLeagueDetail(int id, List<String> fields) async {
+    var body = {"id": id, "fields": fields};
+    var response = await _api.send('league/detail', body: body);
+    if (response.statusCode == 200) {
+      return LeagueDetail.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get league detail');
+    }
+  }
+
+  Future<TableOfRound> getTable(
+      List<String> fields, int leagueId, int round, String type) async {
+    var body = {
+      "fields": fields,
+      "leagueId": leagueId,
+      "round": round,
+      "type": type
+    };
+    var response = await _api.send('league/table', body: body);
+    if (response.statusCode == 200) {
+      return TableOfRound.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get table');
+    }
+  }
+
+  Future<Comment> getComment(
+      List<String> fields, int leagueId, int round) async {
+    var body = {"fields": fields, "leagueId": leagueId, "round": round};
+    var response = await _api.send('overview/detail', body: body);
+    if (response.statusCode == 200) {
+      return Comment.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get comment');
     }
   }
 }

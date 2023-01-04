@@ -1,8 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:kolky_vysledkovy_servis/DAO.dart';
+import 'package:kolky_vysledkovy_servis/models/all_models.dart';
 import '../screens/screens.dart';
 
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
+  NavigationDrawer({Key? key}) : super(key: key);
+
+  final _dao = DAO();
+
+  final double _leftPadding = 16.0;
+
+  Future<int> getLastSeasonId() async {
+    var seasons = await _dao.getSeasons();
+    return seasons.first.id;
+  }
+
+  Future<List<League>> getListOfLeagues() async {
+    var leagues = await _dao.getLeagues(await getLastSeasonId());
+    return leagues;
+  }
+
+  List<Widget> getTiles(BuildContext context, List<League> leagues) {
+    leagues.sort(((a, b) {
+      int cmp = a.category.rank.compareTo(b.category.rank);
+      if (cmp != 0) return cmp;
+      return a.id.compareTo(b.id);
+    }));
+
+    Map<int, int> categoryCount = {};
+    for (League league in leagues) {
+      categoryCount.putIfAbsent(league.categoryId, () => 0);
+      categoryCount.update(league.categoryId, (value) => value + 1);
+    }
+
+    List<Widget> tiles = [];
+    for (int i = 0; i < leagues.length; i++) {
+      if (categoryCount[leagues[i].categoryId] == 1) {
+        tiles.add(addListTile(leagues[i].name, leagues[i].id, context));
+      } else {
+        var j = i;
+        List<Widget> tilesToAdd = [];
+        while (categoryCount[leagues[j].categoryId]! > 0) {
+          tilesToAdd.add(addListTile(leagues[i].name, leagues[i].id, context));
+          categoryCount.update(leagues[j].categoryId, (value) => value - 1);
+          i++;
+        }
+        i--;
+        tiles.add(
+          Padding(
+            padding: EdgeInsets.only(left: _leftPadding),
+            child: ExpansionTile(
+              title: Text(leagues[j].category.name),
+              children: tilesToAdd,
+            ),
+          ),
+        );
+      }
+    }
+    return tiles;
+  }
+
+  Widget addListTile(String leagueName, int leagueId, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: _leftPadding),
+      child: ListTile(
+        title: Text(leagueName),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => LeaguePage(
+                  id: leagueId,
+                  name: leagueName,
+                ))),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => Drawer(
@@ -26,155 +96,40 @@ class NavigationDrawer extends StatelessWidget {
         ),
       ));
 
-  Widget buildMenuItems(BuildContext context) => Container(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Domov'),
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const HomePage())),
-          ),
-          ExpansionTile(
-            leading: const Icon(Icons.sports_score_outlined),
-            title: const Text('Súťaže'),
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: const Text('Interliga'),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Interliga())),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ExpansionTile(
-                  title: const Text('Extraliga'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('Extraliga muži'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const ExtraligaMuzi())),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('AGRO CS - RONA Extraliga ženy'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const ExtraligaZeny())),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ExpansionTile(
-                  title: const Text('1. liga'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('1.KL Východ'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const Liga1Vychod())),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('1.KL Západ'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const Liga1Zapad())),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: const Text('2.KL Západ'),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const Liga2Zapad())),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ExpansionTile(
-                  title: const Text('Dorast'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('DL Západ'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const DLZapad())),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('DL Východ'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const DLVychod())),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ExpansionTile(
-                  title: const Text('3. liga'),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('3. liga TT + NR kraj'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const Liga3TTNR())),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: ListTile(
-                        title: const Text('3. liga TN kraja'),
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => const Liga3TN())),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: ListTile(
-                  title: const Text('Slovenský pohár mužov'),
-                  onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SlovenskyPoharMuzov())),
-                ),
-              ),
-            ],
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings_outlined),
-            title: const Text('Ostatné'),
-            onTap: () => {},
-          ),
-        ],
-      ));
+  Widget buildMenuItems(BuildContext context) {
+    return Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text('Domov'),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const HomePage())),
+            ),
+            FutureBuilder(
+              future: getListOfLeagues(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ExpansionTile(
+                      leading: const Icon(Icons.sports_score_outlined),
+                      title: const Text('Súťaže'),
+                      children: getTiles(context, snapshot.requireData));
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return const ExpansionTile(
+                    leading: Icon(Icons.sports_score_outlined),
+                    title: Text('Súťaže'),
+                    children: [CircularProgressIndicator()]);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_outlined),
+              title: const Text('Ostatné'),
+              onTap: () => {},
+            ),
+          ],
+        ));
+  }
 }
