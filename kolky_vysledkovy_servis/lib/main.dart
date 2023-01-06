@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'assets.dart';
+import 'assets/all_assets.dart';
 import 'screens/homepage.dart';
 
 void main() {
@@ -16,14 +16,14 @@ class MyApp extends StatelessWidget {
         primarySwatch: primaryColorSwatch,
         fontFamily: 'Exo',
         textTheme: const TextTheme(
-          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-          titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          titleLarge: TextStyle(fontSize: 21, fontWeight: FontWeight.w300),
+          titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
           titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
-          labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
-          bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-          bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
+          bodyLarge: TextStyle(fontSize: 17, fontWeight: FontWeight.normal),
+          bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
           bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.normal),
         ),
       ),

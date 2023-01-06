@@ -1,57 +1,54 @@
-import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:kolky_vysledkovy_servis/DAO.dart';
 
-import 'package:http/http.dart' as http;
+import 'models/all_models.dart';
 
-/*
-void main(List<String> args) async {
-  var headers = {
-    'X-App-AccessToken': 'SK-81aqy12a-a251-1827-b3f8-8336adf6wq99',
-    'Content-Type': 'application/json; charset=UTF-8',
-  };
+void main(List<String> args) {
+  DAO _dao = DAO();
 
-  var body =
-      "{\"leagueIds\": [308],\"dateFrom\": \"2023-01-02\",\"dateTo\": \"2023-02-03\"}";
-  print(body);
-  var response = await http.post(Uri.parse('https://old.kolky.sk/match/list'),
-      headers: headers, body: body);
-
-var request = http.Request('POST', Uri.parse('https://old.kolky.sk/match/list'));
-		request.body = json.encode({
-		  "leagueIds": [
-		    308
-		  ],
-		  "dateFrom": "2023-01-02",
-		  "dateTo": "2023-02-03"
-		});
-  if (response.statusCode == 200) {
-    print(response.body.length);
-  } else {
-    print(response.reasonPhrase);
-  }
+  String _selectedItemSeason
+  Widget ft = FutureBuilder(
+    future: _dao.getSeasons(),
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        Map<String, int> seasonMap = getMap(snapshot.requireData);
+        List<String> seasonList = [];
+        seasonList.add(_selectedItemSeason);
+        seasonMap.keys.forEach((element) {
+          seasonList.add(element);
+        });
+        return DropdownButton(
+          items: seasonList.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          value: _selectedItemSeason,
+          onChanged: (newValue) {
+            setState(() {
+              _selectedItemSeason = newValue!;
+            });
+          },
+        );
+      }
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    },
+  );
 }
-*/
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
-void main() async {
-  var headers = {
-    'X-App-AccessToken': 'SK-81aqy12a-a251-1827-b3f8-8336adf6wq99',
-    'Content-Type': 'application/json',
-  };
-  var request =
-      http.Request('POST', Uri.parse('https://old.kolky.sk/match/list'));
-  request.body = json.encode({
-    "leagueIds": [308],
-    "dateFrom": "2023-01-02",
-    "dateTo": "2023-02-03"
-  });
-  request.headers.addAll(headers);
-
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
-  } else {
-    print(response.reasonPhrase);
+Map<String, int> getMap(List<dynamic> list) {
+    Map<String, int> map = {};
+    if (list is List<Season>) {
+      for (var element in list) {
+        map.putIfAbsent(element.name, () => element.id);
+      }
+    } else if (list is List<League>) {
+      for (var element in list) {
+        map.putIfAbsent(element.name, () => element.id);
+      }
+    }
+    return map;
   }
-}

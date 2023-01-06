@@ -42,7 +42,7 @@ class League {
     required this.defaultTables,
     required this.categoryId,
     required this.created,
-    required this.modified,
+    this.modified,
     required this.seasonId,
     required this.countryIds,
     required this.category,
@@ -62,7 +62,7 @@ class League {
   bool defaultTables;
   int categoryId;
   DateTime created;
-  DateTime modified;
+  dynamic modified;
   int seasonId;
   List<int> countryIds;
   Category category;
@@ -82,7 +82,8 @@ class League {
         defaultTables: json["defaultTables"],
         categoryId: json["categoryId"],
         created: DateTime.parse(json["created"]),
-        modified: DateTime.parse(json["modified"]),
+        modified:
+            json["modified"] == null ? null : DateTime.parse(json["modified"]),
         seasonId: json["seasonId"],
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
         category: Category.fromJson(json["category"]),

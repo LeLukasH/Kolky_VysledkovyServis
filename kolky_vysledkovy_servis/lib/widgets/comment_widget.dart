@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets.dart';
+import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({super.key, required this.text});

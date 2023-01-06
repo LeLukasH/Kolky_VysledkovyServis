@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
+import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/models/all_models.dart';
-import '../screens/screens.dart';
+import '../screens/all_screens.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({Key? key}) : super(key: key);
 
   final _dao = DAO();
 
-  final double _leftPadding = 16.0;
+  final double _leftPadding = 20.0;
 
-  Future<int> getLastSeasonId() async {
+  Future<Season> getLastSeason() async {
     var seasons = await _dao.getSeasons();
-    return seasons.first.id;
+    return seasons.first;
   }
 
-  Future<List<League>> getListOfLeagues() async {
-    var leagues = await _dao.getLeagues(await getLastSeasonId());
-    return leagues;
+  Future<Tuple<Season, List<League>>> getListOfLeagues() async {
+    Season season = await getLastSeason();
+    var leagues = await _dao.getLeagues(season.id);
+    return Tuple(item1: season, item2: leagues);
   }
 
-  List<Widget> getTiles(BuildContext context, List<League> leagues) {
+  List<Widget> getTiles(
+      BuildContext context, List<League> leagues, Season season) {
     leagues.sort(((a, b) {
       int cmp = a.category.rank.compareTo(b.category.rank);
       if (cmp != 0) return cmp;
@@ -36,12 +39,13 @@ class NavigationDrawer extends StatelessWidget {
     List<Widget> tiles = [];
     for (int i = 0; i < leagues.length; i++) {
       if (categoryCount[leagues[i].categoryId] == 1) {
-        tiles.add(addListTile(leagues[i].name, leagues[i].id, context));
+        tiles.add(addListTile(leagues[i].name, leagues[i].id, context, season));
       } else {
         var j = i;
         List<Widget> tilesToAdd = [];
         while (categoryCount[leagues[j].categoryId]! > 0) {
-          tilesToAdd.add(addListTile(leagues[i].name, leagues[i].id, context));
+          tilesToAdd.add(
+              addListTile(leagues[i].name, leagues[i].id, context, season));
           categoryCount.update(leagues[j].categoryId, (value) => value - 1);
           i++;
         }
@@ -60,7 +64,8 @@ class NavigationDrawer extends StatelessWidget {
     return tiles;
   }
 
-  Widget addListTile(String leagueName, int leagueId, BuildContext context) {
+  Widget addListTile(
+      String leagueName, int leagueId, BuildContext context, Season season) {
     return Padding(
       padding: EdgeInsets.only(left: _leftPadding),
       child: ListTile(
@@ -69,6 +74,7 @@ class NavigationDrawer extends StatelessWidget {
             builder: (context) => LeaguePage(
                   leagueId: leagueId,
                   name: leagueName,
+                  seasonName: season.name,
                 ))),
       ),
     );
@@ -102,11 +108,9 @@ class NavigationDrawer extends StatelessWidget {
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(Icons.home_outlined),
-              title: const Text('Domov'),
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const HomePage())),
-            ),
+                leading: const Icon(Icons.home_outlined),
+                title: const Text('Domov'),
+                onTap: () => Navigator.pop(context)),
             FutureBuilder(
               future: getListOfLeagues(),
               builder: (context, snapshot) {
@@ -114,7 +118,8 @@ class NavigationDrawer extends StatelessWidget {
                   return ExpansionTile(
                       leading: const Icon(Icons.sports_score_outlined),
                       title: const Text('Súťaže'),
-                      children: getTiles(context, snapshot.requireData));
+                      children: getTiles(context, snapshot.requireData.item2,
+                          snapshot.requireData.item1));
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
@@ -123,6 +128,13 @@ class NavigationDrawer extends StatelessWidget {
                     title: Text('Súťaže'),
                     children: [Center(child: CircularProgressIndicator())]);
               },
+            ),
+            ListTile(
+              leading: const Icon(Icons.history_outlined),
+              title: const Text('Archív'),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ArchivePage(),
+              )),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),

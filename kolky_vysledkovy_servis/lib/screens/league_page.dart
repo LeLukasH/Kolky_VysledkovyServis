@@ -1,16 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets.dart';
+import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/models/all_models.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/widgets/all_widgets.dart';
 
 class LeaguePage extends StatelessWidget {
-  LeaguePage({super.key, required this.leagueId, required this.name});
+  LeaguePage(
+      {super.key,
+      required this.leagueId,
+      required this.name,
+      required this.seasonName});
 
   final int leagueId;
   final String name;
+  final String seasonName;
 
   final _dao = DAO();
 
@@ -20,20 +25,33 @@ class LeaguePage extends StatelessWidget {
         future: getMatches(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return getLeaguePage(snapshot.requireData);
+            return getLeaguePage(context, snapshot.requireData);
           } else if (snapshot.hasError) {
             return Text("${snapshot.error}");
           }
           return Scaffold(
               appBar: AppBar(
                 title: Text(name),
-                titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(right: assetsPadding),
+                    child: Center(
+                        child: Text(
+                      seasonName,
+                    )),
+                  )
+                ],
+                titleTextStyle: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .apply(color: Colors.white),
               ),
               body: const Center(child: CircularProgressIndicator()));
         });
   }
 
-  DefaultTabController getLeaguePage(Map<int, List<Match>> map) {
+  DefaultTabController getLeaguePage(
+      BuildContext context, Map<int, List<Match>> map) {
     int getInitialIndex() {
       DateTime now = DateTime.now();
       for (var entry in map.entries) {
@@ -52,7 +70,11 @@ class LeaguePage extends StatelessWidget {
         tabs.add(SizedBox(
             width: 25,
             child: Tab(
-              text: '$key.',
+              icon: Text(
+                '$key.',
+                style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize),
+              ),
             )));
       }
       return tabs;
@@ -121,6 +143,15 @@ class LeaguePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(name),
+          actions: [
+            Padding(
+              padding: EdgeInsets.only(right: assetsPadding),
+              child: Center(
+                  child: Text(
+                seasonName,
+              )),
+            )
+          ],
           bottom: TabBar(
             isScrollable: true,
             tabs: getTabs(),

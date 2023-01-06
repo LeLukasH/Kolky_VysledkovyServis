@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets.dart';
+import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/models/all_models.dart';
 
 class TableWidget extends StatelessWidget {
