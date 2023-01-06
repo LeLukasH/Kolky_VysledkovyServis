@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: primaryColorSwatch,
         fontFamily: 'Exo',
         textTheme: const TextTheme(
-          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w100),
-          titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+          titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
           titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+          labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w800),
           labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
           bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
