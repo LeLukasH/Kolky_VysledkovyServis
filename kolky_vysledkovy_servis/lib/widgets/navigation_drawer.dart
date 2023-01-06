@@ -67,7 +67,7 @@ class NavigationDrawer extends StatelessWidget {
         title: Text(leagueName),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => LeaguePage(
-                  id: leagueId,
+                  leagueId: leagueId,
                   name: leagueName,
                 ))),
       ),
@@ -121,7 +121,7 @@ class NavigationDrawer extends StatelessWidget {
                 return const ExpansionTile(
                     leading: Icon(Icons.sports_score_outlined),
                     title: Text('Súťaže'),
-                    children: [CircularProgressIndicator()]);
+                    children: [Center(child: CircularProgressIndicator())]);
               },
             ),
             ListTile(

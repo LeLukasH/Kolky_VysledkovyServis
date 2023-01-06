@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/API.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
 import '../widgets/navigation_drawer.dart';
 

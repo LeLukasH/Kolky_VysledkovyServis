@@ -90,6 +90,11 @@ class DAO {
     var response = await _api.send('league/table', body: body);
     if (response.statusCode == 200) {
       return TableOfRound.fromJson(json.decode(response.body));
+      try {
+        return TableOfRound.fromJson(json.decode(response.body));
+      } catch (e) {
+        return TableOfRound(tableOfRoundRows: [], extraPoints: []);
+      }
     } else {
       throw Exception('Failed to get table');
     }
@@ -100,7 +105,18 @@ class DAO {
     var body = {"fields": fields, "leagueId": leagueId, "round": round};
     var response = await _api.send('overview/detail', body: body);
     if (response.statusCode == 200) {
-      return Comment.fromJson(json.decode(response.body));
+      try {
+        return Comment.fromJson(json.decode(response.body));
+      } catch (e) {
+        return Comment(
+            id: 0,
+            created: DateTime.now(),
+            modified: null,
+            content: "",
+            leagueId: leagueId,
+            round: round,
+            createdBy: null);
+      }
     } else {
       throw Exception('Failed to get comment');
     }

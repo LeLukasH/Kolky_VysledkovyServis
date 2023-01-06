@@ -23,7 +23,7 @@ class Team {
   int clubId;
   int hallId;
   int leagueId;
-  Club club;
+  dynamic club;
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
         id: json["id"],
@@ -35,7 +35,7 @@ class Team {
         clubId: json["clubId"],
         hallId: json["hallId"],
         leagueId: json["leagueId"],
-        club: Club.fromJson(json["club"]),
+        club: json["club"] != null ? Club.fromJson(json["club"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -48,6 +48,6 @@ class Team {
         "clubId": clubId,
         "hallId": hallId,
         "leagueId": leagueId,
-        "club": club.toJson(),
+        "club": club!.toJson(),
       };
 }

@@ -1,41 +1,21 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/colors.dart';
+import 'package:kolky_vysledkovy_servis/assets.dart';
 import 'package:kolky_vysledkovy_servis/models/all_models.dart';
-import 'package:kolky_vysledkovy_servis/widgets/all_widgets.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
+import 'package:kolky_vysledkovy_servis/widgets/all_widgets.dart';
 
 class LeaguePage extends StatelessWidget {
-  LeaguePage({super.key, required this.id, required this.name});
+  LeaguePage({super.key, required this.leagueId, required this.name});
 
-  int id;
-  String name;
+  final int leagueId;
+  final String name;
 
   final _dao = DAO();
 
   @override
   Widget build(BuildContext context) {
-    /*
-    List<Widget> tabsContent = [];
-
-    const String komentar =
-        'Překvapení kola se odehrálo vziříčí. Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí PřekvPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíPřekvapení kola se odehrálo vziříčíapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí Překvapení kola se odehrálo vziříčí.';
-    List<Zapas> zapasy = [];
-
-    tabsContent.add(Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          komentar.isNotEmpty ? const Komentar(text: komentar) : Container(),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Zapasy(zapasy: zapasy),
-          )
-        ],
-      ),
-    ));*/
     return FutureBuilder(
         future: getMatches(),
         builder: (context, snapshot) {
@@ -47,6 +27,7 @@ class LeaguePage extends StatelessWidget {
           return Scaffold(
               appBar: AppBar(
                 title: Text(name),
+                titleTextStyle: Theme.of(context).textTheme.titleLarge,
               ),
               body: const Center(child: CircularProgressIndicator()));
         });
@@ -63,6 +44,8 @@ class LeaguePage extends StatelessWidget {
       return map.length - 1;
     }
 
+    int initialIndex = getInitialIndex();
+
     List<Widget> getTabs() {
       List<Widget> tabs = [];
       for (var key in map.keys) {
@@ -77,12 +60,64 @@ class LeaguePage extends StatelessWidget {
 
     List<Widget> getTabsContent() {
       List<Widget> tabsContent = [];
-
+      for (int round = 1; round <= map.length; round++) {
+        tabsContent.add(SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(assetsPadding),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                FutureBuilder(
+                    future: _dao.getComment([], leagueId, round),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CommentWidget(text: snapshot.data!.content);
+                      } else if (snapshot.hasError) {
+                        return Text("${snapshot.error}");
+                      }
+                      return const SizedBox(
+                          height: 120,
+                          child: Center(child: CircularProgressIndicator()));
+                    }),
+                FutureBuilder(
+                  future: _dao.getMatches([leagueId], round),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return MatchesWidget(matches: snapshot.data!);
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return const SizedBox(
+                        height: 150,
+                        child: Center(child: CircularProgressIndicator()));
+                  },
+                ),
+                FutureBuilder(
+                  future: _dao.getTable([], leagueId, round, "total"),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return TableWidget(
+                          table: snapshot.data!.tableOfRoundRows,
+                          showTable: round <= initialIndex + 1);
+                    } else if (snapshot.hasError) {
+                      return Text("${snapshot.error}");
+                    }
+                    return const SizedBox(
+                        height: 150,
+                        child: Center(child: CircularProgressIndicator()));
+                  },
+                ),
+              ],
+            ),
+          ),
+        ));
+      }
+      return tabsContent;
     }
 
     return DefaultTabController(
       length: map.length,
-      initialIndex: getInitialIndex(),
+      initialIndex: initialIndex,
       child: Scaffold(
         appBar: AppBar(
           title: Text(name),
@@ -96,7 +131,7 @@ class LeaguePage extends StatelessWidget {
                 color: secondaryColor),
           ),
         ),
-        //body: TabBarView(children: tabsContent),
+        body: TabBarView(children: getTabsContent()),
       ),
     );
   }
@@ -104,11 +139,11 @@ class LeaguePage extends StatelessWidget {
   Future<Map<int, List<Match>>> getMatches() async {
     Map<int, List<Match>> map = {};
     int i = 1;
-    List<Match> matches = await _dao.getMatches([id], i);
+    List<Match> matches = await _dao.getMatches([leagueId], i);
     while (matches.isNotEmpty) {
       map.putIfAbsent(i, () => matches);
       i++;
-      matches = await _dao.getMatches([id], i);
+      matches = await _dao.getMatches([leagueId], i);
     }
     return map;
   }

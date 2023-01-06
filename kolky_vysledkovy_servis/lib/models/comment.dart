@@ -3,6 +3,7 @@
 //     final comment = commentFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:html/parser.dart';
 
 import 'createdby.dart';
 
@@ -27,13 +28,16 @@ class Comment {
   String content;
   int leagueId;
   int round;
-  CreatedBy createdBy;
+  dynamic createdBy;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
         id: json["id"],
         created: DateTime.parse(json["created"]),
         modified: json["modified"],
-        content: json["content"],
+        content: parse(json["content"].toString().replaceAll('&nbsp; ', ''))
+            .body!
+            .text
+            .replaceAll('\n', ' '),
         leagueId: json["leagueId"],
         round: json["round"],
         createdBy: CreatedBy.fromJson(json["createdBy"]),

@@ -22,13 +22,12 @@ class TableOfRound {
 
   factory TableOfRound.fromJson(Map<String, dynamic> json) => TableOfRound(
         tableOfRoundRows: List<TableOfRoundRow>.from(
-            json["TableOfRoundRows"].map((x) => TableOfRoundRow.fromJson(x))),
+            json["rows"].map((x) => TableOfRoundRow.fromJson(x))),
         extraPoints: List<dynamic>.from(json["extraPoints"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
-        "TableOfRoundRows":
-            List<dynamic>.from(tableOfRoundRows.map((x) => x.toJson())),
+        "rows": List<dynamic>.from(tableOfRoundRows.map((x) => x.toJson())),
         "extraPoints": List<dynamic>.from(extraPoints.map((x) => x)),
       };
 }
