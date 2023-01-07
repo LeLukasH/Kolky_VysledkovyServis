@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'API.dart';
-import 'models/all_models.dart';
+import 'all_models.dart';
 
 class DAO {
   final API _api = API();
@@ -59,6 +59,20 @@ class DAO {
     }
   }
 
+  Future<List<Match>> getMatchesByDate(DateTime date) async {
+    var body = {
+      "dateFrom": date.toString().substring(0, 10),
+      "dateTo": date.add(const Duration(days: 1)).toString().substring(0, 10),
+    };
+    var response = await _api.send('match/list', body: body);
+    if (response.statusCode == 200) {
+      var matchesJson = json.decode(response.body)['list'] as List;
+      return matchesJson.map((matchJson) => Match.fromJson(matchJson)).toList();
+    } else {
+      throw Exception('Failed to get matches');
+    }
+  }
+
   Future<MatchDetail> getMatchDetail(int id, List<String> fields) async {
     var body = {"id": id, "fields": fields};
     var response = await _api.send('match/detail', body: body);
@@ -89,7 +103,6 @@ class DAO {
     };
     var response = await _api.send('league/table', body: body);
     if (response.statusCode == 200) {
-      return TableOfRound.fromJson(json.decode(response.body));
       try {
         return TableOfRound.fromJson(json.decode(response.body));
       } catch (e) {

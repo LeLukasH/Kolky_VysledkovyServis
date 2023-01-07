@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/models/all_models.dart';
+import 'package:kolky_vysledkovy_servis/all_assets.dart';
+import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
-import 'package:kolky_vysledkovy_servis/widgets/all_widgets.dart';
+import 'package:kolky_vysledkovy_servis/all_widgets.dart';
 
 class LeaguePage extends StatelessWidget {
   LeaguePage(
@@ -68,12 +68,16 @@ class LeaguePage extends StatelessWidget {
       List<Widget> tabs = [];
       for (var key in map.keys) {
         tabs.add(SizedBox(
-            width: 25,
+            width: 35,
             child: Tab(
-              icon: Text(
-                '$key.',
-                style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize),
+              icon: Center(
+                child: Text(
+                  '$key.',
+                  style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleLarge!.fontSize,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
             )));
       }
@@ -105,7 +109,7 @@ class LeaguePage extends StatelessWidget {
                   future: _dao.getMatches([leagueId], round),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return MatchesWidget(matches: snapshot.data!);
+                      return MatchesLeaguePageWidget(matches: snapshot.data!);
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
@@ -143,6 +147,7 @@ class LeaguePage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(name),
+          elevation: 0,
           actions: [
             Padding(
               padding: EdgeInsets.only(right: assetsPadding),
@@ -156,10 +161,12 @@ class LeaguePage extends StatelessWidget {
             isScrollable: true,
             tabs: getTabs(),
             indicator: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10)),
-                color: secondaryColor),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+              color: scaffoldBackgroudColor,
+            ),
+            labelColor: secondaryColor,
+            unselectedLabelColor: Colors.white.withOpacity(0.6),
           ),
         ),
         body: TabBarView(children: getTabsContent()),

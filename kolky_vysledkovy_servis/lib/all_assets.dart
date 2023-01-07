@@ -1,5 +1,5 @@
-export 'colors.dart';
-export 'widget_assets.dart';
+export 'assets/colors.dart';
+export 'assets/widget_assets.dart';
 
 double assetsPadding = 20.0;
 
@@ -18,4 +18,8 @@ class Tuple<T1, T2> {
     required this.item1,
     required this.item2,
   });
+}
+
+String capitalize(String str) {
+  return "${str[0].toUpperCase()}${str.substring(1).toLowerCase()}";
 }

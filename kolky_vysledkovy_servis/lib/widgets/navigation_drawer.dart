@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
-import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/models/all_models.dart';
-import '../screens/all_screens.dart';
+import 'package:kolky_vysledkovy_servis/all_assets.dart';
+import 'package:kolky_vysledkovy_servis/all_models.dart';
+import '../all_screens.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({Key? key}) : super(key: key);

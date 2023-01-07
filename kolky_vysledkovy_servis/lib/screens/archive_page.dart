@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
-import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
+import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/screens/league_page.dart';
 
-import '../models/all_models.dart';
+import '../all_models.dart';
 
 class ArchivePage extends StatefulWidget {
   ArchivePage({super.key});
@@ -49,6 +49,8 @@ class ArchiveState extends State<ArchivePage> {
                       name: _selectedItemLeague,
                       seasonName: _selectedItemSeason,
                     ))),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: secondaryColor, elevation: assetsPadding / 2),
             child: SizedBox(
                 height: assetsPadding * 3,
                 width: assetsPadding * 3,
@@ -57,8 +59,6 @@ class ArchiveState extends State<ArchivePage> {
                   Icons.navigate_next_outlined,
                   size: assetsPadding * 2,
                 ))),
-            style: ElevatedButton.styleFrom(
-                primary: secondaryColor, elevation: assetsPadding / 2),
           );
   }
 

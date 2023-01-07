@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/models/all_models.dart';
+import 'package:kolky_vysledkovy_servis/all_assets.dart';
+import 'package:kolky_vysledkovy_servis/all_models.dart';
 
 class TableWidget extends StatelessWidget {
   const TableWidget({super.key, required this.table, required this.showTable});
@@ -13,6 +13,7 @@ class TableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    table.sort(((a, b) => a.order.compareTo(b.order)));
     if (table.isEmpty || !showTable) return Container();
     List<Widget> tableRowWidgets = [];
 
@@ -71,7 +72,9 @@ class TableRowWidget extends StatelessWidget {
               width: 5,
             ),
             Text(
-              tableRow.teamName,
+              tableRow.teamName.length < 25
+                  ? tableRow.teamName
+                  : "${tableRow.teamName.substring(0, 24)}...",
               textAlign: TextAlign.left,
               style: Theme.of(context).textTheme.labelMedium,
             ),

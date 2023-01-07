@@ -1,6 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/assets/all_assets.dart';
+import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/models/match.dart';
+
+class MatchesLeaguePageWidget extends StatelessWidget {
+  const MatchesLeaguePageWidget({super.key, required this.matches});
+
+  final List<Match> matches;
+  @override
+  Widget build(BuildContext context) {
+    return CustomContainer(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
+        MatchesWidget(matches: matches),
+      ]),
+    );
+  }
+}
 
 class MatchesWidget extends StatelessWidget {
   const MatchesWidget({super.key, required this.matches});
@@ -20,13 +37,8 @@ class MatchesWidget extends StatelessWidget {
       }
       matchWidgets.add(MatchWidget(match: matches[i]));
     }
-    return CustomContainer(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
-        Column(
-          children: matchWidgets,
-        )
-      ]),
+    return Column(
+      children: matchWidgets,
     );
   }
 }
@@ -36,7 +48,11 @@ class MatchWidget extends StatelessWidget {
 
   final Match match;
 
-  final double boxHeight = 45.0;
+  final double boxHeight = 60.0;
+
+  final double logoScaleRatio = 1.2;
+  final double logoPadding = 10;
+  final int teamNameLimit = 22;
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +63,16 @@ class MatchWidget extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-                height: assetsPadding,
-                width: assetsPadding,
+                height: assetsPadding * logoScaleRatio,
+                width: assetsPadding * logoScaleRatio,
                 child: Image.network(match.homeClubPhoto)),
-            const SizedBox(
-              width: 5,
+            SizedBox(
+              width: logoPadding * logoScaleRatio,
             ),
             Text(
-              match.homeName,
+              match.homeName.length < teamNameLimit
+                  ? match.homeName
+                  : "${match.homeName.substring(0, teamNameLimit)}...",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],
@@ -62,14 +80,16 @@ class MatchWidget extends StatelessWidget {
         Row(
           children: [
             SizedBox(
-                height: assetsPadding,
-                width: assetsPadding,
+                height: assetsPadding * logoScaleRatio,
+                width: assetsPadding * logoScaleRatio,
                 child: Image.network(match.awayClubPhoto)),
-            const SizedBox(
-              width: 5,
+            SizedBox(
+              width: logoPadding * logoScaleRatio,
             ),
             Text(
-              match.awayName,
+              match.awayName.length < teamNameLimit
+                  ? match.awayName
+                  : "${match.awayName.substring(0, teamNameLimit)}...",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],

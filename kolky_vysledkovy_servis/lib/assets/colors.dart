@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const Color scaffoldBackgroudColor = Color.fromARGB(255, 250, 250, 250);
+
 MaterialColor secondaryColorSwatch = const MaterialColor(
   0xFFc12428,
   <int, Color>{
