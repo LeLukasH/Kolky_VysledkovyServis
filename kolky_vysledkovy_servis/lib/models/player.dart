@@ -15,7 +15,7 @@ class Player {
   String lastName;
   dynamic nameMark;
   DateTime birthday;
-  int registrationId;
+  dynamic registrationId;
   DateTime registrationValid;
   int foreignId;
 

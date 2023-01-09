@@ -18,3 +18,4 @@ export 'models/match_detail.dart';
 export 'models/referee.dart';
 export 'models/substitution.dart';
 export 'models/teamresult.dart';
+export 'models/status.dart';

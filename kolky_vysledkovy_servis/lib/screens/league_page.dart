@@ -6,16 +6,19 @@ import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
 
+// ignore: must_be_immutable
 class LeaguePage extends StatelessWidget {
   LeaguePage(
       {super.key,
       required this.leagueId,
       required this.name,
-      required this.seasonName});
+      this.seasonName,
+      this.initialIndex});
 
   final int leagueId;
   final String name;
-  final String seasonName;
+  final String? seasonName;
+  int? initialIndex;
 
   final _dao = DAO();
 
@@ -37,7 +40,7 @@ class LeaguePage extends StatelessWidget {
                     padding: EdgeInsets.only(right: assetsPadding),
                     child: Center(
                         child: Text(
-                      seasonName,
+                      seasonName ?? '',
                     )),
                   )
                 ],
@@ -62,7 +65,7 @@ class LeaguePage extends StatelessWidget {
       return map.length - 1;
     }
 
-    int initialIndex = getInitialIndex();
+    initialIndex ??= getInitialIndex();
 
     List<Widget> getTabs() {
       List<Widget> tabs = [];
@@ -124,7 +127,7 @@ class LeaguePage extends StatelessWidget {
                     if (snapshot.hasData) {
                       return TableWidget(
                           table: snapshot.data!.tableOfRoundRows,
-                          showTable: round <= initialIndex + 1);
+                          showTable: round <= initialIndex! + 1);
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }
@@ -143,7 +146,7 @@ class LeaguePage extends StatelessWidget {
 
     return DefaultTabController(
       length: map.length,
-      initialIndex: initialIndex,
+      initialIndex: initialIndex!,
       child: Scaffold(
         appBar: AppBar(
           title: Text(name),
@@ -153,7 +156,7 @@ class LeaguePage extends StatelessWidget {
               padding: EdgeInsets.only(right: assetsPadding),
               child: Center(
                   child: Text(
-                seasonName,
+                seasonName ?? '',
               )),
             )
           ],

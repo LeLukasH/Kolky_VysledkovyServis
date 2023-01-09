@@ -25,7 +25,7 @@ class NavigationDrawer extends StatelessWidget {
   List<Widget> getTiles(
       BuildContext context, List<League> leagues, Season season) {
     leagues.sort(((a, b) {
-      int cmp = a.category.rank.compareTo(b.category.rank);
+      int cmp = a.category!.rank.compareTo(b.category!.rank);
       if (cmp != 0) return cmp;
       return a.id.compareTo(b.id);
     }));
@@ -54,7 +54,7 @@ class NavigationDrawer extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(left: _leftPadding),
             child: ExpansionTile(
-              title: Text(leagues[j].category.name),
+              title: Text(leagues[j].category!.name),
               children: tilesToAdd,
             ),
           ),
@@ -137,10 +137,9 @@ class NavigationDrawer extends StatelessWidget {
               )),
             ),
             ListTile(
-              leading: const Icon(Icons.settings_outlined),
-              title: const Text('Ostatné'),
-              onTap: () => {},
-            ),
+                leading: const Icon(Icons.settings_outlined),
+                title: const Text('Ostatné'),
+                onTap: () => {})
           ],
         ));
   }

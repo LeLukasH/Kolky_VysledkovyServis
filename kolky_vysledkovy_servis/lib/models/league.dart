@@ -65,7 +65,7 @@ class League {
   dynamic modified;
   int seasonId;
   List<int> countryIds;
-  Category category;
+  Category? category;
 
   factory League.fromJson(Map<String, dynamic> json) => League(
         id: json["id"],
@@ -86,7 +86,9 @@ class League {
             json["modified"] == null ? null : DateTime.parse(json["modified"]),
         seasonId: json["seasonId"],
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
-        category: Category.fromJson(json["category"]),
+        category: json["category"] != null
+            ? Category.fromJson(json["category"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -107,6 +109,6 @@ class League {
         "modified": modified.toIso8601String(),
         "seasonId": seasonId,
         "countryIds": List<dynamic>.from(countryIds.map((x) => x)),
-        "category": category.toJson(),
+        "category": category!.toJson(),
       };
 }

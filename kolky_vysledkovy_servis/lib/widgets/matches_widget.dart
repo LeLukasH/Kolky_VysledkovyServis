@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/models/match.dart';
+import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'package:kolky_vysledkovy_servis/all_screens.dart';
 
 class MatchesLeaguePageWidget extends StatelessWidget {
   const MatchesLeaguePageWidget({super.key, required this.matches});
@@ -154,15 +153,22 @@ class MatchWidget extends StatelessWidget {
     } else {
       right = Container();
     }
-    return SizedBox(
-      height: boxHeight,
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            left,
-            right,
-          ]),
+    return InkWell(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => MatchDetailPage(match: match),
+        ),
+      ),
+      child: SizedBox(
+        height: boxHeight,
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              left,
+              right,
+            ]),
+      ),
     );
   }
 }

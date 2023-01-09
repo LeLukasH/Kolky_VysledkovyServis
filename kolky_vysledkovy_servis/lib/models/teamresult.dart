@@ -1,20 +1,20 @@
 class TeamsResults {
   TeamsResults({
-    required this.home,
-    required this.away,
+    this.home,
+    this.away,
   });
 
-  TeamResult home;
-  TeamResult away;
+  TeamResult? home;
+  TeamResult? away;
 
   factory TeamsResults.fromJson(Map<String, dynamic> json) => TeamsResults(
-        home: TeamResult.fromJson(json["home"]),
-        away: TeamResult.fromJson(json["away"]),
+        home: json["home"] != null ? TeamResult.fromJson(json["home"]) : null,
+        away: json["away"] != null ? TeamResult.fromJson(json["away"]) : null,
       );
 
   Map<String, dynamic> toJson() => {
-        "home": home.toJson(),
-        "away": away.toJson(),
+        "home": home!.toJson(),
+        "away": away!.toJson(),
       };
 }
 
