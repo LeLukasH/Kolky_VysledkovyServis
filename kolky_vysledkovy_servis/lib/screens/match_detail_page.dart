@@ -67,24 +67,26 @@ class MatchDetailPage extends StatelessWidget {
 
   Widget getMatchDetailPage(BuildContext context, MatchDetail matchDetail) {
     final bool finished = matchDetail.status == Status.FINISHED;
-    return Padding(
-      padding: EdgeInsets.all(assetsPadding),
-      child: Column(
-        children: [
-          CustomContainer(
-              child: MatchDetailWidget(
-            match: match,
-            matchDetail: matchDetail,
-          )),
-          finished
-              ? Padding(
-                  padding: EdgeInsets.only(top: assetsPadding),
-                  child: CustomContainer(
-                      child:
-                          PlayersPerformanceWidget(matchDetail: matchDetail)),
-                )
-              : Container(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(assetsPadding),
+        child: Column(
+          children: [
+            CustomContainer(
+                child: MatchDetailWidget(
+              match: match,
+              matchDetail: matchDetail,
+            )),
+            finished
+                ? Padding(
+                    padding: EdgeInsets.only(top: assetsPadding),
+                    child: CustomContainer(
+                        child:
+                            PlayersPerformanceWidget(matchDetail: matchDetail)),
+                  )
+                : Container(),
+          ],
+        ),
       ),
     );
   }
@@ -263,55 +265,6 @@ class MatchDetailWidget extends StatelessWidget {
               )
             : Container(),
       ],
-    );
-  }
-}
-
-class PlayersPerformanceWidget extends StatelessWidget {
-  final MatchDetail matchDetail;
-  const PlayersPerformanceWidget({super.key, required this.matchDetail});
-
-  @override
-  Widget build(BuildContext context) {
-    List<Widget> homeColumnChildren = [];
-    List<Widget> awayColumnChildren = [];
-
-    for (LineUp lineUp in matchDetail.lineUp.home) {
-      homeColumnChildren.add(onePlayerPerformance(lineUp));
-      homeColumnChildren.add(SizedBox(
-        width: MediaQuery.of(context).size.width / 3,
-        child: const Divider(),
-      ));
-    }
-    homeColumnChildren.removeLast();
-    for (LineUp lineUp in matchDetail.lineUp.away) {
-      awayColumnChildren.add(onePlayerPerformance(lineUp));
-      awayColumnChildren.add(SizedBox(
-        width: MediaQuery.of(context).size.width / 3,
-        child: const Divider(),
-      ));
-    }
-    awayColumnChildren.removeLast();
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: homeColumnChildren,
-        ),
-        const VerticalDivider(),
-        Column(children: awayColumnChildren),
-      ],
-    );
-  }
-
-  Widget onePlayerPerformance(LineUp lineUp) {
-    return Container(
-      color: Colors.red,
-      child: SizedBox(
-        height: 50,
-        child: Text('sss'),
-      ),
     );
   }
 }
