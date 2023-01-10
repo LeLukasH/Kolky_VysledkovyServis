@@ -23,3 +23,8 @@ class Tuple<T1, T2> {
 String capitalize(String str) {
   return "${str[0].toUpperCase()}${str.substring(1).toLowerCase()}";
 }
+
+String getVideoID(String url) {
+  url = url.replaceAll("https://www.youtube.com/watch?v=", "");
+  return url;
+}

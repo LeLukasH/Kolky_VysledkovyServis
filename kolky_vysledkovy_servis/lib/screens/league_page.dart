@@ -65,7 +65,8 @@ class LeaguePage extends StatelessWidget {
       return map.length - 1;
     }
 
-    initialIndex ??= getInitialIndex();
+    int lastTableIndex = getInitialIndex();
+    initialIndex ??= lastTableIndex;
 
     List<Widget> getTabs() {
       List<Widget> tabs = [];
@@ -127,7 +128,7 @@ class LeaguePage extends StatelessWidget {
                     if (snapshot.hasData) {
                       return TableWidget(
                           table: snapshot.data!.tableOfRoundRows,
-                          showTable: round <= initialIndex! + 1);
+                          showTable: round <= lastTableIndex + 1);
                     } else if (snapshot.hasError) {
                       return Text("${snapshot.error}");
                     }

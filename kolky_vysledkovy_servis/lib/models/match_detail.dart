@@ -48,7 +48,7 @@ class MatchDetail {
   List<Substitution> substitutions;
   LineUps lineUp;
   TeamsResults teamResult;
-  List<dynamic> sprints;
+  List<Sprint>? sprints;
 
   factory MatchDetail.fromJson(Map<String, dynamic> json) => MatchDetail(
         id: json["id"],
@@ -72,7 +72,8 @@ class MatchDetail {
             json["substitutions"].map((x) => Substitution.fromJson(x))),
         lineUp: LineUps.fromJson(json["lineUp"]),
         teamResult: TeamsResults.fromJson(json["teamResult"]),
-        sprints: List<dynamic>.from(json["sprints"].map((x) => x)),
+        sprints:
+            List<Sprint>.from(json["sprints"].map((x) => Sprint.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -95,6 +96,6 @@ class MatchDetail {
             List<dynamic>.from(substitutions.map((x) => x.toJson())),
         "lineUp": lineUp.toJson(),
         "teamResult": teamResult.toJson(),
-        "sprints": List<dynamic>.from(sprints.map((x) => x)),
+        "sprints": List<Sprint>.from(sprints!.map((x) => x)),
       };
 }

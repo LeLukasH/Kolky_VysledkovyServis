@@ -19,3 +19,4 @@ export 'models/referee.dart';
 export 'models/substitution.dart';
 export 'models/teamresult.dart';
 export 'models/status.dart';
+export 'models/sprint.dart';

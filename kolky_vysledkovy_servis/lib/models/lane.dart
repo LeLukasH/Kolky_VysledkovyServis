@@ -15,7 +15,7 @@ class Lane {
   int clean;
   int total;
   int faults;
-  int points;
+  num points;
 
   factory Lane.fromJson(Map<String, dynamic> json) => Lane(
         id: json["id"],

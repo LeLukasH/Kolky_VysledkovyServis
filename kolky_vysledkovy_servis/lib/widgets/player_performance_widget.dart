@@ -63,7 +63,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
   @override
   Widget build(BuildContext context) {
     double columnWidth =
-        MediaQuery.of(context).size.width / 2 - assetsPadding * 3;
+        MediaQuery.of(context).size.width / 2 - assetsPadding * 3.5;
 
     TextStyle? smallStyle = Theme.of(context).textTheme.bodySmall;
     TextStyle? smallLabelStyle =
@@ -99,7 +99,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
               width: columnWidth,
               child: Stack(children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     homeExpanded
                         ? Expanded(
@@ -187,7 +187,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
             ),
             Column(
               children: [
-                CustomBox(text: 'PLNE', style: smallStyle),
+                CustomBox(text: 'PLNÉ', style: smallStyle),
                 CustomBox(text: 'DOR.', style: smallStyle),
                 CustomBox(text: 'CHYBY', style: smallStyle),
                 CustomBox(text: 'SUM', style: smallLabelStyle),
@@ -200,7 +200,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
               width: columnWidth,
               child: Stack(children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
@@ -289,26 +289,6 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
           ],
         ),
       ],
-    );
-  }
-}
-
-class CustomBox extends StatelessWidget {
-  const CustomBox({super.key, required this.text, required this.style});
-
-  final String text;
-  final TextStyle? style;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 25,
-      child: Center(
-        child: Text(
-          text,
-          style: style,
-        ),
-      ),
     );
   }
 }

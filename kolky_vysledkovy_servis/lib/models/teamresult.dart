@@ -41,7 +41,7 @@ class TeamResult {
   int clean;
   int total;
   int faults;
-  int setPoints;
+  num setPoints;
   int teamPoints;
   int tablePoints;
 
