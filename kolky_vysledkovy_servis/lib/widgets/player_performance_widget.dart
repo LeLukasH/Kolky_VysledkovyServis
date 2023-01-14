@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 
+import 'lanes_widget.dart';
+
 class PlayersPerformanceWidget extends StatelessWidget {
   final MatchDetail matchDetail;
   const PlayersPerformanceWidget({super.key, required this.matchDetail});
@@ -103,66 +105,37 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
                   children: [
                     homeExpanded
                         ? Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  OneLane(
-                                      lineUp: widget.homeLineUp,
-                                      style: smallStyle,
-                                      lane: 1),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.homeLineUp,
-                                      style: smallStyle,
-                                      lane: 2),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.homeLineUp,
-                                      style: smallStyle,
-                                      lane: 3),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.homeLineUp,
-                                      style: smallStyle,
-                                      lane: 4),
-                                ],
-                              ),
-                            ),
-                          )
+                            child: AllLanesVertical(
+                                spaceWidth: spaceWidth,
+                                style: smallStyle!,
+                                lanes: widget.homeLineUp.lanes))
                         : Container(),
                     SizedBox(
                       width: spaceWidth,
                     ),
                     Column(
                       children: [
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.homeLineUp.full.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.homeLineUp.clean.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.homeLineUp.faults.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: (widget.homeLineUp.clean +
                                     widget.homeLineUp.full)
                                 .toString(),
                             style: mediumLabelStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.homeLineUp.setPoints.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.homeLineUp.points.toString(),
                             style: mediumLabelStyle),
-                        CustomBox(text: '', style: mediumLabelStyle),
+                        CustomBoxVertical(text: '', style: mediumLabelStyle),
                       ],
                     ),
                   ],
@@ -187,13 +160,13 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
             ),
             Column(
               children: [
-                CustomBox(text: 'PLNÉ', style: smallStyle),
-                CustomBox(text: 'DOR.', style: smallStyle),
-                CustomBox(text: 'CHYBY', style: smallStyle),
-                CustomBox(text: 'SUM', style: smallLabelStyle),
-                CustomBox(text: 'S. B.', style: smallStyle),
-                CustomBox(text: 'BODY', style: smallLabelStyle),
-                CustomBox(text: '', style: smallStyle),
+                CustomBoxVertical(text: 'PLNÉ', style: smallStyle),
+                CustomBoxVertical(text: 'DOR.', style: smallStyle),
+                CustomBoxVertical(text: 'CHYBY', style: smallStyle),
+                CustomBoxVertical(text: 'SUM', style: smallLabelStyle),
+                CustomBoxVertical(text: 'S. B.', style: smallStyle),
+                CustomBoxVertical(text: 'BODY', style: smallLabelStyle),
+                CustomBoxVertical(text: '', style: smallStyle),
               ],
             ),
             SizedBox(
@@ -204,27 +177,27 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
                   children: [
                     Column(
                       children: [
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.awayLineUp.full.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.awayLineUp.clean.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.awayLineUp.faults.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: (widget.awayLineUp.clean +
                                     widget.awayLineUp.full)
                                 .toString(),
                             style: mediumLabelStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.awayLineUp.setPoints.toString(),
                             style: mediumStyle),
-                        CustomBox(
+                        CustomBoxVertical(
                             text: widget.awayLineUp.points.toString(),
                             style: mediumLabelStyle),
-                        CustomBox(text: '', style: mediumLabelStyle),
+                        CustomBoxVertical(text: '', style: mediumLabelStyle),
                       ],
                     ),
                     SizedBox(
@@ -232,39 +205,10 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
                     ),
                     awayExpanded
                         ? Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  OneLane(
-                                      lineUp: widget.awayLineUp,
-                                      style: smallStyle,
-                                      lane: 1),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.awayLineUp,
-                                      style: smallStyle,
-                                      lane: 2),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.awayLineUp,
-                                      style: smallStyle,
-                                      lane: 3),
-                                  SizedBox(
-                                    width: spaceWidth,
-                                  ),
-                                  OneLane(
-                                      lineUp: widget.awayLineUp,
-                                      style: smallStyle,
-                                      lane: 4),
-                                ],
-                              ),
-                            ),
-                          )
+                            child: AllLanesVertical(
+                                spaceWidth: spaceWidth,
+                                style: smallStyle!,
+                                lanes: widget.awayLineUp.lanes))
                         : Container(),
                   ],
                 ),
@@ -288,35 +232,6 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
             ),
           ],
         ),
-      ],
-    );
-  }
-}
-
-class OneLane extends StatelessWidget {
-  final LineUp lineUp;
-  final TextStyle? style;
-  final int lane;
-
-  const OneLane(
-      {super.key,
-      required this.lineUp,
-      required this.style,
-      required this.lane});
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomBox(text: lineUp.lanes[lane - 1].full.toString(), style: style),
-        CustomBox(text: lineUp.lanes[lane - 1].clean.toString(), style: style),
-        CustomBox(text: lineUp.lanes[lane - 1].faults.toString(), style: style),
-        CustomBox(
-            text: (lineUp.lanes[lane - 1].clean + lineUp.lanes[lane - 1].full)
-                .toString(),
-            style: style),
-        CustomBox(text: lineUp.lanes[lane - 1].points.toString(), style: style),
-        CustomBox(text: '-', style: style),
-        CustomBox(text: '$lane.', style: style),
       ],
     );
   }

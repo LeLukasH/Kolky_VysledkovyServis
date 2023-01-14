@@ -20,3 +20,5 @@ export 'models/substitution.dart';
 export 'models/teamresult.dart';
 export 'models/status.dart';
 export 'models/sprint.dart';
+export 'models/tournament.dart';
+export 'models/tournament_detail.dart';

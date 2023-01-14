@@ -23,13 +23,12 @@ class MatchDetailPage extends StatelessWidget {
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => LeaguePage(
                           leagueId: match.leagueId,
-                          name: match.leagueName,
-                          initialIndex: match.round - 1,
+                          initialIndex: convertRoundToOrder(match.round) - 1,
                         ))),
                 child: Padding(
                   padding: EdgeInsets.only(right: assetsPadding),
                   child: Text(
-                    '${match.round}. kolo\n${match.leagueName.length < 15 ? match.leagueName : "${match.leagueName.substring(0, 13)}..."}',
+                    '${convertRoundToOrder(match.round)}. kolo\n${match.leagueName.length < 15 ? match.leagueName : "${match.leagueName.substring(0, 13)}..."}',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme

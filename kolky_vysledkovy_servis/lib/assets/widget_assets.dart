@@ -63,8 +63,8 @@ class NameWidget extends StatelessWidget {
   }
 }
 
-class CustomBox extends StatelessWidget {
-  const CustomBox({super.key, required this.text, required this.style});
+class CustomBoxVertical extends StatelessWidget {
+  const CustomBoxVertical({super.key, required this.text, required this.style});
 
   final String text;
   final TextStyle? style;
@@ -73,6 +73,27 @@ class CustomBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 25,
+      child: Center(
+        child: Text(
+          text,
+          style: style,
+        ),
+      ),
+    );
+  }
+}
+
+class CustomBoxHorizontal extends StatelessWidget {
+  const CustomBoxHorizontal(
+      {super.key, required this.text, required this.style});
+
+  final String text;
+  final TextStyle? style;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 40,
       child: Center(
         child: Text(
           text,

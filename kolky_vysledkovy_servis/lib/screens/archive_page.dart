@@ -46,8 +46,6 @@ class ArchiveState extends State<ArchivePage> {
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => LeaguePage(
                       leagueId: leagueMap[_selectedItemLeague]!,
-                      name: _selectedItemLeague,
-                      seasonName: _selectedItemSeason,
                     ))),
             style: ElevatedButton.styleFrom(
                 backgroundColor: secondaryColor, elevation: assetsPadding / 2),

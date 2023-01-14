@@ -134,4 +134,31 @@ class DAO {
       throw Exception('Failed to get comment');
     }
   }
+
+  Future<List<Tournament>> getTournaments(
+      List<String> fields, int seasonId) async {
+    var body = {
+      "fields": fields,
+      "seasonId": seasonId,
+    };
+    var response = await _api.send('tournament/list', body: body);
+    if (response.statusCode == 200) {
+      var tournamentsJson = json.decode(response.body)['list'] as List;
+      return tournamentsJson
+          .map((tournamentJson) => Tournament.fromJson(tournamentJson))
+          .toList();
+    } else {
+      throw Exception('Failed to get tournaments');
+    }
+  }
+
+  Future<TournamentDetail> getTournamentDetail(int id, List<String> fields) async {
+    var body = {"id": id, "fields": fields};
+    var response = await _api.send('tournament/detail', body: body);
+    if (response.statusCode == 200) {
+      return TournamentDetail.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get tournament detail');
+    }
+  }
 }

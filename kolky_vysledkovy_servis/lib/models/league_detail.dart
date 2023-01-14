@@ -8,8 +8,6 @@ import 'team.dart';
 LeagueDetail leagueDetailFromJson(String str) =>
     LeagueDetail.fromJson(json.decode(str));
 
-String leagueDetailToJson(LeagueDetail data) => json.encode(data.toJson());
-
 class LeagueDetail {
   LeagueDetail({
     required this.id,
@@ -52,18 +50,18 @@ class LeagueDetail {
   bool defaultAverages;
   bool defaultTables;
   int categoryId;
-  DateTime created;
-  DateTime modified;
+  DateTime? created;
+  DateTime? modified;
   int seasonId;
   List<int> countryIds;
   dynamic playoff;
-  Admin admin;
+  Admin? admin;
   Season season;
-  Country country;
-  Country secondCountry;
-  List<Team> teams;
-  List<dynamic> tables;
-  List<dynamic> averages;
+  Country? country;
+  Country? secondCountry;
+  List<Team>? teams;
+  List<dynamic>? tables;
+  List<dynamic>? averages;
 
   factory LeagueDetail.fromJson(Map<String, dynamic> json) => LeagueDetail(
         id: json["id"],
@@ -84,40 +82,17 @@ class LeagueDetail {
         seasonId: json["seasonId"],
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
         playoff: json["playoff"],
-        admin: Admin.fromJson(json["admin"]),
+        admin: json["admin"] != null ? Admin.fromJson(json["admin"]) : null,
         season: Season.fromJson(json["season"]),
-        country: Country.fromJson(json["country"]),
-        secondCountry: Country.fromJson(json["secondCountry"]),
-        teams: List<Team>.from(json["teams"].map((x) => Team.fromJson(x))),
+        country:
+            json["country"] != null ? Country.fromJson(json["country"]) : null,
+        secondCountry: json["secondCountry"] != null
+            ? Country.fromJson(json["secondCountry"])
+            : null,
+        teams: json["teams"] != null
+            ? List<Team>.from(json["teams"].map((x) => Team.fromJson(x)))
+            : null,
         tables: List<dynamic>.from(json["tables"].map((x) => x)),
         averages: List<dynamic>.from(json["averages"].map((x) => x)),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "playerCount": playerCount,
-        "playerSumCount": playerSumCount,
-        "throwCount": throwCount,
-        "lanesCount": lanesCount,
-        "sprintPlayerCount": sprintPlayerCount,
-        "scoring": scoring,
-        "note": note,
-        "active": active,
-        "defaultAverages": defaultAverages,
-        "defaultTables": defaultTables,
-        "categoryId": categoryId,
-        "created": created.toIso8601String(),
-        "modified": modified.toIso8601String(),
-        "seasonId": seasonId,
-        "countryIds": List<dynamic>.from(countryIds.map((x) => x)),
-        "playoff": playoff,
-        "admin": admin.toJson(),
-        "season": season.toJson(),
-        "country": country.toJson(),
-        "secondCountry": secondCountry.toJson(),
-        "teams": List<dynamic>.from(teams.map((x) => x.toJson())),
-        "tables": List<dynamic>.from(tables.map((x) => x)),
-        "averages": List<dynamic>.from(averages.map((x) => x)),
-      };
 }

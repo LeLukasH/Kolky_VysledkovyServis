@@ -96,14 +96,14 @@ class OneSprintPerformanceWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  CustomBox(
+                  CustomBoxVertical(
                       text: homeSprint.set1.toString(), style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: homeSprint.set2.toString(), style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: homeSprint.suddenVictory.toString(),
                       style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: homeSprint.point.toString(),
                       style: mediumLabelStyle),
                 ],
@@ -111,10 +111,10 @@ class OneSprintPerformanceWidget extends StatelessWidget {
             ),
             Column(
               children: [
-                CustomBox(text: 'SET 1', style: smallStyle),
-                CustomBox(text: 'SET 2.', style: smallStyle),
-                CustomBox(text: 'SV', style: smallStyle),
-                CustomBox(text: 'BODY', style: smallLabelStyle),
+                CustomBoxVertical(text: 'SET 1', style: smallStyle),
+                CustomBoxVertical(text: 'SET 2.', style: smallStyle),
+                CustomBoxVertical(text: 'SV', style: smallStyle),
+                CustomBoxVertical(text: 'BODY', style: smallLabelStyle),
               ],
             ),
             SizedBox(
@@ -122,14 +122,14 @@ class OneSprintPerformanceWidget extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomBox(
+                  CustomBoxVertical(
                       text: awaySprint.set1.toString(), style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: awaySprint.set2.toString(), style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: awaySprint.suddenVictory.toString(),
                       style: mediumStyle),
-                  CustomBox(
+                  CustomBoxVertical(
                       text: awaySprint.point.toString(),
                       style: mediumLabelStyle),
                 ],

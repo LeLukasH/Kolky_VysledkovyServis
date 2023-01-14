@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/DAO.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 import '../all_screens.dart';
-
-import 'ytb_player_widget.dart';
 
 class NavigationDrawer extends StatelessWidget {
   NavigationDrawer({Key? key}) : super(key: key);
@@ -13,19 +10,23 @@ class NavigationDrawer extends StatelessWidget {
 
   final double _leftPadding = 20.0;
 
-  Future<Season> getLastSeason() async {
-    var seasons = await _dao.getSeasons();
-    return seasons.first;
+  int lastSeasonId = -1;
+
+  Future<int> getLastSeasonId() async {
+    if (lastSeasonId == -1) {
+      var seasons = await _dao.getSeasons();
+      lastSeasonId = seasons.first.id;
+    }
+    return lastSeasonId;
   }
 
-  Future<Tuple<Season, List<League>>> getListOfLeagues() async {
-    Season season = await getLastSeason();
-    var leagues = await _dao.getLeagues(season.id);
-    return Tuple(item1: season, item2: leagues);
+  Future<List<League>> getListOfLeagues() async {
+    int lastSeasonId = await getLastSeasonId();
+    var leagues = await _dao.getLeagues(lastSeasonId);
+    return leagues;
   }
 
-  List<Widget> getTiles(
-      BuildContext context, List<League> leagues, Season season) {
+  List<Widget> getLeagueTiles(BuildContext context, List<League> leagues) {
     leagues.sort(((a, b) {
       int cmp = a.category!.rank.compareTo(b.category!.rank);
       if (cmp != 0) return cmp;
@@ -41,13 +42,13 @@ class NavigationDrawer extends StatelessWidget {
     List<Widget> tiles = [];
     for (int i = 0; i < leagues.length; i++) {
       if (categoryCount[leagues[i].categoryId] == 1) {
-        tiles.add(addListTile(leagues[i].name, leagues[i].id, context, season));
+        tiles.add(addLeagueListTile(leagues[i].name, leagues[i].id, context));
       } else {
         var j = i;
         List<Widget> tilesToAdd = [];
         while (categoryCount[leagues[j].categoryId]! > 0) {
-          tilesToAdd.add(
-              addListTile(leagues[i].name, leagues[i].id, context, season));
+          tilesToAdd
+              .add(addLeagueListTile(leagues[i].name, leagues[i].id, context));
           categoryCount.update(leagues[j].categoryId, (value) => value - 1);
           i++;
         }
@@ -66,8 +67,8 @@ class NavigationDrawer extends StatelessWidget {
     return tiles;
   }
 
-  Widget addListTile(
-      String leagueName, int leagueId, BuildContext context, Season season) {
+  Widget addLeagueListTile(
+      String leagueName, int leagueId, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: _leftPadding),
       child: ListTile(
@@ -75,8 +76,72 @@ class NavigationDrawer extends StatelessWidget {
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => LeaguePage(
                   leagueId: leagueId,
-                  name: leagueName,
-                  seasonName: season.name,
+                ))),
+      ),
+    );
+  }
+
+  Future<List<Tournament>> getListOfTournaments() async {
+    int lastSeasonId = await getLastSeasonId();
+    var tournaments = await _dao.getTournaments(
+        ["tournamentGroup", "tournamentGroup.parentTournamentGroup"],
+        lastSeasonId);
+    return tournaments;
+  }
+
+  List<Widget> getTournamentTiles(
+      BuildContext context, List<Tournament> tournaments) {
+    tournaments.sort(((a, b) {
+      int cmp = a.tournamentGroupId!.compareTo(b.tournamentGroupId!);
+      if (cmp != 0) return cmp;
+      return a.name!.compareTo(b.name!);
+    }));
+
+    Map<int, int> categoryCount = {};
+    for (Tournament tournament in tournaments) {
+      categoryCount.putIfAbsent(tournament.tournamentGroupId!, () => 0);
+      categoryCount.update(tournament.tournamentGroupId!, (value) => value + 1);
+    }
+
+    List<Widget> tiles = [];
+    for (int i = 0; i < tournaments.length; i++) {
+      if (categoryCount[tournaments[i].tournamentGroupId] == 1) {
+        tiles.add(addLeagueListTile(
+            tournaments[i].name!, tournaments[i].id!, context));
+      } else {
+        var j = i;
+        List<Widget> tilesToAdd = [];
+        while (categoryCount[tournaments[j].tournamentGroupId]! > 0) {
+          tilesToAdd.add(addTournamentListTile(
+              tournaments[i].name!, tournaments[i].id!, context));
+          categoryCount.update(
+              tournaments[j].tournamentGroupId!, (value) => value - 1);
+          i++;
+        }
+        i--;
+        tiles.add(
+          Padding(
+            padding: EdgeInsets.only(left: _leftPadding),
+            child: ExpansionTile(
+              title: Text(tournaments[j].tournamentGroup!.name!),
+              children: tilesToAdd,
+            ),
+          ),
+        );
+      }
+    }
+    return tiles;
+  }
+
+  Widget addTournamentListTile(
+      String tournamentName, int leagueId, BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(left: _leftPadding),
+      child: ListTile(
+        title: Text(tournamentName),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => TournamentPage(
+                  tournamentId: leagueId,
                 ))),
       ),
     );
@@ -119,15 +184,51 @@ class NavigationDrawer extends StatelessWidget {
                 if (snapshot.hasData) {
                   return ExpansionTile(
                       leading: const Icon(Icons.sports_score_outlined),
-                      title: const Text('Súťaže'),
-                      children: getTiles(context, snapshot.requireData.item2,
-                          snapshot.requireData.item1));
+                      title: const Text('Ligy'),
+                      children: snapshot.requireData.isNotEmpty
+                          ? getLeagueTiles(
+                              context,
+                              snapshot.requireData,
+                            )
+                          : [
+                              Padding(
+                                padding: EdgeInsets.all(_leftPadding),
+                                child: const Text('V tejto sezóne nie sú...'),
+                              )
+                            ]);
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
                 return const ExpansionTile(
                     leading: Icon(Icons.sports_score_outlined),
-                    title: Text('Súťaže'),
+                    title: Text('Ligy'),
+                    children: [Center(child: CircularProgressIndicator())]);
+              },
+            ),
+            FutureBuilder(
+              future: getListOfTournaments(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ExpansionTile(
+                      leading: const Icon(Icons.sports_score_outlined),
+                      title: const Text('Turnaje'),
+                      children: snapshot.requireData.isNotEmpty
+                          ? getTournamentTiles(
+                              context,
+                              snapshot.requireData,
+                            )
+                          : [
+                              Padding(
+                                padding: EdgeInsets.all(_leftPadding),
+                                child: const Text('V tejto sezóne nie sú...'),
+                              )
+                            ]);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                return const ExpansionTile(
+                    leading: Icon(Icons.sports_score_outlined),
+                    title: Text('Turnaje'),
                     children: [Center(child: CircularProgressIndicator())]);
               },
             ),
