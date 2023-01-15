@@ -113,6 +113,25 @@ class DAO {
     }
   }
 
+  Future<List<BestResult>> getBestResults(
+      int leagueId, int round, String type, String tableType) async {
+    var body = {
+      "leagueId": leagueId,
+      "round": round,
+      "type": type,
+      "tableType": tableType
+    };
+    var response = await _api.send('league/bestResults', body: body);
+    if (response.statusCode == 200) {
+      var bestResultsJson = json.decode(response.body) as List;
+      return bestResultsJson
+          .map((bestResultJson) => BestResult.fromJson(bestResultJson))
+          .toList();
+    } else {
+      throw Exception('Failed to get table');
+    }
+  }
+
   Future<Comment> getComment(
       List<String> fields, int leagueId, int round) async {
     var body = {"fields": fields, "leagueId": leagueId, "round": round};

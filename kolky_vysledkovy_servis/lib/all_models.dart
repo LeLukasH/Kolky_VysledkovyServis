@@ -22,3 +22,4 @@ export 'models/status.dart';
 export 'models/sprint.dart';
 export 'models/tournament.dart';
 export 'models/tournament_detail.dart';
+export 'models/best_result.dart';

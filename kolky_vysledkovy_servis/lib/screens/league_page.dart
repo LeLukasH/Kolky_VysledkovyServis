@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
-import 'package:kolky_vysledkovy_servis/widgets/table_chooser.dart';
 
 class LeaguePage extends StatelessWidget {
   LeaguePage({super.key, required this.leagueId, this.initialIndex});
@@ -109,6 +108,7 @@ class LeaguePage extends StatelessWidget {
     List<Widget> getTabsContent(Map<int, List<Match>> matchesMap) {
       List<Widget> tabsContent = [];
       for (var round in matchesMap.keys) {
+        bool showTable = round % 999 <= lastTableIndex + 1;
         tabsContent.add(SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(assetsPadding),
@@ -146,9 +146,12 @@ class LeaguePage extends StatelessWidget {
                   CustomContainer(
                       child: MatchesWidget(matches: matchesMap[round]!)),
                 ]),
-                leagueDetail.defaultTables && round % 999 <= lastTableIndex + 1
-                    ? TableChooser(leagueId: leagueId, round: round)
+                leagueDetail.defaultTables && showTable
+                    ? LeagueTableChooser(leagueId: leagueId, round: round)
                     : Container(),
+                leagueDetail.defaultTables && showTable
+                    ? BestResultsChooser(leagueId: leagueId, round: round)
+                    : Container()
               ],
             ),
           ),

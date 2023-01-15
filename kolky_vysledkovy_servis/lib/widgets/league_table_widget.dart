@@ -2,15 +2,71 @@ import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 
-class TableWidget extends StatefulWidget {
-  final List<TableOfRoundRow> tableRows;
-  const TableWidget({super.key, required this.tableRows});
+class LeagueTableChooser extends StatefulWidget {
+  const LeagueTableChooser(
+      {super.key, required this.leagueId, required this.round});
+
+  final int leagueId;
+  final int round;
 
   @override
-  State<StatefulWidget> createState() => TableWidgetState();
+  State<StatefulWidget> createState() => _LeagueTableChooserState();
 }
 
-class TableWidgetState extends State<TableWidget> {
+class _LeagueTableChooserState extends State<LeagueTableChooser> {
+  String type = "total";
+  final List<DropdownMenuItem> items = const [
+    DropdownMenuItem(value: "total", child: Text("Celkom")),
+    DropdownMenuItem(value: "home", child: Text("Doma")),
+    DropdownMenuItem(value: "away", child: Text("Vonku"))
+  ];
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(top: assetsPadding / 2),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              const NameWidget(
+                  icon: Icons.table_rows_outlined, name: 'Tabuľka'),
+              DropdownButton(
+                  items: items,
+                  value: type,
+                  onChanged: ((value) {
+                    setState(() {
+                      type = value;
+                    });
+                  }))
+            ],
+          ),
+          CustomContainerWithOutPadding(
+              child: FutureBuilder(
+            future: dao.getTable([], widget.leagueId, widget.round, type),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return LeagueTableWidget(
+                    tableRows: snapshot.requireData.tableOfRoundRows);
+              } else if (snapshot.hasError) {
+                return const Text("Error");
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          ))
+        ]));
+  }
+}
+
+class LeagueTableWidget extends StatefulWidget {
+  final List<TableOfRoundRow> tableRows;
+  const LeagueTableWidget({super.key, required this.tableRows});
+
+  @override
+  State<StatefulWidget> createState() => _LeagueTableWidgetState();
+}
+
+class _LeagueTableWidgetState extends State<LeagueTableWidget> {
   int? sortColumnIndex = 0;
   bool isAscending = false;
 
@@ -153,6 +209,7 @@ class TableWidgetState extends State<TableWidget> {
           (Set<MaterialState> states) {
         return primaryColor.withOpacity(0.2);
       }),
+      headingRowHeight: 50,
       horizontalMargin: 12,
       columnSpacing: 2,
       sortAscending: isAscending,

@@ -1,5 +1,5 @@
 export 'widgets/comment_widget.dart';
-export 'widgets/table_widget.dart';
+export 'widgets/league_table_widget.dart';
 export 'widgets/matches_widget.dart';
 export 'widgets/calendar_agenda_widget.dart';
 export 'widgets/player_performance_widget.dart';
@@ -8,3 +8,4 @@ export 'package:kolky_vysledkovy_servis/widgets/sprints_performance_widget.dart'
 export 'widgets/lanes_widget.dart';
 export 'widgets/tournament_results_widget.dart';
 export 'widgets/tournament_group_results_widget.dart';
+export 'widgets/league_best_results_widget.dart';
