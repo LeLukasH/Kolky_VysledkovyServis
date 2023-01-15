@@ -4,6 +4,7 @@ String convertDateTime(DateTime dateTime) {
       "${dateTime.day.toString().padLeft(2, '0')}.${dateTime.month.toString().padLeft(2, '0')}.${dateTime.year.toString()} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}";
   return convertedTime;
 }
+
 String capitalize(String str) {
   return "${str[0].toUpperCase()}${str.substring(1).toLowerCase()}";
 }
@@ -16,4 +17,9 @@ String getVideoID(String url) {
 int convertRoundToOrder(int round) {
   if (round < 1000) return round;
   return round - 999;
+}
+
+String convertRoundToText(int round) {
+  if (round < 1000) return "$round. kolo";
+  return "${round - 999}. kolo Play-Off";
 }

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'API.dart';
+import 'api.dart';
 import 'all_models.dart';
 
 class DAO {
@@ -152,7 +152,8 @@ class DAO {
     }
   }
 
-  Future<TournamentDetail> getTournamentDetail(int id, List<String> fields) async {
+  Future<TournamentDetail> getTournamentDetail(
+      int id, List<String> fields) async {
     var body = {"id": id, "fields": fields};
     var response = await _api.send('tournament/detail', body: body);
     if (response.statusCode == 200) {

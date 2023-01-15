@@ -55,7 +55,8 @@ class OneLaneVertical extends StatelessWidget {
             text: (lane.clean + lane.full).toString(), style: style),
         CustomBoxVertical(text: lane.points.toString(), style: style),
         CustomBoxVertical(text: '-', style: style),
-        CustomBoxVertical(text: '${lane.lane}.', style: style),
+        CustomBoxVertical(
+            text: lane.lane != "" ? '${lane.lane}.' : '1.', style: style),
       ],
     );
   }

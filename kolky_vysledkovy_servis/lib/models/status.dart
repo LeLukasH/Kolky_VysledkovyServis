@@ -1,10 +1,11 @@
-enum Status { FINISHED, CONTUMATED, NEW, CANCELED }
+enum Status { FINISHED, CONTUMATED, NEW, CANCELED, INPROGRESS }
 
 final statusValues = EnumValues({
   "canceled": Status.CANCELED,
   "contumated": Status.CONTUMATED,
   "finished": Status.FINISHED,
-  "new": Status.NEW
+  "new": Status.NEW,
+  "inprogress": Status.INPROGRESS,
 });
 
 class EnumValues<T> {

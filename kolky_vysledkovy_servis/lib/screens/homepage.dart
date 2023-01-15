@@ -1,18 +1,12 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 import '../widgets/navigation_drawer.dart';
-import 'package:kolky_vysledkovy_servis/widgets/calendar_agenda_widget.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
-
-  final DAO _dao = DAO();
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -93,7 +87,7 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: EdgeInsets.all(assetsPadding),
           child: FutureBuilder(
-            future: widget._dao.getMatchesByDate(selectedDate),
+            future: dao.getMatchesByDate(selectedDate),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return matchesByLeague(snapshot.requireData);
@@ -136,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           list.add(
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
-              "${value.first.round}. kolo",
+              convertRoundToText(value.first.round),
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!

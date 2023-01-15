@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
+import 'package:kolky_vysledkovy_servis/widgets/table_chooser.dart';
 
 class LeaguePage extends StatelessWidget {
   LeaguePage({super.key, required this.leagueId, this.initialIndex});
@@ -12,12 +12,10 @@ class LeaguePage extends StatelessWidget {
   final int leagueId;
   int? initialIndex;
 
-  final _dao = DAO();
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _dao.getLeagueDetail(leagueId, [
+        future: dao.getLeagueDetail(leagueId, [
           "season",
           "playoff",
           "tables",
@@ -92,14 +90,14 @@ class LeaguePage extends StatelessWidget {
                   ),
                 )))
             : tabs.add(SizedBox(
-                width: 60,
+                width: 150,
                 child: Tab(
                   icon: Center(
                     child: Text(
-                      '${round - 999}. kolo Play-Off',
+                      convertRoundToText(round),
                       style: TextStyle(
                           fontSize:
-                              Theme.of(context).textTheme.titleLarge!.fontSize,
+                              Theme.of(context).textTheme.titleMedium!.fontSize,
                           fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -118,37 +116,38 @@ class LeaguePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: _dao.getComment([], leagueId, round),
+                    future: dao.getComment([], leagueId, round),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return CommentWidget(text: snapshot.data!.content);
+                        String text = snapshot.data!.content;
+                        if (text != "") {
+                          return Padding(
+                              padding: EdgeInsets.only(bottom: assetsPadding),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const NameWidget(
+                                      icon: Icons.comment_outlined,
+                                      name: 'Komentár',
+                                    ),
+                                    CustomContainer(
+                                      child: CommentWidget(text: text),
+                                    )
+                                  ]));
+                        }
+                        return Container();
                       } else if (snapshot.hasError) {
                         return Text("${snapshot.error}");
                       }
-                      return const SizedBox(
-                          height: 120,
-                          child: Center(child: CircularProgressIndicator()));
+                      return Container();
                     }),
-                MatchesLeaguePageWidget(matches: matchesMap[round]!),
-                leagueDetail.defaultTables
-                    ? FutureBuilder(
-                        future: _dao.getTable([], leagueId, round, "total"),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return TableWidget(
-                                table: snapshot.data!.tableOfRoundRows,
-                                showTable: round < 1000
-                                    ? round <= lastTableIndex + 1
-                                    : round - 1000 <= lastTableIndex);
-                          } else if (snapshot.hasError) {
-                            return Text("${snapshot.error}");
-                          }
-                          return const SizedBox(
-                              height: 150,
-                              child:
-                                  Center(child: CircularProgressIndicator()));
-                        },
-                      )
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
+                  CustomContainer(
+                      child: MatchesWidget(matches: matchesMap[round]!)),
+                ]),
+                leagueDetail.defaultTables && round % 999 <= lastTableIndex + 1
+                    ? TableChooser(leagueId: leagueId, round: round)
                     : Container(),
               ],
             ),
@@ -195,17 +194,17 @@ class LeaguePage extends StatelessWidget {
   Future<Map<int, List<Match>>> getMatches() async {
     Map<int, List<Match>> map = {};
     int i = 1;
-    List<Match> matches = await _dao.getMatches([leagueId], i);
+    List<Match> matches = await dao.getMatches([leagueId], i);
     if (matches.isEmpty) {
       i = 1000;
-      matches = await _dao.getMatches([leagueId], i);
+      matches = await dao.getMatches([leagueId], i);
     }
     while (matches.isNotEmpty) {
       map.putIfAbsent(i, () => matches);
       i++;
-      matches = await _dao.getMatches([leagueId], i);
+      matches = await dao.getMatches([leagueId], i);
     }
-    print(map);
+
     return map;
   }
 }

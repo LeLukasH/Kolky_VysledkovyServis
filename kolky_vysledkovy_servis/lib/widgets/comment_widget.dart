@@ -31,59 +31,43 @@ class _CommentWidgetState extends State<CommentWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.text.isEmpty) return Container();
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20.0),
-      child: CustomContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const NameWidget(
-              icon: Icons.comment_outlined,
-              name: 'Komentár',
-            ),
-            secondHalf.isEmpty
-                ? Text(
-                    widget.text,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  )
-                : InkWell(
-                    onTap: () {
-                      setState(() {
-                        flag = !flag;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Text(
-                          flag
-                              ? "         $firstHalf..."
-                              : "         ${widget.text}",
-                          textAlign: TextAlign.justify,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              flag ? "Viac" : "Menej",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .apply(color: primaryColor),
-                            ),
-                            Icon(
-                                flag
-                                    ? Icons.keyboard_arrow_down_outlined
-                                    : Icons.keyboard_arrow_up_outlined,
-                                color: primaryColor)
-                          ],
-                        ),
-                      ],
+    return secondHalf.isEmpty
+        ? Text(
+            widget.text,
+            style: Theme.of(context).textTheme.bodyMedium,
+          )
+        : InkWell(
+            onTap: () {
+              setState(() {
+                flag = !flag;
+              });
+            },
+            child: Column(
+              children: [
+                Text(
+                  flag ? "         $firstHalf..." : "         ${widget.text}",
+                  textAlign: TextAlign.justify,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      flag ? "Viac" : "Menej",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .apply(color: primaryColor),
                     ),
-                  ),
-          ],
-        ),
-      ),
-    );
+                    Icon(
+                        flag
+                            ? Icons.keyboard_arrow_down_outlined
+                            : Icons.keyboard_arrow_up_outlined,
+                        color: primaryColor)
+                  ],
+                ),
+              ],
+            ),
+          );
   }
 }

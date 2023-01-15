@@ -1,212 +1,111 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/screens/league_page.dart';
+import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'package:unicons/unicons.dart';
 
-import '../all_models.dart';
-
-class ArchivePage extends StatefulWidget {
-  ArchivePage({super.key});
-
-  final DAO _dao = DAO();
-
-  @override
-  State<StatefulWidget> createState() => ArchiveState();
-}
-
-class ArchiveState extends State<ArchivePage> {
-  String defaultString = "...";
-
-  late String _selectedItemSeason;
-  late String _selectedItemLeague;
-
-  Map<String, int> seasonMap = {"...": -1};
-  Map<String, int> leagueMap = {"...": -1};
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedItemSeason = defaultString;
-    _selectedItemLeague = "...";
-  }
-
-  Widget chooseLeague = Container();
-
-  void updateChooseLeague() {
-    _selectedItemLeague = defaultString;
-    updateGoButton();
-  }
-
-  Widget goButton = Container();
-
-  void updateGoButton() {
-    leagueMap[_selectedItemLeague] == -1
-        ? goButton = Container()
-        : goButton = ElevatedButton(
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => LeaguePage(
-                      leagueId: leagueMap[_selectedItemLeague]!,
-                    ))),
-            style: ElevatedButton.styleFrom(
-                backgroundColor: secondaryColor, elevation: assetsPadding / 2),
-            child: SizedBox(
-                height: assetsPadding * 3,
-                width: assetsPadding * 3,
-                child: Center(
-                    child: Icon(
-                  Icons.navigate_next_outlined,
-                  size: assetsPadding * 2,
-                ))),
-          );
-  }
+class ArchivePage extends StatelessWidget {
+  const ArchivePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Archív'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(assetsPadding * 2),
-        child: SizedBox(
-          child: Column(
-            children: [
-              CustomContainer(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: assetsPadding),
-                    child: Text(
-                      'Sezóna:',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
-                  FutureBuilder(
-                    future: widget._dao.getSeasons(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        seasonMap
-                            .addAll(getMap(snapshot.requireData.sublist(1)));
-                        List<String> seasonList = [];
-
-                        seasonMap.keys.forEach((element) {
-                          seasonList.add(element);
-                        });
-
-                        return DropdownButton<String>(
-                          value: _selectedItemSeason,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedItemSeason = newValue!;
-                              updateChooseLeague();
-                            });
-                          },
-                          items: seasonList.map((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        );
-                      }
-
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                  )
-                ],
-              )),
-              SizedBox(
-                height: assetsPadding,
-              ),
-              seasonMap[_selectedItemSeason] == -1
-                  ? Container()
-                  : CustomContainer(
-                      child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: assetsPadding),
-                          child: Text(
-                            'Súťaž:',
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        ),
-                        FutureBuilder(
-                          future: widget._dao
-                              .getLeagues(seasonMap[_selectedItemSeason]!),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              List<League> leagues = snapshot.requireData;
-                              leagues.sort(((a, b) =>
-                                  a.categoryId.compareTo(b.categoryId)));
-                              leagueMap = {"...": -1};
-
-                              leagueMap.addAll(getMap(leagues));
-
-                              List<String> leagueList = [];
-
-                              leagueMap.keys.forEach((element) {
-                                leagueList.add(element);
-                              });
-                              print(leagueMap);
-
-                              return DropdownButton<String>(
-                                value: _selectedItemLeague,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    print(_selectedItemLeague);
-                                    _selectedItemLeague = newValue!;
-                                    updateGoButton();
-                                  });
-                                },
-                                items: leagueList.map((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: SizedBox(
-                                      width: 150,
-                                      child: SingleChildScrollView(
-                                        child: Text(
-                                          value,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            }
-
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          },
-                        )
-                      ],
-                    )),
-              SizedBox(
-                height: assetsPadding * 2,
-              ),
-              goButton
-            ],
-          ),
-        ),
+      appBar: AppBar(title: const Text("Archív")),
+      body: FutureBuilder(
+        future: getLeaguesAndTournaments(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+                child: getArchivePage(snapshot.requireData, context));
+          } else if (snapshot.hasError) {
+            return const Text("Error");
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }
+}
 
-  Map<String, int> getMap(List<dynamic> list) {
-    Map<String, int> map = {};
-    if (list is List<Season>) {
-      for (var element in list) {
-        map.putIfAbsent(element.name, () => element.id);
-      }
-    } else if (list is List<League>) {
-      for (var element in list) {
-        map.putIfAbsent(element.name, () => element.id);
-      }
-    }
-    return map;
+Future<Map<Season, Tuple>> getLeaguesAndTournaments() async {
+  Map<Season, Tuple> map = {};
+  List<Season> seasons = await dao.getSeasons();
+  for (Season season in seasons) {
+    List<League> leagues = await dao.getLeagues(season.id);
+    List<Tournament> tournaments = await dao.getTournaments(
+        ["tournamentGroup", "tournamentGroup.parentTournamentGroup"],
+        season.id);
+    Tuple tuple = Tuple(item1: leagues, item2: tournaments);
+    map.putIfAbsent(season, () => tuple);
   }
+  return map;
+}
+
+Widget getArchivePage(Map<Season, Tuple> map, BuildContext context) {
+  List<Widget> children = [];
+  for (var entry in map.entries) {
+    Season season = entry.key;
+    List<League> leagues = entry.value.item1;
+    List<Tournament> tournaments = entry.value.item2;
+
+    Widget child = Column(
+      children: [
+        Text(
+          season.name,
+          style: Theme.of(context)
+              .textTheme
+              .headlineLarge!
+              .apply(color: secondaryColor),
+        ),
+        SizedBox(
+          height: assetsPadding / 2,
+        ),
+        CustomContainer(
+          child: Column(
+            children: [
+              ExpansionTile(
+                  leading: const Icon(UniconsLine.bowling_ball),
+                  title: const Text('Ligy'),
+                  children: leagues.isNotEmpty
+                      ? getLeagueTiles(
+                          context,
+                          leagues,
+                        )
+                      : [
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text('V tejto sezóne nie sú...'),
+                          )
+                        ]),
+              ExpansionTile(
+                  leading: const Icon(UniconsLine.trophy),
+                  title: const Text('Turnaje'),
+                  children: tournaments.isNotEmpty
+                      ? getTournamentTiles(
+                          context,
+                          tournaments,
+                        )
+                      : [
+                          const Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: Text('V tejto sezóne nie sú...'),
+                          )
+                        ]),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    children.add(child);
+    children.add(SizedBox(
+      height: assetsPadding,
+    ));
+  }
+  children.removeLast();
+  return Padding(
+    padding: EdgeInsets.all(assetsPadding),
+    child: Column(
+      children: children,
+    ),
+  );
 }

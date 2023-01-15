@@ -62,7 +62,9 @@ class Tournament {
         created: json["created"],
         modified:
             json["modified"] != null ? DateTime.parse(json["modified"]) : null,
-        tournamentGroup: TournamentGroup.fromJson(json["tournamentGroup"]),
+        tournamentGroup: json["tournamentGroup"] != null
+            ? TournamentGroup.fromJson(json["tournamentGroup"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

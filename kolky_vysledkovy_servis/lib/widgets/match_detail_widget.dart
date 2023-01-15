@@ -12,7 +12,8 @@ class MatchDetailWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool finished = match.status == Status.FINISHED;
+    final bool finished =
+        match.status == Status.FINISHED || match.status == Status.INPROGRESS;
     return Column(
       children: [
         SizedBox(

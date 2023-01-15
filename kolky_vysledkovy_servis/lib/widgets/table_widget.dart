@@ -2,201 +2,163 @@ import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 
-class TableWidget extends StatelessWidget {
-  const TableWidget({super.key, required this.table, required this.showTable});
-
-  final List<TableOfRoundRow> table;
-  final bool showTable;
-
-  final double dividerHeight = 10.0;
-  final double boxWidth = 20;
+class TableWidget extends StatefulWidget {
+  final List<TableOfRoundRow> tableRows;
+  const TableWidget({super.key, required this.tableRows});
 
   @override
-  Widget build(BuildContext context) {
-    table.sort(((a, b) => a.order.compareTo(b.order)));
-    if (table.isEmpty || !showTable) return Container();
-    List<Widget> tableRowWidgets = [];
+  State<StatefulWidget> createState() => TableWidgetState();
+}
 
-    tableRowWidgets.add(FirstTableRowWidget(boxWidth: boxWidth));
-    for (int i = 0; i < table.length; i++) {
-      if (i != 0) {
-        tableRowWidgets.add(Divider(
-          height: dividerHeight,
-        ));
-      }
-      tableRowWidgets.add(TableRowWidget(
-        tableRow: table[i],
-        boxWidth: boxWidth,
-      ));
+class TableWidgetState extends State<TableWidget> {
+  int? sortColumnIndex = 0;
+  bool isAscending = false;
+
+  final boldColumns = [1, 6];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  List<DataColumn> getColumns() {
+    return [
+      DataColumn(
+        label: const Text('#'),
+        tooltip: "Poradie",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.order.compareTo(b.order)
+                : b.order.compareTo(a.order));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Klub'),
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.teamName.compareTo(b.teamName)
+                : b.teamName.compareTo(a.teamName));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Z'),
+        numeric: true,
+        tooltip: "Zápasy",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.countableMatchCount.compareTo(b.countableMatchCount)
+                : b.countableMatchCount.compareTo(a.countableMatchCount));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('V'),
+        numeric: true,
+        tooltip: "Výhry",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.wins.compareTo(b.wins)
+                : b.wins.compareTo(a.wins));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('R'),
+        numeric: true,
+        tooltip: "Remízy",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.draws.compareTo(b.draws)
+                : b.draws.compareTo(a.draws));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('P'),
+        numeric: true,
+        tooltip: "Prehry",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.loses.compareTo(b.loses)
+                : b.loses.compareTo(a.loses));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('B'),
+        numeric: true,
+        tooltip: "Body",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.tablePoints.compareTo(b.tablePoints)
+                : b.tablePoints.compareTo(a.tablePoints));
+          });
+        },
+      ),
+    ];
+  }
+
+  List<DataRow> getRows(List<TableOfRoundRow> rows) =>
+      rows.map((TableOfRoundRow row) {
+        final cells = [
+          "${row.order}.",
+          row.teamName,
+          row.countableMatchCount,
+          row.wins,
+          row.draws,
+          row.loses,
+          row.tablePoints
+        ];
+        return DataRow(cells: getCells(cells));
+      }).toList();
+
+  List<DataCell> getCells(List<dynamic> cells) {
+    List<DataCell> list = [];
+    for (int i = 0; i < cells.length; i++) {
+      list.add(DataCell(Text(cells[i].toString(),
+          style: boldColumns.contains(i)
+              ? const TextStyle(fontWeight: FontWeight.bold)
+              : const TextStyle())));
     }
-    return Padding(
-      padding: EdgeInsets.only(top: assetsPadding),
-      child: CustomContainer(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const NameWidget(icon: Icons.table_rows_outlined, name: 'Tabuľka'),
-          Column(
-            children: tableRowWidgets,
-          )
-        ]),
-      ),
-    );
+    return list;
   }
-}
-
-class TableRowWidget extends StatelessWidget {
-  const TableRowWidget(
-      {super.key, required this.tableRow, required this.boxWidth});
-
-  final TableOfRoundRow tableRow;
-
-  final double boxWidth;
-
-  final bool first = true;
 
   @override
   Widget build(BuildContext context) {
-    Widget;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            SizedBox(
-              width: boxWidth,
-              child: Text(
-                "${tableRow.order}.",
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              tableRow.teamName.length < 25
-                  ? tableRow.teamName
-                  : "${tableRow.teamName.substring(0, 24)}...",
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ],
-        ),
-        SizedBox(
-          width: 6 * boxWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                  width: boxWidth,
-                  child: Text(
-                    tableRow.countableMatchCount.toString(),
-                    textAlign: TextAlign.center,
-                  )),
-              Row(
-                children: [
-                  SizedBox(
-                      width: boxWidth,
-                      child: Text(
-                        tableRow.wins.toString(),
-                        textAlign: TextAlign.center,
-                      )),
-                  SizedBox(
-                      width: boxWidth,
-                      child: Text(
-                        tableRow.draws.toString(),
-                        textAlign: TextAlign.center,
-                      )),
-                  SizedBox(
-                      width: boxWidth,
-                      child: Text(
-                        tableRow.loses.toString(),
-                        textAlign: TextAlign.center,
-                      )),
-                ],
-              ),
-              SizedBox(
-                  width: boxWidth,
-                  child: Text(tableRow.tablePoints.toString(),
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.labelMedium)),
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
-
-class FirstTableRowWidget extends StatelessWidget {
-  const FirstTableRowWidget({super.key, required this.boxWidth});
-
-  final double boxWidth;
-  final double fontSize = 16;
-  final Color fontColor = Colors.white;
-
-  @override
-  Widget build(BuildContext context) {
-    final style =
-        Theme.of(context).textTheme.titleSmall!.apply(color: fontColor);
-    return Padding(
-      padding: EdgeInsets.only(bottom: assetsPadding / 4),
-      child: Container(
-        color: primaryColor,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: assetsPadding / 4,
-            bottom: assetsPadding / 4,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  SizedBox(
-                    width: boxWidth,
-                    child: Text("#", textAlign: TextAlign.center, style: style),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  Text("Klub", textAlign: TextAlign.left, style: style),
-                ],
-              ),
-              SizedBox(
-                width: 6 * boxWidth,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                        width: boxWidth,
-                        child: Text("Z",
-                            textAlign: TextAlign.center, style: style)),
-                    Row(
-                      children: [
-                        SizedBox(
-                            width: boxWidth,
-                            child: Text("V",
-                                textAlign: TextAlign.center, style: style)),
-                        SizedBox(
-                            width: boxWidth,
-                            child: Text("R",
-                                textAlign: TextAlign.center, style: style)),
-                        SizedBox(
-                            width: boxWidth,
-                            child: Text("P",
-                                textAlign: TextAlign.center, style: style)),
-                      ],
-                    ),
-                    SizedBox(
-                        width: boxWidth,
-                        child: Text("B",
-                            textAlign: TextAlign.center, style: style)),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+    return DataTable(
+      headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        return primaryColor.withOpacity(0.2);
+      }),
+      horizontalMargin: 12,
+      columnSpacing: 2,
+      sortAscending: isAscending,
+      sortColumnIndex: sortColumnIndex,
+      columns: getColumns(),
+      rows: getRows(widget.tableRows),
     );
   }
 }

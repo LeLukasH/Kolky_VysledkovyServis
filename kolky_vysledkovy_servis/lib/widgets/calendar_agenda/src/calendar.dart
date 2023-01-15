@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -85,19 +83,19 @@ class CalendarAgenda extends StatefulWidget implements PreferredSizeWidget {
   CalendarAgendaState createState() => CalendarAgendaState();
 
   @override
-  Size get preferredSize => new Size.fromHeight(60);
+  Size get preferredSize => const  Size.fromHeight(60);
 }
 
 class CalendarAgendaState extends State<CalendarAgenda>
     with TickerProviderStateMixin {
-  ItemScrollController _scrollController = new ItemScrollController();
+  final ItemScrollController _scrollController = ItemScrollController();
 
   late Color backgroundColor;
   late double padding;
   late Widget leading;
   late double _scrollAlignment;
 
-  List<String> _eventDates = [];
+  final List<String> _eventDates = [];
   List<DateTime> _dates = [];
   DateTime? _selectedDate;
   int? _daySelectedIndex;
@@ -173,13 +171,13 @@ class CalendarAgendaState extends State<CalendarAgenda>
                                   color: Colors.black.withOpacity(0.2),
                                   spreadRadius: 0,
                                   blurRadius: 10,
-                                  offset: Offset(0, 3),
+                                  offset: const Offset(0, 3),
                                 )
                               : BoxShadow(
                                   color: Colors.grey.withOpacity(0.0),
                                   spreadRadius: 5,
                                   blurRadius: 20,
-                                  offset: Offset(0, 3),
+                                  offset: const Offset(0, 3),
                                 )
                         ],
                       ),
@@ -291,7 +289,7 @@ class CalendarAgendaState extends State<CalendarAgenda>
       alignment: widget.selectedDayPosition == SelectedDayPosition.center
           ? 78 / 200
           : _scrollAlignment,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.easeInOut,
     );
   }

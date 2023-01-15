@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/DAO.dart';
 import 'package:kolky_vysledkovy_servis/models/tournament_detail.dart';
 import 'package:kolky_vysledkovy_servis/widgets/tournament_results_widget.dart';
 
@@ -7,16 +6,14 @@ import '../all_assets.dart';
 import '../widgets/tournament_group_results_widget.dart';
 
 class TournamentPage extends StatelessWidget {
-  TournamentPage({super.key, required this.tournamentId});
+  const TournamentPage({super.key, required this.tournamentId});
 
   final int tournamentId;
-
-  final DAO _dao = DAO();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _dao.getTournamentDetail(
+      future: dao.getTournamentDetail(
         tournamentId,
         [
           "club",

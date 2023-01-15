@@ -3,21 +3,6 @@ import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/all_screens.dart';
 
-class MatchesLeaguePageWidget extends StatelessWidget {
-  const MatchesLeaguePageWidget({super.key, required this.matches});
-
-  final List<Match> matches;
-  @override
-  Widget build(BuildContext context) {
-    return CustomContainer(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
-        MatchesWidget(matches: matches),
-      ]),
-    );
-  }
-}
-
 class MatchesWidget extends StatelessWidget {
   const MatchesWidget({super.key, required this.matches});
 
@@ -105,7 +90,8 @@ class MatchWidget extends StatelessWidget {
             .bodyMedium!
             .apply(fontStyle: FontStyle.italic),
       );
-    } else if (match.status == Status.FINISHED) {
+    } else if (match.status == Status.FINISHED ||
+        match.status == Status.INPROGRESS) {
       right = Row(
         children: [
           match.videoUrl != "" && match.videoUrl != null
@@ -114,22 +100,31 @@ class MatchWidget extends StatelessWidget {
                   color: secondaryColor,
                 )
               : Container(),
+          match.status == Status.INPROGRESS
+              ? const Text(
+                  "LIVE",
+                  style: TextStyle(color: secondaryColor),
+                )
+              : Container(),
           SizedBox(
             width: assetsPadding / 2,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text(
-                match.homeTotal.toString(),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              Text(
-                match.awayTotal.toString(),
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ],
+          SizedBox(
+            width: 40,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  match.homeTotal.toString(),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  match.awayTotal.toString(),
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+            ),
           ),
           SizedBox(
             width: assetsPadding,

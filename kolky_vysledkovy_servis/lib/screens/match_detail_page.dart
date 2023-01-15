@@ -5,13 +5,12 @@ import 'package:kolky_vysledkovy_servis/all_screens.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
 import 'package:kolky_vysledkovy_servis/widgets/ytb_player_widget.dart';
 
-import '../DAO.dart';
+import '../dao.dart';
 
 class MatchDetailPage extends StatelessWidget {
   final Match match;
-  final _dao = DAO();
 
-  MatchDetailPage({super.key, required this.match});
+  const MatchDetailPage({super.key, required this.match});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,7 @@ class MatchDetailPage extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(right: assetsPadding),
                   child: Text(
-                    '${convertRoundToOrder(match.round)}. kolo\n${match.leagueName.length < 15 ? match.leagueName : "${match.leagueName.substring(0, 13)}..."}',
+                    '${convertRoundToText(match.round)}\n${match.leagueName.length < 15 ? match.leagueName : "${match.leagueName.substring(0, 13)}..."}',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -43,7 +42,7 @@ class MatchDetailPage extends StatelessWidget {
               .apply(color: Colors.white),
         ),
         body: FutureBuilder(
-            future: _dao.getMatchDetail(match.id, [
+            future: dao.getMatchDetail(match.id, [
               "league",
               "details",
               "teams",
@@ -66,7 +65,8 @@ class MatchDetailPage extends StatelessWidget {
   }
 
   Widget getMatchDetailPage(BuildContext context, MatchDetail matchDetail) {
-    final bool finished = matchDetail.status == Status.FINISHED;
+    final bool finished = matchDetail.status == Status.FINISHED ||
+        matchDetail.status == Status.INPROGRESS;
 
     return SingleChildScrollView(
       child: Padding(
