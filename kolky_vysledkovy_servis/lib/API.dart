@@ -17,6 +17,10 @@ class API {
 
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    return response;
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      throw Exception('Failed to get leagues');
+    }
   }
 }
