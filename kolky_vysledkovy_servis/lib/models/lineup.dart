@@ -60,7 +60,7 @@ class LineUp {
   int total;
   int faults;
   num setPoints;
-  int points;
+  num points;
   dynamic suddenVictory;
   Player player;
   dynamic otherPlayer;

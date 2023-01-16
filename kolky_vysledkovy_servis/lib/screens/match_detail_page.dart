@@ -5,8 +5,6 @@ import 'package:kolky_vysledkovy_servis/all_screens.dart';
 import 'package:kolky_vysledkovy_servis/all_widgets.dart';
 import 'package:kolky_vysledkovy_servis/widgets/ytb_player_widget.dart';
 
-import '../dao.dart';
-
 class MatchDetailPage extends StatelessWidget {
   final Match match;
 
@@ -89,19 +87,20 @@ class MatchDetailPage extends StatelessWidget {
             finished && matchDetail.sprints!.isNotEmpty
                 ? Padding(
                     padding: EdgeInsets.only(top: assetsPadding),
-                    child: CustomContainer(
-                        child: Column(
+                    child: Column(
                       children: [
                         const NameWidget(
                             icon: Icons.hourglass_empty_outlined,
                             name: 'Šprinty'),
-                        SprintsPerfformanceWidget(
-                          sprints: matchDetail.sprints!,
-                          homeTeamId: matchDetail.homeTeam.id,
-                          awayTeamId: matchDetail.awayTeam.id,
+                        CustomContainer(
+                          child: SprintsPerfformanceWidget(
+                            sprints: matchDetail.sprints!,
+                            homeTeamId: matchDetail.homeTeam.id,
+                            awayTeamId: matchDetail.awayTeam.id,
+                          ),
                         ),
                       ],
-                    )),
+                    ),
                   )
                 : Container(),
             matchDetail.videoUrl != null && matchDetail.videoUrl != ""

@@ -43,6 +43,7 @@ class _BestResultsChooserChooserState extends State<BestResultsChooser> {
                   DropdownButton(
                       items: items2,
                       value: type,
+                      style: Theme.of(context).textTheme.labelMedium,
                       onChanged: ((value) {
                         setState(() {
                           type = value;
@@ -54,6 +55,7 @@ class _BestResultsChooserChooserState extends State<BestResultsChooser> {
                   DropdownButton(
                       items: items1,
                       value: tableType,
+                      style: Theme.of(context).textTheme.labelMedium,
                       onChanged: ((value) {
                         setState(() {
                           tableType = value;

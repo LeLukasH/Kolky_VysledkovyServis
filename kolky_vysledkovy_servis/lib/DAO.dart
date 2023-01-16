@@ -96,6 +96,16 @@ class DAO {
         .toList();
   }
 
+  Future<IndividualResults> getInidividualResults(
+      int leagueId, int round) async {
+    var body = {
+      "leagueId": leagueId,
+      "round": round,
+    };
+    var response = await _api.send('league/averages', body: body);
+    return IndividualResults.fromJson(json.decode(response.body));
+  }
+
   Future<Comment> getComment(
       List<String> fields, int leagueId, int round) async {
     var body = {"fields": fields, "leagueId": leagueId, "round": round};

@@ -9,3 +9,4 @@ export 'widgets/lanes_widget.dart';
 export 'widgets/tournament_results_widget.dart';
 export 'widgets/tournament_group_results_widget.dart';
 export 'widgets/league_best_results_widget.dart';
+export 'widgets/league_individuals_widget.dart';

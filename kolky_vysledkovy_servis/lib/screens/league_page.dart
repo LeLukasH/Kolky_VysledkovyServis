@@ -151,6 +151,35 @@ class LeaguePage extends StatelessWidget {
                     : Container(),
                 leagueDetail.defaultTables && showTable
                     ? BestResultsChooser(leagueId: leagueId, round: round)
+                    : Container(),
+                leagueDetail.defaultAverages && showTable
+                    ? Padding(
+                        padding: EdgeInsets.only(top: assetsPadding),
+                        child: Column(
+                          children: [
+                            const NameWidget(
+                                icon: Icons.signal_cellular_alt_outlined,
+                                name: 'Poradie jednotlivcov'),
+                            CustomContainerWithOutPadding(
+                              child: FutureBuilder(
+                                future:
+                                    dao.getInidividualResults(leagueId, round),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return LeagueIndividualsWidget(
+                                        individualResults:
+                                            snapshot.requireData);
+                                  } else if (snapshot.hasError) {
+                                    return Text("${snapshot.error}");
+                                  }
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                     : Container()
               ],
             ),

@@ -34,6 +34,7 @@ class _LeagueTableChooserState extends State<LeagueTableChooser> {
               DropdownButton(
                   items: items,
                   value: type,
+                  style: Theme.of(context).textTheme.labelMedium,
                   onChanged: ((value) {
                     setState(() {
                       type = value;

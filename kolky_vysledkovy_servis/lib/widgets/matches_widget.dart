@@ -148,6 +148,7 @@ class MatchWidget extends StatelessWidget {
     } else {
       right = Container();
     }
+
     return InkWell(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
