@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'package:kolky_vysledkovy_servis/screens/full_league_best_results_page.dart';
 
 class BestResultsChooser extends StatefulWidget {
   const BestResultsChooser(
@@ -10,10 +11,10 @@ class BestResultsChooser extends StatefulWidget {
   final int round;
 
   @override
-  State<StatefulWidget> createState() => _BestResultsChooserChooserState();
+  State<StatefulWidget> createState() => _BestResultsChooserState();
 }
 
-class _BestResultsChooserChooserState extends State<BestResultsChooser> {
+class _BestResultsChooserState extends State<BestResultsChooser> {
   String type = "total";
   String tableType = "total";
 
@@ -61,6 +62,16 @@ class _BestResultsChooserChooserState extends State<BestResultsChooser> {
                           tableType = value;
                         });
                       })),
+                  IconButton(
+                      icon: const Icon(Icons.exit_to_app_outlined),
+                      color: secondaryColor,
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => FullBestResultsPage(
+                              leagueId: widget.leagueId,
+                              round: widget.round,
+                            ),
+                          )))
                 ],
               )
             ],
@@ -138,16 +149,19 @@ class _BestResultsWidgetState extends State<BestResultsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      headingRowColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        return primaryColor.withOpacity(0.2);
-      }),
-      headingRowHeight: 50,
-      horizontalMargin: 12,
-      columnSpacing: 10,
-      columns: getColumns(),
-      rows: getRows(widget.bestResults),
+    return SizedBox(
+      width: double.infinity,
+      child: DataTable(
+        headingRowColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          return primaryColor.withOpacity(0.2);
+        }),
+        headingRowHeight: 50,
+        horizontalMargin: 12,
+        columnSpacing: 10,
+        columns: getColumns(),
+        rows: getRows(widget.bestResults),
+      ),
     );
   }
 }

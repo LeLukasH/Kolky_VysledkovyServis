@@ -1,92 +1,97 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/screens/full_league_table_page.dart';
 
-class LeagueTableChooser extends StatefulWidget {
-  const LeagueTableChooser(
+class FullLeagueTablePage extends StatefulWidget {
+  const FullLeagueTablePage(
       {super.key, required this.leagueId, required this.round});
 
   final int leagueId;
   final int round;
 
   @override
-  State<StatefulWidget> createState() => _LeagueTableChooserState();
+  State<StatefulWidget> createState() => _FullLeagueTablePageState();
 }
 
-class _LeagueTableChooserState extends State<LeagueTableChooser> {
+class _FullLeagueTablePageState extends State<FullLeagueTablePage> {
   String type = "total";
   final List<DropdownMenuItem> items = const [
     DropdownMenuItem(value: "total", child: Text("Celkom")),
     DropdownMenuItem(value: "home", child: Text("Doma")),
     DropdownMenuItem(value: "away", child: Text("Vonku"))
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: assetsPadding / 2),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const NameWidget(
-                  icon: Icons.table_rows_outlined, name: 'Tabuľka'),
-              Row(
-                children: [
-                  DropdownButton(
-                      items: items,
-                      value: type,
-                      style: Theme.of(context).textTheme.labelMedium,
-                      onChanged: ((value) {
-                        setState(() {
-                          type = value;
-                        });
-                      })),
-                  IconButton(
-                      icon: const Icon(Icons.exit_to_app_outlined),
-                      color: secondaryColor,
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FullLeagueTablePage(
-                              leagueId: widget.leagueId,
-                              round: widget.round,
-                            ),
-                          )))
-                ],
-              )
-            ],
-          ),
-          CustomContainerWithOutPadding(
-              child: FutureBuilder(
-            future: dao.getTable([], widget.leagueId, widget.round, type),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return LeagueTableWidget(
-                    tableRows: snapshot.requireData.tableOfRoundRows);
-              } else if (snapshot.hasError) {
-                return const Text("Error");
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          ))
-        ]));
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Tabuľka'),
+        actions: [
+          DropdownButton(
+              items: items,
+              value: type,
+              onChanged: ((value) {
+                setState(() {
+                  type = value;
+                });
+              })),
+          SizedBox(
+            width: assetsPadding * 2,
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+            padding: EdgeInsets.all(assetsPadding),
+            child: CustomContainerWithOutPadding(
+                child: FutureBuilder(
+              future: dao.getTable([], widget.leagueId, widget.round, type),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return FullLeagueTableWidget(
+                      tableRows: snapshot.requireData.tableOfRoundRows);
+                } else if (snapshot.hasError) {
+                  return const Text("Error");
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            ))),
+      ),
+    );
   }
 }
 
-class LeagueTableWidget extends StatefulWidget {
+class FullLeagueTableWidget extends StatefulWidget {
   final List<TableOfRoundRow> tableRows;
-  const LeagueTableWidget({super.key, required this.tableRows});
+  const FullLeagueTableWidget({super.key, required this.tableRows});
 
   @override
-  State<StatefulWidget> createState() => _LeagueTableWidgetState();
+  State<StatefulWidget> createState() => _FullLeagueTableWidgetState();
 }
 
-class _LeagueTableWidgetState extends State<LeagueTableWidget> {
+class _FullLeagueTableWidgetState extends State<FullLeagueTableWidget> {
   int? sortColumnIndex = 0;
   bool isAscending = false;
 
-  final boldColumns = [1, 6];
+  final boldColumns = [1, 9];
 
   @override
   void initState() {
@@ -177,16 +182,54 @@ class _LeagueTableWidgetState extends State<LeagueTableWidget> {
         },
       ),
       DataColumn(
-        label: const Text('B'),
+        label: const Text('Skóre'),
         numeric: true,
-        tooltip: "Body",
         onSort: (int columnIndex, bool ascending) {
           setState(() {
             isAscending = ascending;
             sortColumnIndex = columnIndex;
             widget.tableRows.sort((a, b) => !ascending
-                ? a.tablePoints.compareTo(b.tablePoints)
-                : b.tablePoints.compareTo(a.tablePoints));
+                ? a.teamPoints.compareTo(b.teamPoints)
+                : b.teamPoints.compareTo(a.teamPoints));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Sety'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.setPoints.compareTo(b.setPoints)
+                : b.setPoints.compareTo(a.setPoints));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Priemer'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.total.compareTo(b.total)
+                : b.total.compareTo(a.total));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Body'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.tableRows.sort((a, b) => !ascending
+                ? a.order.compareTo(b.order)
+                : b.order.compareTo(a.order));
           });
         },
       ),
@@ -202,6 +245,9 @@ class _LeagueTableWidgetState extends State<LeagueTableWidget> {
           row.wins,
           row.draws,
           row.loses,
+          "${row.teamPoints}:${row.againstTeamPoints}",
+          "${row.setPoints}:${row.againstSetPoints}",
+          row.total.round(),
           row.tablePoints
         ];
         return DataRow(cells: getCells(cells));

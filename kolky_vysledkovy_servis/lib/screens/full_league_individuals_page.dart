@@ -1,54 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/screens/full_league_individuals_page.dart';
 
-class LeagueIndividualsChooser extends StatefulWidget {
-  const LeagueIndividualsChooser(
+class FullLeagueIndividualsPage extends StatefulWidget {
+  const FullLeagueIndividualsPage(
       {super.key, required this.leagueId, required this.round});
 
   final int leagueId;
   final int round;
 
   @override
-  State<StatefulWidget> createState() => _LeagueIndividualsChooserState();
+  State<StatefulWidget> createState() => _FullLeagueIndividualsPageState();
 }
 
-class _LeagueIndividualsChooserState extends State<LeagueIndividualsChooser> {
+class _FullLeagueIndividualsPageState extends State<FullLeagueIndividualsPage> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(top: assetsPadding),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const NameWidget(
-                  icon: Icons.signal_cellular_alt_outlined,
-                  name: 'Poradie jednotlivcov'),
-              Row(
-                children: [
-                  IconButton(
-                      icon: const Icon(Icons.exit_to_app_outlined),
-                      color: secondaryColor,
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FullLeagueIndividualsPage(
-                              leagueId: widget.leagueId,
-                              round: widget.round,
-                            ),
-                          )))
-                ],
-              )
-            ],
-          ),
-          CustomContainerWithOutPadding(
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Poradie jednotlivcov'),
+        ),
+        body: SingleChildScrollView(
+            child: Padding(
+          padding: EdgeInsets.all(assetsPadding),
+          child: CustomContainerWithOutPadding(
             child: FutureBuilder(
               future: dao.getInidividualResults(widget.leagueId, widget.round),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return LeagueIndividualsWidget(
+                  return FullLeagueIndividualsWidget(
                       individualResults: snapshot.requireData);
                 } else if (snapshot.hasError) {
                   return Text("${snapshot.error}");
@@ -57,23 +55,25 @@ class _LeagueIndividualsChooserState extends State<LeagueIndividualsChooser> {
               },
             ),
           ),
-        ]));
+        )));
   }
 }
 
-class LeagueIndividualsWidget extends StatefulWidget {
+class FullLeagueIndividualsWidget extends StatefulWidget {
   final IndividualResults individualResults;
-  const LeagueIndividualsWidget({super.key, required this.individualResults});
+  const FullLeagueIndividualsWidget(
+      {super.key, required this.individualResults});
 
   @override
-  State<StatefulWidget> createState() => _LeagueIndividualsWidgetState();
+  State<StatefulWidget> createState() => _FullLeagueIndividualsWidgetState();
 }
 
-class _LeagueIndividualsWidgetState extends State<LeagueIndividualsWidget> {
+class _FullLeagueIndividualsWidgetState
+    extends State<FullLeagueIndividualsWidget> {
   int? sortColumnIndex = 0;
   bool isAscending = false;
 
-  final boldColumns = [1, 4];
+  final boldColumns = [1, 10];
 
   @override
   void initState() {
@@ -117,6 +117,21 @@ class _LeagueIndividualsWidgetState extends State<LeagueIndividualsWidget> {
         },
       ),
       DataColumn(
+        label: const Text('Tím'),
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.teamName!.compareTo(b.teamName!)
+                : b.teamName!.compareTo(a.teamName!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.teamName!.compareTo(b.teamName!)
+                : b.teamName!.compareTo(a.teamName!));
+          });
+        },
+      ),
+      DataColumn(
         label: const Text('Z'),
         numeric: true,
         tooltip: "Zápasy",
@@ -134,6 +149,23 @@ class _LeagueIndividualsWidgetState extends State<LeagueIndividualsWidget> {
         },
       ),
       DataColumn(
+        label: const Text('K'),
+        numeric: true,
+        tooltip: "Kolkárne",
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.hallCount!.compareTo(b.hallCount!)
+                : b.hallCount!.compareTo(a.hallCount!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.hallCount!.compareTo(b.hallCount!)
+                : b.hallCount!.compareTo(a.hallCount!));
+          });
+        },
+      ),
+      DataColumn(
         label: const Text('B'),
         numeric: true,
         tooltip: "Body",
@@ -147,6 +179,70 @@ class _LeagueIndividualsWidgetState extends State<LeagueIndividualsWidget> {
             widget.individualResults.outOfOrder!.sort((a, b) => !ascending
                 ? a.points!.compareTo(b.points!)
                 : b.points!.compareTo(a.points!));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Plné'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.full!.compareTo(b.full!)
+                : b.full!.compareTo(a.full!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.full!.compareTo(b.full!)
+                : b.full!.compareTo(a.full!));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Dor.'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.clean!.compareTo(b.clean!)
+                : b.clean!.compareTo(a.clean!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.clean!.compareTo(b.clean!)
+                : b.clean!.compareTo(a.clean!));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Ch'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.faults!.compareTo(b.faults!)
+                : b.faults!.compareTo(a.faults!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.faults!.compareTo(b.faults!)
+                : b.faults!.compareTo(a.faults!));
+          });
+        },
+      ),
+      DataColumn(
+        label: const Text('Ch(Ø)'),
+        numeric: true,
+        onSort: (int columnIndex, bool ascending) {
+          setState(() {
+            isAscending = ascending;
+            sortColumnIndex = columnIndex;
+            widget.individualResults.averages!.sort((a, b) => !ascending
+                ? a.faultsAverage!.compareTo(b.faultsAverage!)
+                : b.faultsAverage!.compareTo(a.faultsAverage!));
+            widget.individualResults.outOfOrder!.sort((a, b) => !ascending
+                ? a.faultsAverage!.compareTo(b.faultsAverage!)
+                : b.faultsAverage!.compareTo(a.faultsAverage!));
           });
         },
       ),
@@ -190,8 +286,14 @@ class _LeagueIndividualsWidgetState extends State<LeagueIndividualsWidget> {
         final cells = [
           row.order != null ? "${row.order}." : "",
           "${row.lastName} ${row.firstName}",
+          row.teamName,
           row.count,
+          row.hallCount,
           row.points,
+          row.full,
+          row.clean,
+          row.faults,
+          row.faultsAverage,
           row.total,
           row.maxTotal,
         ];

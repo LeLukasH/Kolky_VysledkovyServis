@@ -123,7 +123,7 @@ class NavigationDrawer extends StatelessWidget {
               leading: const Icon(Icons.history_outlined),
               title: const Text('Archív'),
               onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ArchivePage(),
+                builder: (context) => const ArchivePage(),
               )),
             ),
             ListTile(
