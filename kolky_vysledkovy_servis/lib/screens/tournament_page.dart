@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/models/tournament_detail.dart';
-import 'package:kolky_vysledkovy_servis/widgets/tournament_results_widget.dart';
+import '../assets/colors.dart';
+import '../assets/converters.dart';
+import '../assets/widget_assets.dart';
+import '../models/tournament_detail.dart';
+import '../widgets/tournament_results_widget.dart';
 
-import '../all_assets.dart';
+import '../assets/other_assets.dart';
 import '../widgets/tournament_group_results_widget.dart';
 
 class TournamentPage extends StatelessWidget {

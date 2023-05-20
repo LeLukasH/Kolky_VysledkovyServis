@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/all_screens.dart';
-import 'package:kolky_vysledkovy_servis/all_widgets.dart';
-import 'package:kolky_vysledkovy_servis/widgets/ytb_player_widget.dart';
+
+import '../assets/converters.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/match_detail.dart';
+import '../models/status.dart';
+import '../widgets/match_detail_widget.dart';
+import '../widgets/player_performance_widget.dart';
+import '../widgets/sprints_performance_widget.dart';
+import '../widgets/ytb_player_widget.dart';
+import '../models/match.dart';
+import 'league_page.dart';
 
 class MatchDetailPage extends StatelessWidget {
   final Match match;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/all_widgets.dart';
+
+import '../assets/colors.dart';
+import '../assets/other_assets.dart';
+import '../models/tournament_detail.dart';
 
 class TournamentGroupResultsWidget extends StatelessWidget {
   final List<GroupResult> groupResults;

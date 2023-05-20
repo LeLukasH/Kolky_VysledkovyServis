@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_widgets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
+import '../assets/colors.dart';
+import '../assets/converters.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../widgets/calendar_agenda_widget.dart';
+import '../widgets/matches_widget.dart';
 import '../widgets/navigation_drawer.dart';
+import '../models/match.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {

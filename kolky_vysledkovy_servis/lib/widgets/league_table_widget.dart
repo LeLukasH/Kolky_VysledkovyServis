@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/screens/full_league_table_page.dart';
+
+import '../assets/colors.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/table_of_round.dart';
+import '../screens/full_league_table_page.dart';
 
 class LeagueTableChooser extends StatefulWidget {
   const LeagueTableChooser(

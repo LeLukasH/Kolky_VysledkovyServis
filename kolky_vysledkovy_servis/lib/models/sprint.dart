@@ -1,4 +1,4 @@
-import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'player.dart';
 
 class Sprint {
   Sprint({

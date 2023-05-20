@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/screens/full_league_best_results_page.dart';
+import '../assets/colors.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/best_result.dart';
+import '../screens/full_league_best_results_page.dart';
 
 class BestResultsChooser extends StatefulWidget {
   const BestResultsChooser(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../all_assets.dart';
-import '../all_models.dart';
-import '../all_screens.dart';
+import '../models/league.dart';
+import '../models/tournament.dart';
+import '../screens/league_page.dart';
+import '../screens/tournament_page.dart';
 
 double _leftPadding = 20.0;
 

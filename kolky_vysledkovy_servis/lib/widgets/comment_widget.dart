@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
+
+import '../assets/colors.dart';
 
 class CommentWidget extends StatefulWidget {
   const CommentWidget({super.key, required this.text});

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import '../all_assets.dart';
-import '../all_screens.dart';
+import '../assets/expansion_tiles.dart';
+import '../assets/other_assets.dart';
 import 'package:unicons/unicons.dart';
+
+import '../models/league.dart';
+import '../models/tournament.dart';
+import '../screens/archive_page.dart';
 
 // ignore: must_be_immutable
 class NavigationDrawer extends StatelessWidget {

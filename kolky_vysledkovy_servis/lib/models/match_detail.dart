@@ -1,6 +1,13 @@
 import 'dart:convert';
 
-import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'league.dart';
+import 'lineup.dart';
+import 'referee.dart';
+import 'sprint.dart';
+import 'status.dart';
+import 'substitution.dart';
+import 'team.dart';
+import 'teamresult.dart';
 
 MatchDetail matchDetailFromJson(String str) =>
     MatchDetail.fromJson(json.decode(str));

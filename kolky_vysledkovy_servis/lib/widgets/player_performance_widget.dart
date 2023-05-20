@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
 
+import '../assets/colors.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/lineup.dart';
+import '../models/match_detail.dart';
 import 'lanes_widget.dart';
 
 class PlayersPerformanceWidget extends StatelessWidget {
@@ -145,7 +148,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
                     right: 0,
                     child: IconButton(
                         padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
+                        constraints: const BoxConstraints(),
                         onPressed: () => {
                               setState(
                                 () => homeExpanded = !homeExpanded,

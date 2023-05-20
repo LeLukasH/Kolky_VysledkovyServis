@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final countries = countriesFromJson(jsonString);
-
 import 'dart:convert';
 
 Countries countriesFromJson(String str) => Countries.fromJson(json.decode(str));

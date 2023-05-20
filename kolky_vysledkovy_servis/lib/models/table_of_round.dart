@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final tableOfRound = tableOfRoundFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'team.dart';

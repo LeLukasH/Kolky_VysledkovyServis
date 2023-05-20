@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'all_assets.dart';
+import 'assets/colors.dart';
 import 'screens/homepage.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 

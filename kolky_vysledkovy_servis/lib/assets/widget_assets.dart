@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../all_assets.dart';
+
+import 'colors.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({super.key, required this.child});
@@ -10,6 +11,7 @@ class CustomContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.4),

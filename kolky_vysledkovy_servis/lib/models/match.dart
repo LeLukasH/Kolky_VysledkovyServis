@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final matches = matchesFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:kolky_vysledkovy_servis/models/status.dart';
+import 'status.dart';
 
 Matches matchesFromJson(String str) => Matches.fromJson(json.decode(str));
 

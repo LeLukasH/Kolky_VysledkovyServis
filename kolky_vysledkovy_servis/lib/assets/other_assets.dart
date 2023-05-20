@@ -1,10 +1,5 @@
 import 'package:kolky_vysledkovy_servis/DAO.dart';
 
-export 'assets/colors.dart';
-export 'assets/widget_assets.dart';
-export 'assets/converters.dart';
-export 'assets/expansion_tiles.dart';
-
 double assetsPadding = 20.0;
 
 final DAO dao = DAO();

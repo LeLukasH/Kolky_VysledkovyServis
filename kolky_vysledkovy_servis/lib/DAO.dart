@@ -1,6 +1,17 @@
 import 'dart:convert';
 import 'api.dart';
-import 'all_models.dart';
+import 'models/best_result.dart';
+import 'models/comment.dart';
+import 'models/country.dart';
+import 'models/individual_result.dart';
+import 'models/league.dart';
+import 'models/league_detail.dart';
+import 'models/match_detail.dart';
+import 'models/season.dart';
+import 'models/match.dart';
+import 'models/table_of_round.dart';
+import 'models/tournament.dart';
+import 'models/tournament_detail.dart';
 
 class DAO {
   final API _api = API();

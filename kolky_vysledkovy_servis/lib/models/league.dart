@@ -1,10 +1,6 @@
-// To parse this JSON data, do
-//
-//     final leagues = leaguesFromJson(jsonString);
-
 import 'dart:convert';
 
-import 'package:kolky_vysledkovy_servis/models/category.dart';
+import 'category.dart';
 
 Leagues leaguesFromJson(String str) => Leagues.fromJson(json.decode(str));
 

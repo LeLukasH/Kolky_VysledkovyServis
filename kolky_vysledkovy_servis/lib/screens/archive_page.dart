@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:unicons/unicons.dart';
+
+import '../assets/colors.dart';
+import '../assets/expansion_tiles.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/league.dart';
+import '../models/season.dart';
+import '../models/tournament.dart';
 
 class ArchivePage extends StatelessWidget {
   const ArchivePage({super.key});

@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final averagesOfIndividuals = averagesOfIndividualsFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'team.dart';

@@ -1,9 +1,18 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/all_widgets.dart';
+
+import '../assets/colors.dart';
+import '../assets/converters.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
+import '../models/league_detail.dart';
+import '../widgets/comment_widget.dart';
+import '../widgets/league_best_results_widget.dart';
+import '../widgets/league_individuals_widget.dart';
+import '../widgets/league_table_widget.dart';
+import '../widgets/matches_widget.dart';
+import '../models/match.dart';
 
 class LeaguePage extends StatelessWidget {
   LeaguePage({super.key, required this.leagueId, this.initialIndex});

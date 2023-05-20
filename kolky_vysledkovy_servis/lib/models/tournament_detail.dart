@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:kolky_vysledkovy_servis/models/player.dart';
-
+import 'player.dart';
 import 'club.dart';
 import 'hall.dart';
 import 'lane.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../all_assets.dart';
+import '../assets/other_assets.dart';
+import '../assets/widget_assets.dart';
 import '../models/sprint.dart';
 
 class SprintsPerfformanceWidget extends StatelessWidget {

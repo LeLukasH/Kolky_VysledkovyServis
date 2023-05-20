@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
+import 'package:kolky_vysledkovy_servis/assets/other_assets.dart';
+
+import '../assets/colors.dart';
+import '../assets/widget_assets.dart';
+import '../models/best_result.dart';
 
 class FullBestResultsPage extends StatefulWidget {
   const FullBestResultsPage(

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
+
+import '../assets/converters.dart';
+import '../assets/other_assets.dart';
+import '../models/match_detail.dart';
+import '../models/status.dart';
+import '../models/match.dart';
 
 class MatchDetailWidget extends StatelessWidget {
   final Match match;

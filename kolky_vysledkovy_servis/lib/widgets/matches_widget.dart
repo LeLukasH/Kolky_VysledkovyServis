@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
-import 'package:kolky_vysledkovy_servis/all_screens.dart';
+
+import '../assets/colors.dart';
+import '../assets/converters.dart';
+import '../assets/other_assets.dart';
+import '../models/match.dart';
+import '../models/status.dart';
+import '../screens/match_detail_page.dart';
 
 class MatchesWidget extends StatelessWidget {
   const MatchesWidget({super.key, required this.matches});

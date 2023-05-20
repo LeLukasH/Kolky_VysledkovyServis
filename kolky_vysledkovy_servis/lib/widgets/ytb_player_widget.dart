@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_assets.dart';
 import 'package:youtube_plyr_iframe/youtube_plyr_iframe.dart';
+
+import '../assets/colors.dart';
 
 class YoutubePlayerWidget extends StatefulWidget {
   const YoutubePlayerWidget({Key? key, required this.videoUrl})
