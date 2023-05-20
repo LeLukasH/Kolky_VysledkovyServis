@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:kolky_vysledkovy_servis/assets/other_assets.dart';
 
 import '../assets/colors.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/best_result.dart';
 
 class FullBestResultsPage extends StatefulWidget {

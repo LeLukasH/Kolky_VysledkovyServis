@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../assets/colors.dart';
 import '../assets/converters.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/tournament_detail.dart';
 import '../widgets/tournament_results_widget.dart';
 

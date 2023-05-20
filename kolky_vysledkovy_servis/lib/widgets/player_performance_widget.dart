@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import 'other_widgets.dart';
 import '../models/lineup.dart';
 import '../models/match_detail.dart';
+import '../screens/player_detail_page.dart';
 import 'lanes_widget.dart';
 
 class PlayersPerformanceWidget extends StatelessWidget {
@@ -82,15 +83,27 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "${widget.homeLineUp.player.firstName} ${widget.homeLineUp.player.lastName}",
-              style: Theme.of(context).textTheme.labelLarge,
-              textAlign: TextAlign.right,
+            TextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PlayerDetailPage(
+                        player: widget.homeLineUp.player,
+                      ))),
+              child: Text(
+                "${widget.homeLineUp.player.firstName} ${widget.homeLineUp.player.lastName}",
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.right,
+              ),
             ),
-            Text(
-              "${widget.awayLineUp.player.firstName} ${widget.awayLineUp.player.lastName}",
-              style: Theme.of(context).textTheme.labelLarge,
-              textAlign: TextAlign.right,
+            TextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PlayerDetailPage(
+                        player: widget.awayLineUp.player,
+                      ))),
+              child: Text(
+                "${widget.awayLineUp.player.firstName} ${widget.awayLineUp.player.lastName}",
+                style: Theme.of(context).textTheme.labelLarge,
+                textAlign: TextAlign.right,
+              ),
             ),
           ],
         ),
@@ -220,7 +233,7 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
                     left: 0,
                     child: IconButton(
                         padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
+                        constraints: const BoxConstraints(),
                         onPressed: () => {
                               setState(
                                 () => awayExpanded = !awayExpanded,

@@ -4,7 +4,7 @@ import 'package:unicons/unicons.dart';
 import '../assets/colors.dart';
 import '../assets/expansion_tiles.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/league.dart';
 import '../models/season.dart';
 import '../models/tournament.dart';

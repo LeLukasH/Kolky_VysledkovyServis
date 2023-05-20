@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import 'other_widgets.dart';
 import '../models/tournament_detail.dart';
 import 'lanes_widget.dart';
 

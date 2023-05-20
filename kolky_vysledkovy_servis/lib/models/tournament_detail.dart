@@ -259,7 +259,7 @@ class Result {
   final int? clean;
   final int? total;
   final int? faults;
-  final int? setPoints;
+  final dynamic setPoints;
   final int? points;
   final dynamic suddenVictory;
   final Player? player;

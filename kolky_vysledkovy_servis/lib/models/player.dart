@@ -1,3 +1,5 @@
+import 'club.dart';
+
 class Player {
   Player({
     required this.id,
@@ -8,6 +10,7 @@ class Player {
     required this.registrationId,
     required this.registrationValid,
     required this.foreignId,
+    this.club,
   });
 
   int id;
@@ -18,6 +21,7 @@ class Player {
   dynamic registrationId;
   DateTime registrationValid;
   int foreignId;
+  Club? club;
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
         id: json["id"],
@@ -28,6 +32,7 @@ class Player {
         registrationId: json["registrationId"],
         registrationValid: DateTime.parse(json["registrationValid"]),
         foreignId: json["foreignId"],
+        club: json["club"] != null ? Club.fromJson(json["club"]) : null,
       );
 
   Map<String, dynamic> toJson() => {

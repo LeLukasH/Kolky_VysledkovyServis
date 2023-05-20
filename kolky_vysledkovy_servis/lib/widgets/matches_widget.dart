@@ -58,9 +58,9 @@ class MatchWidget extends StatelessWidget {
               width: logoPadding * logoScaleRatio,
             ),
             Text(
-              match.homeName.length < teamNameLimit
-                  ? match.homeName
-                  : "${match.homeName.substring(0, teamNameLimit)}...",
+              match.homeName!.length < teamNameLimit
+                  ? match.homeName!
+                  : "${match.homeName!.substring(0, teamNameLimit)}...",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],
@@ -75,9 +75,9 @@ class MatchWidget extends StatelessWidget {
               width: logoPadding * logoScaleRatio,
             ),
             Text(
-              match.awayName.length < teamNameLimit
-                  ? match.awayName
-                  : "${match.awayName.substring(0, teamNameLimit)}...",
+              match.awayName!.length < teamNameLimit
+                  ? match.awayName!
+                  : "${match.awayName!.substring(0, teamNameLimit)}...",
               style: Theme.of(context).textTheme.labelMedium,
             ),
           ],

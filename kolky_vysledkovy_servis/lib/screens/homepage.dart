@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../assets/colors.dart';
 import '../assets/converters.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../widgets/calendar_agenda_widget.dart';
 import '../widgets/matches_widget.dart';
 import '../widgets/navigation_drawer.dart';
@@ -121,13 +121,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget matchesByLeague(List<Match> matches) {
-    matches.sort(((a, b) => a.leagueId.compareTo(b.leagueId)));
+    matches.sort(((a, b) => a.leagueId!.compareTo(b.leagueId!)));
     Map<int, List<Match>> map = {};
     for (Match match in matches) {
-      map.putIfAbsent(match.leagueId, () => List<Match>.empty(growable: true));
+      map.putIfAbsent(match.leagueId!, () => List<Match>.empty(growable: true));
       List<Match>? temp = map[match.leagueId];
       temp!.add(match);
-      map.update(match.leagueId, (value) => temp);
+      map.update(match.leagueId!, (value) => temp);
     }
     List<Widget> list = [];
     map.forEach((key, value) => {
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                   .apply(color: secondaryColor),
             ),
             Text(
-              value.first.leagueName,
+              value.first.leagueName!,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

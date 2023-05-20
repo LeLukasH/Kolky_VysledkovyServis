@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../assets/widget_assets.dart';
+import 'other_widgets.dart';
 import '../models/lane.dart';
 
 class AllLanesVertical extends StatelessWidget {

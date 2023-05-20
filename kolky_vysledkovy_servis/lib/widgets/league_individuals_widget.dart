@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import 'other_widgets.dart';
 import '../models/individual_result.dart';
 import '../screens/full_league_individuals_page.dart';
 

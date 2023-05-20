@@ -31,7 +31,7 @@ class MatchDetailWidget extends StatelessWidget {
                 height: 15,
                 child: VerticalDivider(),
               ),
-              Text(match.hallName),
+              Text(match.hallName!),
             ],
           ),
         ),
@@ -70,14 +70,14 @@ class MatchDetailWidget extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
                     child: Text(
-                      match.homeName,
+                      match.homeName!,
                       textAlign: TextAlign.center,
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
                     child: Text(
-                      match.awayName,
+                      match.awayName!,
                       textAlign: TextAlign.center,
                     ),
                   ),

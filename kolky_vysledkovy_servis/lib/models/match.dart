@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'status.dart';
+import 'team.dart';
 
 Matches matchesFromJson(String str) => Matches.fromJson(json.decode(str));
 
@@ -36,6 +37,8 @@ class Match {
     required this.awayId,
     this.homeClubPhoto,
     this.awayClubPhoto,
+    this.homeTeam,
+    this.awayTeam,
     required this.hallId,
     required this.hallName,
     required this.homeFull,
@@ -54,17 +57,19 @@ class Match {
   int id;
   DateTime startDate;
   int round;
-  int leagueId;
-  String leagueName;
+  int? leagueId;
+  String? leagueName;
   Status? status;
-  String homeName;
-  String awayName;
-  int homeId;
-  int awayId;
+  String? homeName;
+  String? awayName;
+  Team? homeTeam;
+  Team? awayTeam;
+  int? homeId;
+  int? awayId;
   dynamic homeClubPhoto;
   dynamic awayClubPhoto;
   int hallId;
-  String hallName;
+  String? hallName;
   dynamic homeFull;
   dynamic homeClean;
   dynamic homeSetPoints;
@@ -81,17 +86,21 @@ class Match {
         id: json["id"],
         startDate: DateTime.parse(json["startDate"]),
         round: json["round"],
-        leagueId: json["leagueId"],
-        leagueName: json["leagueName"],
+        leagueId: json["leagueId"] ?? null,
+        leagueName: json["leagueName"] ?? null,
         status: statusValues.map[json["status"]],
-        homeName: json["homeName"],
-        awayName: json["awayName"],
-        homeId: json["homeId"],
-        awayId: json["awayId"],
+        homeName: json["homeName"] ?? null,
+        awayName: json["awayName"] ?? null,
+        homeTeam:
+            json["homeTeam"] != null ? Team.fromJson(json["homeTeam"]) : null,
+        awayTeam:
+            json["awayTeam"] != null ? Team.fromJson(json["awayTeam"]) : null,
+        homeId: json["homeId"] ?? null,
+        awayId: json["awayId"] ?? null,
         homeClubPhoto: json["homeClubPhoto"],
         awayClubPhoto: json["awayClubPhoto"],
         hallId: json["hallId"],
-        hallName: json["hallName"],
+        hallName: json["hallName"] ?? null,
         homeFull: json["homeFull"] ?? null,
         homeClean: json["homeClean"] ?? null,
         homeSetPoints: json["homeSetPoints"] == null

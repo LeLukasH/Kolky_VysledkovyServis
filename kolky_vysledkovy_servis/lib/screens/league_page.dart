@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../assets/colors.dart';
 import '../assets/converters.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/league_detail.dart';
 import '../widgets/comment_widget.dart';
 import '../widgets/league_best_results_widget.dart';

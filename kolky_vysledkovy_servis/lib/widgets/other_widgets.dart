@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
+import '../assets/colors.dart';
 
 class CustomContainer extends StatelessWidget {
   const CustomContainer({super.key, required this.child});

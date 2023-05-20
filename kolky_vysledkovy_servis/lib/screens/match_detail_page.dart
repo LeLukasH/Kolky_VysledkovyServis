@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../assets/converters.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/match_detail.dart';
 import '../models/status.dart';
 import '../widgets/match_detail_widget.dart';
@@ -26,13 +26,13 @@ class MatchDetailPage extends StatelessWidget {
                 style: const ButtonStyle(alignment: Alignment.center),
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => LeaguePage(
-                          leagueId: match.leagueId,
+                          leagueId: match.leagueId!,
                           initialIndex: convertRoundToOrder(match.round) - 1,
                         ))),
                 child: Padding(
                   padding: EdgeInsets.only(right: assetsPadding),
                   child: Text(
-                    '${convertRoundToText(match.round)}\n${match.leagueName.length < 15 ? match.leagueName : "${match.leagueName.substring(0, 13)}..."}',
+                    '${convertRoundToText(match.round)}\n${match.leagueName!.length < 15 ? match.leagueName : "${match.leagueName!.substring(0, 13)}..."}',
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme

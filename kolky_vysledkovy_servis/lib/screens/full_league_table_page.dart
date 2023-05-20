@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
-import '../assets/widget_assets.dart';
+import '../widgets/other_widgets.dart';
 import '../models/table_of_round.dart';
 
 class FullLeagueTablePage extends StatefulWidget {

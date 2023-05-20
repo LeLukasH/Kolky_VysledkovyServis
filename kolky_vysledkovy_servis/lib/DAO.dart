@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:kolky_vysledkovy_servis/models/player_results.dart';
+
 import 'api.dart';
 import 'models/best_result.dart';
 import 'models/comment.dart';
@@ -7,6 +9,7 @@ import 'models/individual_result.dart';
 import 'models/league.dart';
 import 'models/league_detail.dart';
 import 'models/match_detail.dart';
+import 'models/player_detail.dart';
 import 'models/season.dart';
 import 'models/match.dart';
 import 'models/table_of_round.dart';
@@ -153,5 +156,18 @@ class DAO {
     var body = {"id": id, "fields": fields};
     var response = await _api.send('tournament/detail', body: body);
     return TournamentDetail.fromJson(json.decode(response.body));
+  }
+
+  Future<PlayerDetail> getPlayerDetail(int id, List<String> fields) async {
+    var body = {"id": id, "fields": fields};
+    var response = await _api.send('player/statistics', body: body);
+    return PlayerDetail.fromJson(json.decode(response.body));
+  }
+
+  Future<PlayerResults> getPlayerResults(
+      int playerId, int seasonId, List<String> fields) async {
+    var body = {"id": playerId, "seasonId": seasonId, "fields": fields};
+    var response = await _api.send('player/results', body: body);
+    return PlayerResults.fromJson(json.decode(response.body));
   }
 }
