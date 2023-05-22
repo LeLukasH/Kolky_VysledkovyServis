@@ -37,7 +37,8 @@ class MatchDetailPage extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
-                        .apply(color: Colors.white),
+                        .apply(color: Colors.white)
+                        .apply(decoration: TextDecoration.underline),
                   ),
                 )),
           ],

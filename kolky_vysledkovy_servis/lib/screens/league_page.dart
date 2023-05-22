@@ -49,7 +49,7 @@ class LeaguePage extends StatelessWidget {
                             padding: EdgeInsets.only(right: assetsPadding),
                             child: Center(
                                 child: Text(
-                              leagueDetail.season.name,
+                              leagueDetail.season!.name,
                             )),
                           )
                         ],
@@ -139,7 +139,7 @@ class LeaguePage extends StatelessWidget {
                                       icon: Icons.comment_outlined,
                                       name: 'Komentár',
                                     ),
-                                    CustomContainer(
+                                    CustomContainerWithOutPadding(
                                       child: CommentWidget(text: text),
                                     )
                                   ]));
@@ -152,7 +152,7 @@ class LeaguePage extends StatelessWidget {
                     }),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
-                  CustomContainer(
+                  CustomContainerWithOutPadding(
                       child: MatchesWidget(matches: matchesMap[round]!)),
                 ]),
                 leagueDetail.defaultTables && showTable
@@ -185,7 +185,7 @@ class LeaguePage extends StatelessWidget {
               padding: EdgeInsets.only(right: assetsPadding),
               child: Center(
                   child: Text(
-                leagueDetail.season.name,
+                leagueDetail.season!.name,
               )),
             )
           ],

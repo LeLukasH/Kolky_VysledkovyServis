@@ -5,6 +5,8 @@ import '../assets/other_assets.dart';
 import '../models/match_detail.dart';
 import '../models/status.dart';
 import '../models/match.dart';
+import '../screens/team_detail_page.dart';
+import 'other_widgets.dart';
 
 class MatchDetailWidget extends StatelessWidget {
   final Match match;
@@ -69,16 +71,28 @@ class MatchDetailWidget extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
-                    child: Text(
-                      match.homeName!,
-                      textAlign: TextAlign.center,
+                    child: CustomTextButton(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TeamDetailPage(teamId: match.homeId!),
+                        ),
+                      ),
+                      text: match.homeName!,
+                      textStyle: Theme.of(context).textTheme.bodyMedium!,
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
-                    child: Text(
-                      match.awayName!,
-                      textAlign: TextAlign.center,
+                    child: CustomTextButton(
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TeamDetailPage(teamId: match.awayId!),
+                        ),
+                      ),
+                      text: match.awayName!,
+                      textStyle: Theme.of(context).textTheme.bodyMedium!,
                     ),
                   ),
                 ],

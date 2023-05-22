@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: assetsPadding / 4,
             ),
-            CustomContainer(child: MatchesWidget(matches: value)),
+            CustomContainerWithOutPadding(child: MatchesWidget(matches: value)),
             SizedBox(
               height: assetsPadding,
             ),

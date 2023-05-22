@@ -20,7 +20,7 @@ class API {
     if (response.statusCode == 200) {
       return response;
     } else {
-      throw Exception('Failed to get leagues');
+      throw Exception('Api Failed');
     }
   }
 }

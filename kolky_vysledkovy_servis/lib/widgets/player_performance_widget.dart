@@ -83,27 +83,31 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            TextButton(
+            CustomTextButton(
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PlayerDetailPage(
                         player: widget.homeLineUp.player,
                       ))),
-              child: Text(
-                "${widget.homeLineUp.player.firstName} ${widget.homeLineUp.player.lastName}",
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.right,
-              ),
+              text:
+                  "${widget.homeLineUp.player.firstName} ${widget.homeLineUp.player.lastName}",
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.underline),
+              textAlign: TextAlign.right,
             ),
-            TextButton(
+            CustomTextButton(
               onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PlayerDetailPage(
                         player: widget.awayLineUp.player,
                       ))),
-              child: Text(
-                "${widget.awayLineUp.player.firstName} ${widget.awayLineUp.player.lastName}",
-                style: Theme.of(context).textTheme.labelLarge,
-                textAlign: TextAlign.right,
-              ),
+              text:
+                  "${widget.awayLineUp.player.firstName} ${widget.awayLineUp.player.lastName}",
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.underline),
+              textAlign: TextAlign.right,
             ),
           ],
         ),

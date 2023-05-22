@@ -7,7 +7,7 @@ import 'sprint.dart';
 import 'status.dart';
 import 'substitution.dart';
 import 'team.dart';
-import 'teamresult.dart';
+import 'team_result.dart';
 
 MatchDetail matchDetailFromJson(String str) =>
     MatchDetail.fromJson(json.decode(str));

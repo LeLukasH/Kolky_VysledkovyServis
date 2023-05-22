@@ -37,8 +37,8 @@ class _CommentWidgetState extends State<CommentWidget> {
             widget.text,
             style: Theme.of(context).textTheme.bodyMedium,
           )
-        : InkWell(
-            onTap: () {
+        : TextButton(
+            onPressed: () {
               setState(() {
                 flag = !flag;
               });
@@ -58,7 +58,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!
-                          .apply(color: primaryColor),
+                          .apply(color: primaryColor)
+                          .apply(decoration: TextDecoration.underline),
                     ),
                     Icon(
                         flag

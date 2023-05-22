@@ -56,7 +56,7 @@ class LeagueDetail {
   List<int> countryIds;
   dynamic playoff;
   Admin? admin;
-  Season season;
+  Season? season;
   Country? country;
   Country? secondCountry;
   List<Team>? teams;
@@ -83,7 +83,7 @@ class LeagueDetail {
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
         playoff: json["playoff"],
         admin: json["admin"] != null ? Admin.fromJson(json["admin"]) : null,
-        season: Season.fromJson(json["season"]),
+        season: json["season"] != null ? Season.fromJson(json["season"]) : null,
         country:
             json["country"] != null ? Country.fromJson(json["country"]) : null,
         secondCountry: json["secondCountry"] != null
@@ -92,7 +92,11 @@ class LeagueDetail {
         teams: json["teams"] != null
             ? List<Team>.from(json["teams"].map((x) => Team.fromJson(x)))
             : null,
-        tables: List<dynamic>.from(json["tables"].map((x) => x)),
-        averages: List<dynamic>.from(json["averages"].map((x) => x)),
+        tables: json["tables"] != null
+            ? List<dynamic>.from(json["tables"].map((x) => x))
+            : null,
+        averages: json["averages"] != null
+            ? List<dynamic>.from(json["averages"].map((x) => x))
+            : null,
       );
 }

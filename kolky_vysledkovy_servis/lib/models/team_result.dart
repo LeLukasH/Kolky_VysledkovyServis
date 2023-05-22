@@ -42,7 +42,7 @@ class TeamResult {
   int total;
   int faults;
   num setPoints;
-  int teamPoints;
+  num teamPoints;
   int tablePoints;
 
   factory TeamResult.fromJson(Map<String, dynamic> json) => TeamResult(

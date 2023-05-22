@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
 import '../models/tournament_detail.dart';
+import '../screens/player_detail_page.dart';
+import 'other_widgets.dart';
 
 class TournamentGroupResultsWidget extends StatelessWidget {
   final List<GroupResult> groupResults;
@@ -62,15 +65,20 @@ class OneTournamentGroupResult extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "${groupResult.player!.firstName} ${groupResult.player!.lastName}",
-                    textAlign: TextAlign.start,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                  CustomTextButton(
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PlayerDetailPage(
+                                    player: groupResult.player!,
+                                  ))),
+                      text:
+                          "${groupResult.player!.firstName} ${groupResult.player!.lastName}",
+                      textAlign: TextAlign.start,
+                      textStyle: Theme.of(context).textTheme.titleSmall!),
                   Text(
                     groupResult.club!.name,
                     textAlign: TextAlign.start,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!,
                   ),
                 ],
               ),

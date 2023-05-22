@@ -39,6 +39,7 @@ class CustomContainerWithOutPadding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.4),
@@ -125,6 +126,36 @@ class CustomBoxHorizontal extends StatelessWidget {
           text,
           style: style,
         ),
+      ),
+    );
+  }
+}
+
+class CustomTextButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String text;
+  final TextStyle textStyle;
+  final TextAlign textAlign;
+
+  const CustomTextButton(
+      {super.key,
+      required this.onPressed,
+      required this.textStyle,
+      required this.text,
+      this.textAlign = TextAlign.center});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: EdgeInsets.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+      child: Text(
+        text,
+        textAlign: textAlign,
+        style: textStyle.apply(decoration: TextDecoration.underline),
       ),
     );
   }

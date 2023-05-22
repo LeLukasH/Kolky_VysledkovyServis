@@ -17,7 +17,7 @@ export 'models/league_detail.dart';
 export 'models/match_detail.dart';
 export 'models/referee.dart';
 export 'models/substitution.dart';
-export 'models/teamresult.dart';
+export 'models/team_result.dart';
 export 'models/status.dart';
 export 'models/sprint.dart';
 export 'models/tournament.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
 
 import '../assets/colors.dart';
 import '../assets/converters.dart';
@@ -6,13 +7,14 @@ import '../assets/other_assets.dart';
 import '../models/match.dart';
 import '../models/status.dart';
 import '../screens/match_detail_page.dart';
+import 'other_widgets.dart';
 
 class MatchesWidget extends StatelessWidget {
   const MatchesWidget({super.key, required this.matches});
 
   final List<Match> matches;
 
-  final double dividerHeight = 10.0;
+  final double dividerHeight = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -57,11 +59,15 @@ class MatchWidget extends StatelessWidget {
             SizedBox(
               width: logoPadding * logoScaleRatio,
             ),
-            Text(
-              match.homeName!.length < teamNameLimit
+            CustomTextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TeamDetailPage(
+                        teamId: match.homeId!,
+                      ))),
+              text: match.homeName!.length < teamNameLimit
                   ? match.homeName!
                   : "${match.homeName!.substring(0, teamNameLimit)}...",
-              style: Theme.of(context).textTheme.labelMedium,
+              textStyle: Theme.of(context).textTheme.labelMedium!,
             ),
           ],
         ),
@@ -74,12 +80,16 @@ class MatchWidget extends StatelessWidget {
             SizedBox(
               width: logoPadding * logoScaleRatio,
             ),
-            Text(
-              match.awayName!.length < teamNameLimit
+            CustomTextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => TeamDetailPage(
+                        teamId: match.awayId!,
+                      ))),
+              textStyle: Theme.of(context).textTheme.labelMedium!,
+              text: match.awayName!.length < teamNameLimit
                   ? match.awayName!
                   : "${match.awayName!.substring(0, teamNameLimit)}...",
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
+            )
           ],
         ),
       ],
@@ -153,8 +163,8 @@ class MatchWidget extends StatelessWidget {
       right = Container();
     }
 
-    return InkWell(
-      onTap: () => Navigator.of(context).push(
+    return TextButton(
+      onPressed: () => Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => MatchDetailPage(match: match),
         ),

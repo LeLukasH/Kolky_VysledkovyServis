@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../assets/other_assets.dart';
+import '../screens/player_detail_page.dart';
 import 'other_widgets.dart';
 import '../models/sprint.dart';
 
@@ -74,14 +75,30 @@ class OneSprintPerformanceWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "${homeSprint.player!.firstName} ${homeSprint.player!.lastName}",
-              style: Theme.of(context).textTheme.labelLarge,
+            CustomTextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PlayerDetailPage(
+                        player: homeSprint.player!,
+                      ))),
+              text:
+                  "${homeSprint.player!.firstName} ${homeSprint.player!.lastName}",
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.underline),
               textAlign: TextAlign.right,
             ),
-            Text(
-              "${awaySprint.player!.firstName} ${awaySprint.player!.lastName}",
-              style: Theme.of(context).textTheme.labelLarge,
+            CustomTextButton(
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PlayerDetailPage(
+                        player: awaySprint.player!,
+                      ))),
+              text:
+                  "${awaySprint.player!.firstName} ${awaySprint.player!.lastName}",
+              textStyle: Theme.of(context)
+                  .textTheme
+                  .labelLarge!
+                  .apply(decoration: TextDecoration.underline),
               textAlign: TextAlign.right,
             ),
           ],
