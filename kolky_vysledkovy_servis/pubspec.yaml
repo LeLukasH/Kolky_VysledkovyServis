@@ -45,6 +45,8 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   unicons: ^2.1.0
   syncfusion_flutter_charts: ^21.2.4
+  flutter_local_notifications: ^14.1.1
+  
 
 
 

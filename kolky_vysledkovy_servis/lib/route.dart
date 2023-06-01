@@ -15,7 +15,7 @@ class RouteGenerator {
         return platformPageRoute(
             builder: (_) =>
                 MatchDetailPage(match: routeSettings.arguments as Match));
-      case '/match/detail':
+      case '/league/detail':
         return platformPageRoute(
             builder: (_) =>
                 MatchDetailPage(match: routeSettings.arguments as Match));

@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../notifications.dart';
 import '../assets/colors.dart';
 import '../assets/converters.dart';
 import '../assets/other_assets.dart';
@@ -22,11 +26,58 @@ class _HomePageState extends State<HomePage> {
   DateTime selectedDate = DateTime.now();
   late CalendarAgendaController controller;
 
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  Timer? _timerMinute;
+  Timer? _timerDay;
+  late List<Match> todayMatches;
+
   @override
   void initState() {
     super.initState();
     selectedDate = DateTime.now();
     controller = CalendarAgendaController();
+    NotificationController.initializeNotifications(
+        flutterLocalNotificationsPlugin);
+    _timerMinute = Timer.periodic(const Duration(minutes: 1), (timer) {
+      checkMatchesStatus();
+    });
+    getTodayMatches();
+    _timerDay = Timer.periodic(const Duration(hours: 12), (timer) {
+      getTodayMatches();
+    });
+  }
+
+  void checkMatchesStatus() async {
+    final DateTime now = DateTime.now();
+
+    final DateTime example = DateTime(2023, 6, 4, 12, 29, 30);
+
+    DateTime time = now;
+    time = time.subtract(time.timeZoneOffset);
+    for (final Match match in todayMatches) {
+      int diff = match.startDate.difference(time).inMinutes;
+      if (diff == 0) {
+        NotificationController.showMatchNotification(
+            flutterLocalNotificationsPlugin, match);
+      }
+    }
+  }
+
+  void getTodayMatches() async {
+    final DateTime now = DateTime.now();
+    final DateTime example = DateTime(2023, 6, 4, 17, 30);
+
+    final DateTime time = now;
+
+    todayMatches = await dao.getMatchesByDate(time);
+  }
+
+  @override
+  void dispose() {
+    _timerMinute?.cancel();
+    _timerDay?.cancel();
+    super.dispose();
   }
 
   @override
