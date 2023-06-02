@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/models/player_results.dart';
 
 import 'api.dart';
@@ -15,6 +14,7 @@ import 'models/season.dart';
 import 'models/match.dart';
 import 'models/table_of_round.dart';
 import 'models/team.dart';
+import 'models/team_result.dart';
 import 'models/tournament.dart';
 import 'models/tournament_detail.dart';
 

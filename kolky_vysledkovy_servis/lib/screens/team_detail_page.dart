@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/assets/colors.dart';
+import 'package:kolky_vysledkovy_servis/models/team_result.dart';
 import 'package:kolky_vysledkovy_servis/widgets/other_widgets.dart';
 
 import '../assets/other_assets.dart';
 import '../models/team.dart';
-import '../models/team_result.dart';
 
 class TeamDetailPage extends StatelessWidget {
   final int teamId;

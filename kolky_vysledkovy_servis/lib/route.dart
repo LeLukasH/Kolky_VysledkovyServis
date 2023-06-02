@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/all_models.dart';
 import 'package:kolky_vysledkovy_servis/screens/archive_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/full_league_best_results_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/full_league_individuals_page.dart';
@@ -14,6 +13,7 @@ import 'package:kolky_vysledkovy_servis/screens/player_detail_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/tournament_page.dart';
 import 'models/match.dart';
+import 'models/player.dart';
 
 class RouteGenerator {
   static Route<dynamic>? generateRoute(RouteSettings routeSettings) {
