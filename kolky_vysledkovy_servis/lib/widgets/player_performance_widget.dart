@@ -84,10 +84,10 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlayerDetailPage(
-                        player: widget.homeLineUp.player,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/player/detail',
+                arguments: widget.homeLineUp.player,
+              ),
               text:
                   "${widget.homeLineUp.player.firstName} ${widget.homeLineUp.player.lastName}",
               textStyle: Theme.of(context)
@@ -97,10 +97,10 @@ class OnePlayerPerformanceState extends State<OnePlayerPerformance> {
               textAlign: TextAlign.right,
             ),
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlayerDetailPage(
-                        player: widget.awayLineUp.player,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/player/detail',
+                arguments: widget.awayLineUp.player,
+              ),
               text:
                   "${widget.awayLineUp.player.firstName} ${widget.awayLineUp.player.lastName}",
               textStyle: Theme.of(context)

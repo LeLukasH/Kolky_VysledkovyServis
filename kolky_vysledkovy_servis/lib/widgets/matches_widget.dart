@@ -60,10 +60,10 @@ class MatchWidget extends StatelessWidget {
               width: logoPadding * logoScaleRatio,
             ),
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TeamDetailPage(
-                        teamId: match.homeId!,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/team/detail',
+                arguments: match.homeId,
+              ),
               text: match.homeName!.length < teamNameLimit
                   ? match.homeName!
                   : "${match.homeName!.substring(0, teamNameLimit)}...",
@@ -81,10 +81,10 @@ class MatchWidget extends StatelessWidget {
               width: logoPadding * logoScaleRatio,
             ),
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TeamDetailPage(
-                        teamId: match.awayId!,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/team/detail',
+                arguments: match.awayId,
+              ),
               textStyle: Theme.of(context).textTheme.labelMedium!,
               text: match.awayName!.length < teamNameLimit
                   ? match.awayName!
@@ -164,10 +164,9 @@ class MatchWidget extends StatelessWidget {
     }
 
     return TextButton(
-      onPressed: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => MatchDetailPage(match: match),
-        ),
+      onPressed: () => Navigator.of(context).pushNamed(
+        '/match/detail',
+        arguments: match,
       ),
       child: SizedBox(
         height: boxHeight,

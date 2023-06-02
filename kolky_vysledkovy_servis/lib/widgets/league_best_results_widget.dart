@@ -33,8 +33,10 @@ class _BestResultsChooserState extends State<BestResultsChooser> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(top: assetsPadding / 2),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      padding: EdgeInsets.only(top: assetsPadding / 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -65,36 +67,39 @@ class _BestResultsChooserState extends State<BestResultsChooser> {
                         });
                       })),
                   IconButton(
-                      icon: const Icon(Icons.exit_to_app_outlined),
-                      color: secondaryColor,
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FullBestResultsPage(
-                              leagueId: widget.leagueId,
-                              round: widget.round,
-                            ),
-                          )))
+                    icon: const Icon(Icons.exit_to_app_outlined),
+                    color: secondaryColor,
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      '/tables/best_results',
+                      arguments: Map()
+                        ..putIfAbsent('leagueId', () => widget.leagueId)
+                        ..putIfAbsent('round', () => widget.round),
+                    ),
+                  )
                 ],
               )
             ],
           ),
           CustomContainerWithOutPadding(
-              child: FutureBuilder(
-            future: dao.getBestResults(
-                widget.leagueId, widget.round, type, tableType),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return BestResultsWidget(
-                  bestResults: snapshot.requireData,
-                  type: type,
-                );
-              } else if (snapshot.hasError) {
-                return const Text("Error");
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          ))
-        ]));
+            child: FutureBuilder(
+              future: dao.getBestResults(
+                  widget.leagueId, widget.round, type, tableType),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return BestResultsWidget(
+                    bestResults: snapshot.requireData,
+                    type: type,
+                  );
+                } else if (snapshot.hasError) {
+                  return const Text("Error");
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 

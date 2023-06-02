@@ -66,11 +66,10 @@ class OneTournamentGroupResult extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextButton(
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PlayerDetailPage(
-                                    player: groupResult.player!,
-                                  ))),
+                      onPressed: () => Navigator.of(context).pushNamed(
+                            '/player/detail',
+                            arguments: groupResult.player,
+                          ),
                       text:
                           "${groupResult.player!.firstName} ${groupResult.player!.lastName}",
                       textAlign: TextAlign.start,

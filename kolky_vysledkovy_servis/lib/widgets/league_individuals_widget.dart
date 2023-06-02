@@ -33,15 +33,15 @@ class _LeagueIndividualsChooserState extends State<LeagueIndividualsChooser> {
               Row(
                 children: [
                   IconButton(
-                      icon: const Icon(Icons.exit_to_app_outlined),
-                      color: secondaryColor,
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FullLeagueIndividualsPage(
-                              leagueId: widget.leagueId,
-                              round: widget.round,
-                            ),
-                          )))
+                    icon: const Icon(Icons.exit_to_app_outlined),
+                    color: secondaryColor,
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      '/tables/individuals',
+                      arguments: Map()
+                        ..putIfAbsent('leagueId', () => widget.leagueId)
+                        ..putIfAbsent('round', () => widget.round),
+                    ),
+                  )
                 ],
               )
             ],

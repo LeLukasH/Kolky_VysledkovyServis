@@ -47,15 +47,15 @@ class _LeagueTableChooserState extends State<LeagueTableChooser> {
                         });
                       })),
                   IconButton(
-                      icon: const Icon(Icons.exit_to_app_outlined),
-                      color: secondaryColor,
-                      onPressed: () =>
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => FullLeagueTablePage(
-                              leagueId: widget.leagueId,
-                              round: widget.round,
-                            ),
-                          )))
+                    icon: const Icon(Icons.exit_to_app_outlined),
+                    color: secondaryColor,
+                    onPressed: () => Navigator.of(context).pushNamed(
+                      '/tables/table',
+                      arguments: Map()
+                        ..putIfAbsent('leagueId', () => widget.leagueId)
+                        ..putIfAbsent('round', () => widget.round),
+                    ),
+                  )
                 ],
               )
             ],

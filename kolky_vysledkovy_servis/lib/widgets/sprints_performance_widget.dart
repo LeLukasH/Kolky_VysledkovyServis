@@ -76,10 +76,10 @@ class OneSprintPerformanceWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlayerDetailPage(
-                        player: homeSprint.player!,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/player/detail',
+                arguments: homeSprint.player,
+              ),
               text:
                   "${homeSprint.player!.firstName} ${homeSprint.player!.lastName}",
               textStyle: Theme.of(context)
@@ -89,10 +89,10 @@ class OneSprintPerformanceWidget extends StatelessWidget {
               textAlign: TextAlign.right,
             ),
             CustomTextButton(
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PlayerDetailPage(
-                        player: awaySprint.player!,
-                      ))),
+              onPressed: () => Navigator.of(context).pushNamed(
+                '/player/detail',
+                arguments: awaySprint.player,
+              ),
               text:
                   "${awaySprint.player!.firstName} ${awaySprint.player!.lastName}",
               textStyle: Theme.of(context)

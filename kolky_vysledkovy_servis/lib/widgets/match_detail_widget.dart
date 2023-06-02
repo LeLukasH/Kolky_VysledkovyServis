@@ -72,11 +72,9 @@ class MatchDetailWidget extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
                     child: CustomTextButton(
-                      onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TeamDetailPage(teamId: match.homeId!),
-                        ),
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        '/team/detail',
+                        arguments: match.homeId,
                       ),
                       text: match.homeName!,
                       textStyle: Theme.of(context).textTheme.bodyMedium!,
@@ -85,11 +83,9 @@ class MatchDetailWidget extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * ratio,
                     child: CustomTextButton(
-                      onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TeamDetailPage(teamId: match.awayId!),
-                        ),
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        '/team/detail',
+                        arguments: match.awayId,
                       ),
                       text: match.awayName!,
                       textStyle: Theme.of(context).textTheme.bodyMedium!,

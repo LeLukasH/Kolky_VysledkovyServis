@@ -106,6 +106,7 @@ class DAO {
       "tableType": tableType
     };
     var response = await _api.send('league/bestResults', body: body);
+    print(response.body);
     var bestResultsJson = json.decode(response.body) as List;
     return bestResultsJson
         .map((bestResultJson) => BestResult.fromJson(bestResultJson))

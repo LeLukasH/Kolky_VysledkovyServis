@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
-import '../screens/player_detail_page.dart';
 import 'other_widgets.dart';
 import '../models/tournament_detail.dart';
 import 'lanes_widget.dart';
@@ -74,10 +73,10 @@ class OneTournamentResultState extends State<OneTournamentResult> {
                 ),
               ),
               CustomTextButton(
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PlayerDetailPage(
-                          player: widget.result.player!,
-                        ))),
+                onPressed: () => Navigator.of(context).pushNamed(
+                  '/player/detail',
+                  arguments: widget.result.player,
+                ),
                 text:
                     "${widget.result.player!.firstName} ${widget.result.player!.lastName}",
                 textAlign: TextAlign.start,

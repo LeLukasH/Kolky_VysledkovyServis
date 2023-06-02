@@ -24,11 +24,13 @@ class MatchDetailPage extends StatelessWidget {
           actions: [
             TextButton(
                 style: const ButtonStyle(alignment: Alignment.center),
-                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => LeaguePage(
-                          leagueId: match.leagueId!,
-                          initialIndex: convertRoundToOrder(match.round) - 1,
-                        ))),
+                onPressed: () => Navigator.of(context).pushNamed(
+                      '/league/detail',
+                      arguments: Map()
+                        ..putIfAbsent('leagueId', () => match.leagueId!)
+                        ..putIfAbsent('initialIndex',
+                            () => convertRoundToOrder(match.round) - 1),
+                    ),
                 child: Padding(
                   padding: EdgeInsets.only(right: assetsPadding),
                   child: Text(
