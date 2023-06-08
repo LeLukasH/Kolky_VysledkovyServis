@@ -38,7 +38,6 @@ class League {
     required this.defaultTables,
     required this.categoryId,
     required this.created,
-    this.modified,
     required this.seasonId,
     required this.countryIds,
     required this.category,
@@ -53,12 +52,11 @@ class League {
   int sprintPlayerCount;
   String scoring;
   dynamic note;
-  bool active;
-  bool defaultAverages;
-  bool defaultTables;
+  dynamic active;
+  dynamic defaultAverages;
+  dynamic defaultTables;
   int categoryId;
   DateTime created;
-  dynamic modified;
   int seasonId;
   List<int> countryIds;
   Category? category;
@@ -78,12 +76,12 @@ class League {
         defaultTables: json["defaultTables"],
         categoryId: json["categoryId"],
         created: DateTime.parse(json["created"]),
-        modified:
-            json["modified"] == null ? null : DateTime.parse(json["modified"]),
         seasonId: json["seasonId"],
         countryIds: List<int>.from(json["countryIds"].map((x) => x)),
         category: json["category"] != null
-            ? Category.fromJson(json["category"])
+            ? Category.fromJson(json["category"] is String
+                ? jsonDecode(json["category"])
+                : json["category"])
             : null,
       );
 
@@ -102,9 +100,72 @@ class League {
         "defaultTables": defaultTables,
         "categoryId": categoryId,
         "created": created.toIso8601String(),
-        "modified": modified.toIso8601String(),
         "seasonId": seasonId,
         "countryIds": List<dynamic>.from(countryIds.map((x) => x)),
-        "category": category!.toJson(),
+        "category": category != null ? jsonEncode(category!.toJson()) : null,
       };
+}
+
+class LeagueFields {
+  static const String tableLeague = 'leagues';
+
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String playerCount = 'playerCount';
+  static const String playerSumCount = 'playerSumCount';
+  static const String throwCount = 'throwCount';
+  static const String lanesCount = 'lanesCount';
+  static const String sprintPlayerCount = 'sprintPlayerCount';
+  static const String scoring = 'scoring';
+  static const String note = 'note';
+  static const String active = 'active';
+  static const String defaultAverages = 'defaultAverages';
+  static const String defaultTables = 'defaultTables';
+  static const String categoryId = 'categoryId';
+  static const String created = 'created';
+  static const String seasonId = 'seasonId';
+  static const String countryIds = 'countryIds';
+  static const String category = 'category';
+
+  static const List<String> values = [
+    id,
+    name,
+    playerCount,
+    playerSumCount,
+    throwCount,
+    lanesCount,
+    sprintPlayerCount,
+    scoring,
+    note,
+    active,
+    defaultAverages,
+    defaultTables,
+    categoryId,
+    created,
+    seasonId,
+    countryIds,
+    category,
+  ];
+
+  static String createTableQuery = '''
+      CREATE TABLE $tableLeague (
+        $id INTEGER PRIMARY KEY,
+        $name TEXT,
+        $playerCount INTEGER,
+        $playerSumCount INTEGER,
+        $throwCount INTEGER,
+        $lanesCount INTEGER,
+        $sprintPlayerCount INTEGER,
+        $scoring TEXT,
+        $note TEXT,
+        $active INTEGER,
+        $defaultAverages INTEGER,
+        $defaultTables INTEGER,
+        $categoryId INTEGER,
+        $created TEXT,
+        $seasonId INTEGER,
+        $countryIds TEXT,
+        $category TEXT
+      )
+    ''';
 }

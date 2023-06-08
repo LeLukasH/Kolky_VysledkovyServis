@@ -10,7 +10,7 @@ import '../widgets/player_performance_widget.dart';
 import '../widgets/sprints_performance_widget.dart';
 import '../widgets/ytb_player_widget.dart';
 import '../models/match.dart';
-import 'league_page.dart';
+import 'league_detail_page.dart';
 
 class MatchDetailPage extends StatelessWidget {
   final Match match;

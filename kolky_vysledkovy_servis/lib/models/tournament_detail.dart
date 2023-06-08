@@ -5,7 +5,7 @@ import 'club.dart';
 import 'hall.dart';
 import 'lane.dart';
 
-TournamentDetail? tournamentDetailFromJson(String str) =>
+TournamentDetail tournamentDetailFromJson(String str) =>
     TournamentDetail.fromJson(json.decode(str));
 
 String tournamentDetailToJson(TournamentDetail? data) =>

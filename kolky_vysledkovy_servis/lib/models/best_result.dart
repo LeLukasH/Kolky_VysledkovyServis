@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-List<BestResult?>? bestResultFromJson(String str) => json.decode(str) == null
+List<BestResult> bestResultFromJson(String str) => json.decode(str) == null
     ? []
-    : List<BestResult?>.from(
+    : List<BestResult>.from(
         json.decode(str)!.map((x) => BestResult.fromJson(x)));
 
 String bestResultToJson(List<BestResult?>? data) => json.encode(

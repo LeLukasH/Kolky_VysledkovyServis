@@ -5,32 +5,24 @@ import 'package:unicons/unicons.dart';
 
 import '../models/league.dart';
 import '../models/tournament.dart';
-import '../screens/archive_page.dart';
 
-// ignore: must_be_immutable
 class NavigationDrawer extends StatelessWidget {
-  NavigationDrawer({Key? key}) : super(key: key);
+  const NavigationDrawer({Key? key}) : super(key: key);
 
   final double _leftPadding = 20.0;
 
-  int lastSeasonId = -1;
-
   Future<int> getLastSeasonId() async {
-    if (lastSeasonId == -1) {
-      var seasons = await dao.getSeasons();
-      lastSeasonId = seasons.first.id;
-    }
+    var seasons = await dao.getSeasons();
+    var lastSeasonId = seasons.first.id;
     return lastSeasonId;
   }
 
-  Future<List<League>> getListOfLeagues() async {
-    int lastSeasonId = await getLastSeasonId();
+  Future<List<League>> getListOfLeagues(int lastSeasonId) async {
     var leagues = await dao.getLeagues(lastSeasonId);
     return leagues;
   }
 
-  Future<List<Tournament>> getListOfTournaments() async {
-    int lastSeasonId = await getLastSeasonId();
+  Future<List<Tournament>> getListOfTournaments(int lastSeasonId) async {
     var tournaments = await dao.getTournaments(
         ["tournamentGroup", "tournamentGroup.parentTournamentGroup"],
         lastSeasonId);
@@ -60,7 +52,7 @@ class NavigationDrawer extends StatelessWidget {
       ));
 
   Widget buildMenuItems(BuildContext context) {
-    return Container(
+    return Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
@@ -69,59 +61,79 @@ class NavigationDrawer extends StatelessWidget {
                 title: const Text('Domov'),
                 onTap: () => Navigator.pop(context)),
             FutureBuilder(
-              future: getListOfLeagues(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ExpansionTile(
-                      leading: const Icon(UniconsLine.bowling_ball),
-                      title: const Text('Ligy'),
-                      children: snapshot.requireData.isNotEmpty
-                          ? getLeagueTiles(
-                              context,
-                              snapshot.requireData,
-                            )
-                          : [
-                              Padding(
-                                padding: EdgeInsets.all(_leftPadding),
-                                child: const Text('V tejto sezóne nie sú...'),
-                              )
-                            ]);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return const ExpansionTile(
-                    leading: Icon(UniconsLine.bowling_ball),
-                    title: Text('Ligy'),
-                    children: [Center(child: CircularProgressIndicator())]);
-              },
-            ),
-            FutureBuilder(
-              future: getListOfTournaments(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ExpansionTile(
-                      leading: const Icon(UniconsLine.trophy),
-                      title: const Text('Turnaje'),
-                      children: snapshot.requireData.isNotEmpty
-                          ? getTournamentTiles(
-                              context,
-                              snapshot.requireData,
-                            )
-                          : [
-                              Padding(
-                                padding: EdgeInsets.all(_leftPadding),
-                                child: const Text('V tejto sezóne nie sú...'),
-                              )
-                            ]);
-                } else if (snapshot.hasError) {
-                  return Text("${snapshot.error}");
-                }
-                return const ExpansionTile(
-                    leading: Icon(UniconsLine.trophy),
-                    title: Text('Turnaje'),
-                    children: [Center(child: CircularProgressIndicator())]);
-              },
-            ),
+                future: getLastSeasonId(),
+                builder: (context, snapshotId) {
+                  if (snapshotId.hasData) {
+                    return Column(
+                      children: [
+                        FutureBuilder(
+                          future: getListOfLeagues(snapshotId.requireData),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ExpansionTile(
+                                  leading: const Icon(UniconsLine.bowling_ball),
+                                  title: const Text('Ligy'),
+                                  children: snapshot.requireData.isNotEmpty
+                                      ? getLeagueTiles(
+                                          context,
+                                          snapshot.requireData,
+                                        )
+                                      : [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.all(_leftPadding),
+                                            child: const Text(
+                                                'V tejto sezóne nie sú...'),
+                                          )
+                                        ]);
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return const ExpansionTile(
+                                leading: Icon(UniconsLine.bowling_ball),
+                                title: Text('Ligy'),
+                                children: [
+                                  Center(child: CircularProgressIndicator())
+                                ]);
+                          },
+                        ),
+                        FutureBuilder(
+                          future: getListOfTournaments(snapshotId.requireData),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ExpansionTile(
+                                  leading: const Icon(UniconsLine.trophy),
+                                  title: const Text('Turnaje'),
+                                  children: snapshot.requireData.isNotEmpty
+                                      ? getTournamentTiles(
+                                          context,
+                                          snapshot.requireData,
+                                        )
+                                      : [
+                                          Padding(
+                                            padding:
+                                                EdgeInsets.all(_leftPadding),
+                                            child: const Text(
+                                                'V tejto sezóne nie sú...'),
+                                          )
+                                        ]);
+                            } else if (snapshot.hasError) {
+                              return Text("${snapshot.error}");
+                            }
+                            return const ExpansionTile(
+                                leading: Icon(UniconsLine.trophy),
+                                title: Text('Turnaje'),
+                                children: [
+                                  Center(child: CircularProgressIndicator())
+                                ]);
+                          },
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
             ListTile(
               leading: const Icon(Icons.history_outlined),
               title: const Text('Archív'),
@@ -131,8 +143,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             ListTile(
                 leading: const Icon(Icons.settings_outlined),
-                title: const Text('Ostatné'),
-                onTap: () => {})
+                title: const Text('Nastavenia'),
+                onTap: () => Navigator.of(context).pushNamed('/settings'))
           ],
         ));
   }

@@ -58,51 +58,136 @@ class MatchDetail {
   List<Sprint>? sprints;
 
   factory MatchDetail.fromJson(Map<String, dynamic> json) => MatchDetail(
-        id: json["id"],
-        created: DateTime.parse(json["created"]),
-        startDate: DateTime.parse(json["startDate"]),
-        endDate:
-            json["endDate"] != null ? DateTime.parse(json["endDate"]) : null,
-        status: statusValues.map[json["status"]],
-        round: json["round"],
-        hallId: json["hallId"],
-        homeTeam: Team.fromJson(json["homeTeam"]),
-        awayTeam: Team.fromJson(json["awayTeam"]),
-        referee:
-            json["referee"] != null ? Referee.fromJson(json["referee"]) : null,
-        secondReferee: json["secondReferee"],
-        league: League.fromJson(json["league"]),
-        videoUrl: json["videoUrl"],
-        description: json["description"],
-        note: json["note"],
-        substitutions: List<Substitution>.from(
-            json["substitutions"].map((x) => Substitution.fromJson(x))),
-        lineUp: LineUps.fromJson(json["lineUp"]),
-        teamResult: TeamsResults.fromJson(json["teamResult"]),
-        sprints:
-            List<Sprint>.from(json["sprints"].map((x) => Sprint.fromJson(x))),
-      );
+      id: json["id"],
+      created: DateTime.parse(json["created"]),
+      startDate: DateTime.parse(json["startDate"]),
+      endDate: json["endDate"] != null ? DateTime.parse(json["endDate"]) : null,
+      status: statusValues.map[json["status"]],
+      round: json["round"],
+      hallId: json["hallId"],
+      homeTeam: Team.fromJson(json["homeTeam"] is String
+          ? jsonDecode(json["homeTeam"])
+          : json["homeTeam"]),
+      awayTeam: Team.fromJson(json["awayTeam"] is String
+          ? jsonDecode(json["awayTeam"])
+          : json["awayTeam"]),
+      referee: Referee.fromJson(json["referee"] is String
+          ? jsonDecode(json["referee"])
+          : json["referee"]),
+      secondReferee: json["secondReferee"] != null
+          ? Referee.fromJson(json["secondReferee"] is String
+              ? jsonDecode(json["secondReferee"])
+              : json["secondReferee"])
+          : null,
+      league: League.fromJson(json["league"] is String
+          ? jsonDecode(json["league"])
+          : json["league"]),
+      videoUrl: json["videoUrl"],
+      description: json["description"],
+      note: json["note"],
+      substitutions: List<Substitution>.from((json["substitutions"] is String
+              ? jsonDecode(json["substitutions"])
+              : json["substitutions"])
+          .map((x) => Substitution.fromJson(x))),
+      lineUp: LineUps.fromJson(json["lineUp"] is String
+          ? jsonDecode(json["lineUp"])
+          : json["lineUp"]),
+      teamResult: TeamsResults.fromJson(json["teamResult"] is String
+          ? jsonDecode(json["teamResult"])
+          : json["teamResult"]),
+      sprints: List<Sprint>.from((json["sprints"] is String ? jsonDecode(json["sprints"]) : json["sprints"]).map((x) => Sprint.fromJson(x))));
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "created": created.toIso8601String(),
         "startDate": startDate.toIso8601String(),
-        "endDate": endDate!.toIso8601String(),
-        "status": status,
+        "endDate": endDate != null ? endDate?.toIso8601String() : null,
+        "status": statusValues.reverse[status],
         "round": round,
         "hallId": hallId,
-        "homeTeam": homeTeam.toJson(),
-        "awayTeam": awayTeam.toJson(),
-        "referee": referee!.toJson(),
-        "secondReferee": secondReferee,
-        "league": league.toJson(),
+        "homeTeam": jsonEncode(homeTeam.toJson()),
+        "awayTeam": jsonEncode(awayTeam.toJson()),
+        "referee": jsonEncode(referee!.toJson()),
+        "secondReferee":
+            secondReferee != null ? jsonEncode(secondReferee!.toJson()) : null,
+        "league": jsonEncode(league.toJson()),
         "videoUrl": videoUrl,
         "description": description,
         "note": note,
         "substitutions":
-            List<dynamic>.from(substitutions.map((x) => x.toJson())),
-        "lineUp": lineUp.toJson(),
-        "teamResult": teamResult.toJson(),
-        "sprints": List<Sprint>.from(sprints!.map((x) => x)),
+            jsonEncode(substitutions.map((x) => x.toJson()).toList()),
+        "lineUp": jsonEncode(lineUp.toJson()),
+        "teamResult": jsonEncode(teamResult.toJson()),
+        "sprints": jsonEncode(sprints!.map((x) => x.toJson()).toList()),
       };
+}
+
+class MatchDetailFields {
+  static const String tableMatchDetail = 'matchDetails';
+
+  static const String id = 'id';
+  static const String created = 'created';
+  static const String startDate = 'startDate';
+  static const String endDate = 'endDate';
+  static const String status = 'status';
+  static const String round = 'round';
+  static const String hallId = 'hallId';
+  static const String homeTeam = 'homeTeam';
+  static const String awayTeam = 'awayTeam';
+  static const String referee = 'referee';
+  static const String secondReferee = 'secondReferee';
+  static const String league = 'league';
+  static const String videoUrl = 'videoUrl';
+  static const String description = 'description';
+  static const String note = 'note';
+  static const String substitutions = 'substitutions';
+  static const String lineUp = 'lineUp';
+  static const String teamResult = 'teamResult';
+  static const String sprints = 'sprints';
+
+  static const List<String> values = [
+    id,
+    created,
+    startDate,
+    endDate,
+    status,
+    round,
+    hallId,
+    homeTeam,
+    awayTeam,
+    referee,
+    secondReferee,
+    league,
+    videoUrl,
+    description,
+    note,
+    substitutions,
+    lineUp,
+    teamResult,
+    sprints,
+  ];
+
+  static String createTableQuery = '''
+      CREATE TABLE $tableMatchDetail (
+        $id INTEGER PRIMARY KEY,
+        $created TEXT,
+        $startDate TEXT,
+        $endDate TEXT,
+        $status TEXT,
+        $round INTEGER,
+        $hallId INTEGER,
+        $homeTeam TEXT,
+        $awayTeam TEXT,
+        $referee TEXT,
+        $secondReferee TEXT,
+        $league TEXT,
+        $videoUrl TEXT,
+        $description TEXT,
+        $note TEXT,
+        $substitutions TEXT,
+        $lineUp TEXT,
+        $teamResult TEXT,
+        $sprints TEXT
+      )
+    ''';
 }

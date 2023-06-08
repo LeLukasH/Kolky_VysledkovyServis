@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-IndividualResults? individualResultsFromJson(String str) =>
+IndividualResults individualResultsFromJson(String str) =>
     IndividualResults.fromJson(json.decode(str));
 
 String individualResultsToJson(IndividualResults? data) =>

@@ -34,6 +34,7 @@ class ArchivePage extends StatelessWidget {
 
 Future<Map<Season, Tuple>> getLeaguesAndTournaments() async {
   Map<Season, Tuple> map = {};
+
   List<Season> seasons = await dao.getSeasons();
   for (Season season in seasons) {
     List<League> leagues = await dao.getLeagues(season.id);

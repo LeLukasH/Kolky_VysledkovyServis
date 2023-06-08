@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
 
 import '../assets/colors.dart';
 import '../assets/converters.dart';
 import '../assets/other_assets.dart';
 import '../models/match.dart';
 import '../models/status.dart';
-import '../screens/match_detail_page.dart';
 import 'other_widgets.dart';
 
 class MatchesWidget extends StatelessWidget {

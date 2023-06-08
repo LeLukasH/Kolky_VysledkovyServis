@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_settings_screens/flutter_settings_screens.dart';
+import 'package:kolky_vysledkovy_servis/screens/settings_page.dart';
 
 import '../assets/colors.dart';
 import '../assets/converters.dart';
@@ -124,31 +126,41 @@ class LeaguePage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                FutureBuilder(
-                    future: dao.getComment([], leagueId, round),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        String text = snapshot.data!.content;
-                        if (text != "") {
-                          return Padding(
-                              padding: EdgeInsets.only(bottom: assetsPadding),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const NameWidget(
-                                      icon: Icons.comment_outlined,
-                                      name: 'Komentár',
-                                    ),
-                                    CustomContainerWithOutPadding(
-                                      child: CommentWidget(text: text),
-                                    )
-                                  ]));
-                        }
-                        return Container();
-                      } else if (snapshot.hasError) {
-                        return Text("${snapshot.error}");
-                      }
-                      return Container();
+                ValueChangeObserver<bool>(
+                    cacheKey: SettingsPage.keyCommentsEnabled,
+                    defaultValue: true,
+                    builder: (_, commentsEnabled, __) {
+                      return commentsEnabled
+                          ? FutureBuilder(
+                              future: dao.getComment([], leagueId, round),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  String text = snapshot.requireData.content;
+                                  if (text != "") {
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: assetsPadding),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const NameWidget(
+                                                icon: Icons.comment_outlined,
+                                                name: 'Komentár',
+                                              ),
+                                              CustomContainerWithOutPadding(
+                                                child:
+                                                    CommentWidget(text: text),
+                                              )
+                                            ]));
+                                  }
+                                  return Container();
+                                } else if (snapshot.hasError) {
+                                  return Text("${snapshot.error}");
+                                }
+                                return Container();
+                              })
+                          : Container();
                     }),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   const NameWidget(icon: Icons.sports_outlined, name: 'Zápasy'),
@@ -209,15 +221,15 @@ class LeaguePage extends StatelessWidget {
   Future<Map<int, List<Match>>> getMatches() async {
     Map<int, List<Match>> map = {};
     int i = 1;
-    List<Match> matches = await dao.getMatches([leagueId], i);
+    List<Match> matches = await dao.getMatches(leagueId, i);
     if (matches.isEmpty) {
       i = 1000;
-      matches = await dao.getMatches([leagueId], i);
+      matches = await dao.getMatches(leagueId, i);
     }
     while (matches.isNotEmpty) {
       map.putIfAbsent(i, () => matches);
       i++;
-      matches = await dao.getMatches([leagueId], i);
+      matches = await dao.getMatches(leagueId, i);
     }
 
     return map;

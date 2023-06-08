@@ -49,3 +49,28 @@ class Season {
             "${dateTo.year.toString().padLeft(4, '0')}-${dateTo.month.toString().padLeft(2, '0')}-${dateTo.day.toString().padLeft(2, '0')}",
       };
 }
+
+class SeasonFields {
+  static const String tableSeason = 'seasons';
+
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String dateFrom = 'dateFrom';
+  static const String dateTo = 'dateTo';
+
+  static const List<String> values = [
+    id,
+    name,
+    dateFrom,
+    dateTo,
+  ];
+
+  static String createTableQuery = '''
+      CREATE TABLE $tableSeason (
+        $id INTEGER PRIMARY KEY,
+        $name TEXT,
+        $dateFrom TEXT,
+        $dateTo TEXT
+      )
+    ''';
+}

@@ -1,28 +1,26 @@
 import 'dart:convert';
 
-Tournaments? tournamentsFromJson(String str) =>
+Tournaments tournamentsFromJson(String str) =>
     Tournaments.fromJson(json.decode(str));
 
 String tournamentsToJson(Tournaments? data) => json.encode(data!.toJson());
 
 class Tournaments {
   Tournaments({
-    this.list,
+    required this.list,
   });
 
-  final List<Tournament?>? list;
+  final List<Tournament> list;
 
   factory Tournaments.fromJson(Map<String, dynamic> json) => Tournaments(
         list: json["list"] == null
             ? []
-            : List<Tournament?>.from(
+            : List<Tournament>.from(
                 json["list"]!.map((x) => Tournament.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "list": list == null
-            ? []
-            : List<dynamic>.from(list!.map((x) => x!.toJson())),
+        "list": List<dynamic>.from(list.map((x) => x.toJson())),
       };
 }
 

@@ -31,6 +31,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite:
+  path:
   flutter_html: ^3.0.0-alpha.3
 
 
@@ -46,6 +48,7 @@ dependencies:
   unicons: ^2.1.0
   syncfusion_flutter_charts: ^21.2.4
   flutter_local_notifications: ^14.1.1
+  flutter_settings_screens: ^0.3.3-null-safety+2
   
 
 

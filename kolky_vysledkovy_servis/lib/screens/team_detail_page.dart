@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kolky_vysledkovy_servis/assets/colors.dart';
 import 'package:kolky_vysledkovy_servis/models/team_result.dart';
+import 'package:kolky_vysledkovy_servis/widgets/league_table_widget.dart';
 import 'package:kolky_vysledkovy_servis/widgets/other_widgets.dart';
+import 'package:kolky_vysledkovy_servis/widgets/player_detail_widgets.dart';
 
 import '../assets/other_assets.dart';
 import '../models/team.dart';
@@ -88,5 +90,30 @@ class TeamDetailPage extends StatelessWidget {
 
 Widget getTeamPage(
     BuildContext context, Team team, List<TeamResult> teamResults) {
-  return Container();
+  int wins = 0;
+  int losses = 0;
+  int draws = 0;
+  for (TeamResult teamResult in teamResults) {
+    if (teamResult.teamPoints > 4) {
+      wins++;
+    } else if (teamResult.teamPoints < 4) {
+      losses++;
+    } else {
+      draws++;
+    }
+  }
+  return Column(children: [
+    Divider(),
+    CustomContainer(
+      child: Column(
+        children: [
+          TwoValuesRow('Výhry / Remízy / Prehry', "$wins / $draws / $losses"),
+        ],
+      ),
+    ),
+    LeagueTableChooser(
+      leagueId: team.leagueId,
+      round: 0,
+    ),
+  ]);
 }

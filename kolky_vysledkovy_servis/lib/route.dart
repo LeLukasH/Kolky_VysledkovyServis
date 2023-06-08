@@ -7,11 +7,12 @@ import 'package:kolky_vysledkovy_servis/screens/full_league_best_results_page.da
 import 'package:kolky_vysledkovy_servis/screens/full_league_individuals_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/full_league_table_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/homepage.dart';
-import 'package:kolky_vysledkovy_servis/screens/league_page.dart';
+import 'package:kolky_vysledkovy_servis/screens/league_detail_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/match_detail_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/player_detail_page.dart';
+import 'package:kolky_vysledkovy_servis/screens/settings_page.dart';
 import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
-import 'package:kolky_vysledkovy_servis/screens/tournament_page.dart';
+import 'package:kolky_vysledkovy_servis/screens/tournament_detail_page.dart';
 import 'models/match.dart';
 import 'models/player.dart';
 
@@ -46,6 +47,10 @@ class RouteGenerator {
       case '/archive':
         return platformPageRoute(
           builder: (_) => const ArchivePage(),
+        );
+      case '/settings':
+        return platformPageRoute(
+          builder: (_) => const SettingsPage(),
         );
       case '/player/detail':
         return platformPageRoute(
