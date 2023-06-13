@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
               ))
         ],
       ),
-      drawer: NavigationDrawer(),
+      drawer: const NavigationDrawer(),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(assetsPadding),

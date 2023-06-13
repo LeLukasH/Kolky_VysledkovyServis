@@ -4,7 +4,6 @@ import '../assets/colors.dart';
 import '../assets/other_assets.dart';
 import 'other_widgets.dart';
 import '../models/individual_result.dart';
-import '../screens/full_league_individuals_page.dart';
 
 class LeagueIndividualsChooser extends StatefulWidget {
   const LeagueIndividualsChooser(

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kolky_vysledkovy_servis/screens/team_detail_page.dart';
 
 import '../assets/colors.dart';
 import '../assets/other_assets.dart';
 import '../models/tournament_detail.dart';
-import '../screens/player_detail_page.dart';
 import 'other_widgets.dart';
 
 class TournamentGroupResultsWidget extends StatelessWidget {

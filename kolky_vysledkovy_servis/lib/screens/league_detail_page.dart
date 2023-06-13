@@ -25,12 +25,7 @@ class LeaguePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: dao.getLeagueDetail(leagueId, [
-          "season",
-          "playoff",
-          "tables",
-          "averages",
-        ]),
+        future: dao.getLeagueDetail(leagueId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             LeagueDetail leagueDetail = snapshot.requireData;
@@ -132,7 +127,7 @@ class LeaguePage extends StatelessWidget {
                     builder: (_, commentsEnabled, __) {
                       return commentsEnabled
                           ? FutureBuilder(
-                              future: dao.getComment([], leagueId, round),
+                              future: dao.getComment(leagueId, round),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData) {
                                   String text = snapshot.requireData.content;

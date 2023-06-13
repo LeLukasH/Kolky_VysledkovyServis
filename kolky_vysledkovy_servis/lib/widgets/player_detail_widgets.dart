@@ -49,17 +49,7 @@ class PlayerDetailSeasonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: dao.getPlayerResults(playerId, seasonId, [
-          "cards",
-          "cards.player",
-          "results.match",
-          "results.tournament",
-          "results.tournamentRound",
-          "results.tournamentRound.hall",
-          "results.match.hall",
-          "results.match.hall.parent",
-          "results.match.teams"
-        ]),
+        future: dao.getPlayerResults(playerId, seasonId),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return getPlayerDetailSeasonWidget(context, snapshot.requireData);

@@ -16,17 +16,7 @@ class TournamentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: dao.getTournamentDetail(
-        tournamentId,
-        [
-          "club",
-          "hall",
-          "tournamentRounds",
-          "tournamentRounds.hall",
-          "tournamentRounds.results",
-          "tournamentRounds.results.lanes"
-        ],
-      ),
+      future: dao.getTournamentDetail(tournamentId),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           TournamentDetail tournamentDetail = snapshot.requireData;

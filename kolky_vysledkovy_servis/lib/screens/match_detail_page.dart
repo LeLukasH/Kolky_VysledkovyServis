@@ -50,18 +50,7 @@ class MatchDetailPage extends StatelessWidget {
               .apply(color: Colors.white),
         ),
         body: FutureBuilder(
-            future: dao.getMatchDetail(match.id, [
-              "league",
-              "details",
-              "teams",
-              "teams.club",
-              "results",
-              "results.lanes",
-              "referee",
-              "substitutions",
-              "sprint",
-              "hall"
-            ]),
+            future: dao.getMatchDetail(match.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return getMatchDetailPage(context, snapshot.requireData);

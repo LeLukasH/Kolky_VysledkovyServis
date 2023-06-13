@@ -66,7 +66,7 @@ class _FullLeagueTablePageState extends State<FullLeagueTablePage> {
             padding: EdgeInsets.all(assetsPadding),
             child: CustomContainerWithOutPadding(
                 child: FutureBuilder(
-              future: dao.getTable([], widget.leagueId, widget.round, type),
+              future: dao.getTable(widget.leagueId, widget.round, type),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return FullLeagueTableWidget(

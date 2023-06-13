@@ -3,7 +3,6 @@ import '../assets/colors.dart';
 import '../assets/other_assets.dart';
 import 'other_widgets.dart';
 import '../models/best_result.dart';
-import '../screens/full_league_best_results_page.dart';
 
 class BestResultsChooser extends StatefulWidget {
   const BestResultsChooser(

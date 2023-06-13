@@ -5,7 +5,6 @@ import '../assets/other_assets.dart';
 import '../models/match_detail.dart';
 import '../models/status.dart';
 import '../models/match.dart';
-import '../screens/team_detail_page.dart';
 import 'other_widgets.dart';
 
 class MatchDetailWidget extends StatelessWidget {

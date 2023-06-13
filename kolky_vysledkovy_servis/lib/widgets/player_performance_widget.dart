@@ -5,7 +5,6 @@ import '../assets/other_assets.dart';
 import 'other_widgets.dart';
 import '../models/lineup.dart';
 import '../models/match_detail.dart';
-import '../screens/player_detail_page.dart';
 import 'lanes_widget.dart';
 
 class PlayersPerformanceWidget extends StatelessWidget {

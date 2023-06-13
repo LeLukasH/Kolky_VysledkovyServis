@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../assets/other_assets.dart';
-import '../screens/player_detail_page.dart';
 import 'other_widgets.dart';
 import '../models/sprint.dart';
 

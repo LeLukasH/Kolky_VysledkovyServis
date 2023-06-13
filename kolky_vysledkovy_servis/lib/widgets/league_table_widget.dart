@@ -4,7 +4,6 @@ import '../assets/colors.dart';
 import '../assets/other_assets.dart';
 import 'other_widgets.dart';
 import '../models/table_of_round.dart';
-import '../screens/full_league_table_page.dart';
 
 class LeagueTableChooser extends StatefulWidget {
   const LeagueTableChooser(
@@ -62,7 +61,7 @@ class _LeagueTableChooserState extends State<LeagueTableChooser> {
           ),
           CustomContainerWithOutPadding(
               child: FutureBuilder(
-            future: dao.getTable([], widget.leagueId, widget.round, type),
+            future: dao.getTable(widget.leagueId, widget.round, type),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return LeagueTableWidget(

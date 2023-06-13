@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:kolky_vysledkovy_servis/models/player_results.dart';
 import 'package:kolky_vysledkovy_servis/models/status.dart';
 
@@ -27,7 +26,7 @@ class DAO {
   final db = KolkyDatabase.instance;
 
   Future<List<Season>> getSeasons() async {
-    var seasons = await db.dbGetSeasons();
+    var seasons = await db.getSeasons();
     if (seasons.isNotEmpty &&
         seasons
             .reduce((a, b) => a.name.compareTo(b.name) >= 0 ? a : b)
@@ -35,34 +34,27 @@ class DAO {
             .isAfter(DateTime.now())) {
       return seasons;
     }
-    var response = await _api.send('season/list');
-    seasons = seasonsFromJson(response.body).list;
-    await db.dbInsertSeasons(seasons);
+    seasons = await _api.getSeasons();
+    await db.insertSeasons(seasons);
     return seasons;
   }
 
   Future<List<Country>> getCountries() async {
-    var response = await _api.send('countries');
-    return countriesFromJson(response.body).list;
+    return await _api.getCountries();
   }
 
   Future<List<League>> getLeagues(int seasonId) async {
-    var leagues = await db.dbGetLeagues(seasonId);
+    var leagues = await db.getLeagues(seasonId);
     if (leagues.isNotEmpty) {
       return leagues;
     }
-    var body = {
-      'seasonId': seasonId,
-      "fields": ["category"]
-    };
-    var response = await _api.send('league/list', body: body);
-    leagues = leaguesFromJson(response.body).list;
-    await db.dbInsertLeagues(leagues);
+    leagues = await _api.getLeagues(seasonId);
+    await db.insertLeagues(leagues);
     return leagues;
   }
 
   Future<List<Match>> getMatches(int leagueId, int round) async {
-    var matches = await db.dbGetMatches(leagueId, round);
+    var matches = await db.getMatches(leagueId, round);
     bool actual = true;
     for (Match match in matches) {
       if (match.startDate.isBefore(DateTime.now()) &&
@@ -74,147 +66,74 @@ class DAO {
     if (matches.isNotEmpty && actual) {
       return matches;
     }
-    var body = {
-      "leagueIds": [leagueId],
-      "round": round,
-    };
-    var response = await _api.send('match/list', body: body);
-    matches = matchesFromJson(response.body).list;
-    await db.dbInsertMatches(matches);
+    matches = await _api.getMatches(leagueId, round);
+    await db.insertMatches(matches);
     return matches;
   }
 
   Future<List<Match>> getMatchesByDate(DateTime date) async {
-    var body = {
-      "dateFrom": date.toString().substring(0, 10),
-      "dateTo": date.add(const Duration(days: 1)).toString().substring(0, 10),
-    };
-    var response = await _api.send('match/list', body: body);
-    return matchesFromJson(response.body).list;
+    return await _api.getMatchesByDate(date);
   }
 
-  Future<MatchDetail> getMatchDetail(int id, List<String> fields) async {
-    var matchDetail = await db.dbGetMatchDetail(id);
+  Future<MatchDetail> getMatchDetail(int id) async {
+    var matchDetail = await db.getMatchDetail(id);
     if (matchDetail != null) {
       return matchDetail;
     }
-    var body = {"id": id, "fields": fields};
-    var response = await _api.send('match/detail', body: body);
-    matchDetail = matchDetailFromJson(response.body);
-    await db.dbInsertMatchDetail(matchDetail);
+    matchDetail = await _api.getMatchDetail(id);
+    await db.insertMatchDetail(matchDetail);
     return matchDetail;
   }
 
-  Future<LeagueDetail> getLeagueDetail(int id, List<String> fields) async {
-    var leagueDetail = await db.dbGetLeagueDetail(id);
+  Future<LeagueDetail> getLeagueDetail(int id) async {
+    var leagueDetail = await db.getLeagueDetail(id);
     if (leagueDetail != null) {
       return leagueDetail;
     }
-    var body = {"id": id, "fields": fields};
-    var response = await _api.send('league/detail', body: body);
-    leagueDetail = leagueDetailFromJson(response.body);
-    await db.dbInsertLeagueDetail(leagueDetail);
+    leagueDetail = await _api.getLeagueDetail(id);
+    await db.insertLeagueDetail(leagueDetail);
     return leagueDetail;
   }
 
-  Future<TableOfRound> getTable(
-      List<String> fields, int leagueId, int round, String type) async {
-    var body = {
-      "fields": fields,
-      "leagueId": leagueId,
-      "round": round,
-      "type": type
-    };
-    var response = await _api.send('league/table', body: body);
-    try {
-      return tableOfRoundFromJson(response.body);
-    } catch (e) {
-      return TableOfRound(tableOfRoundRows: [], extraPoints: []);
-    }
+  Future<TableOfRound> getTable(int leagueId, int round, String type) async {
+    return await _api.getTable(leagueId, round, type);
   }
 
   Future<List<BestResult>> getBestResults(
       int leagueId, int round, String type, String tableType) async {
-    var body = {
-      "leagueId": leagueId,
-      "round": round,
-      "type": type,
-      "tableType": tableType
-    };
-    var response = await _api.send('league/bestResults', body: body);
-    return bestResultFromJson(response.body);
+    return await _api.getBestResults(leagueId, round, type, tableType);
   }
 
   Future<IndividualResults> getInidividualResults(
       int leagueId, int round) async {
-    var body = {
-      "leagueId": leagueId,
-      "round": round,
-    };
-    var response = await _api.send('league/averages', body: body);
-    return individualResultsFromJson(response.body);
+    return await _api.getInidividualResults(leagueId, round);
   }
 
-  Future<Comment> getComment(
-      List<String> fields, int leagueId, int round) async {
-    var body = {"fields": fields, "leagueId": leagueId, "round": round};
-    var response = await _api.send('overview/detail', body: body);
-    try {
-      return commentFromJson(response.body);
-    } catch (e) {
-      return Comment(
-          id: 0,
-          created: DateTime.now(),
-          modified: null,
-          content: "",
-          leagueId: leagueId,
-          round: round,
-          createdBy: null);
-    }
+  Future<Comment> getComment(int leagueId, int round) async {
+    return await _api.getComment(leagueId, round);
   }
 
-  Future<List<Tournament>> getTournaments(
-      List<String> fields, int seasonId) async {
-    var body = {
-      "fields": fields,
-      "seasonId": seasonId,
-    };
-    var response = await _api.send('tournament/list', body: body);
-    return tournamentsFromJson(response.body).list;
+  Future<List<Tournament>> getTournaments(int seasonId) async {
+    return await _api.getTournaments(seasonId);
   }
 
-  Future<TournamentDetail> getTournamentDetail(
-      int id, List<String> fields) async {
-    var body = {"id": id, "fields": fields};
-    var response = await _api.send('tournament/detail', body: body);
-    return tournamentDetailFromJson(response.body);
+  Future<TournamentDetail> getTournamentDetail(int id) async {
+    return await _api.getTournamentDetail(id);
   }
 
-  Future<PlayerDetail> getPlayerDetail(int id, List<String> fields) async {
-    var body = {"id": id, "fields": fields};
-    var response = await _api.send('player/statistics', body: body);
-    return playerDetailFromJson(response.body);
+  Future<PlayerDetail> getPlayerDetail(int id) async {
+    return await _api.getPlayerDetail(id);
   }
 
-  Future<PlayerResults> getPlayerResults(
-      int playerId, int seasonId, List<String> fields) async {
-    var body = {"id": playerId, "seasonId": seasonId, "fields": fields};
-    var response = await _api.send('player/results', body: body);
-    return playerResultsFromJson(response.body);
+  Future<PlayerResults> getPlayerResults(int playerId, int seasonId) async {
+    return await _api.getPlayerResults(playerId, seasonId);
   }
 
   Future<Team> getTeam(int teamId) async {
-    var body = {"id": teamId};
-    var response = await _api.send('team/detail', body: body);
-    return Team.fromJson(json.decode(response.body));
+    return await _api.getTeam(teamId);
   }
 
   Future<List<TeamResult>> getTeamResults(int teamId) async {
-    var body = {"id": teamId};
-    var response = await _api.send('team/results', body: body);
-    var resultsJson = json.decode(response.body)['list'] as List;
-    return resultsJson
-        .map((resultJson) => TeamResult.fromJson(resultJson))
-        .toList();
+    return await _api.getTeamResults(teamId);
   }
 }

@@ -23,9 +23,7 @@ class NavigationDrawer extends StatelessWidget {
   }
 
   Future<List<Tournament>> getListOfTournaments(int lastSeasonId) async {
-    var tournaments = await dao.getTournaments(
-        ["tournamentGroup", "tournamentGroup.parentTournamentGroup"],
-        lastSeasonId);
+    var tournaments = await dao.getTournaments(lastSeasonId);
     return tournaments;
   }
 

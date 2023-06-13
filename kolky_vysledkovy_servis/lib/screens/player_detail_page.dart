@@ -21,9 +21,7 @@ class PlayerDetailPage extends StatelessWidget {
               .apply(color: Colors.white),
         ),
         body: FutureBuilder(
-            future: dao.getPlayerDetail(player.id, [
-              "player.club",
-            ]),
+            future: dao.getPlayerDetail(player.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return getPlayerDetailPage(context, snapshot.requireData);
