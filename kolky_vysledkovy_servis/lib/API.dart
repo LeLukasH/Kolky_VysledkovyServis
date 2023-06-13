@@ -98,16 +98,8 @@ class API {
     return matchDetailFromJson(response.body);
   }
 
-  Future<LeagueDetail> getLeagueDetail(int id) async {
-    final body = {
-      "id": id,
-      "fields": [
-        "season",
-        "playoff",
-        "tables",
-        "averages",
-      ]
-    };
+  Future<LeagueDetail> getLeagueDetail(int id, List<String> fields) async {
+    final body = {"id": id, "fields": fields};
     final response = await send('league/detail', body: body);
     return leagueDetailFromJson(response.body);
   }

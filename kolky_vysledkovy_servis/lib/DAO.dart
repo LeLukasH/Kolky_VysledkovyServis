@@ -85,12 +85,12 @@ class DAO {
     return matchDetail;
   }
 
-  Future<LeagueDetail> getLeagueDetail(int id) async {
+  Future<LeagueDetail> getLeagueDetail(int id, List<String> fields) async {
     var leagueDetail = await db.getLeagueDetail(id);
     if (leagueDetail != null) {
       return leagueDetail;
     }
-    leagueDetail = await _api.getLeagueDetail(id);
+    leagueDetail = await _api.getLeagueDetail(id, fields);
     await db.insertLeagueDetail(leagueDetail);
     return leagueDetail;
   }

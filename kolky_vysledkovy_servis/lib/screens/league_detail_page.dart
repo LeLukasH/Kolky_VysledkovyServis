@@ -25,7 +25,12 @@ class LeaguePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: dao.getLeagueDetail(leagueId),
+        future: dao.getLeagueDetail(leagueId, [
+          "season",
+          "playoff",
+          "tables",
+          "averages",
+        ]),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             LeagueDetail leagueDetail = snapshot.requireData;

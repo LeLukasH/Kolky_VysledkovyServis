@@ -38,9 +38,7 @@ Future<Map<Season, Tuple>> getLeaguesAndTournaments() async {
   List<Season> seasons = await dao.getSeasons();
   for (Season season in seasons) {
     List<League> leagues = await dao.getLeagues(season.id);
-    List<Tournament> tournaments = await dao.getTournaments(
-        ["tournamentGroup", "tournamentGroup.parentTournamentGroup"],
-        season.id);
+    List<Tournament> tournaments = await dao.getTournaments(season.id);
     Tuple tuple = Tuple(item1: leagues, item2: tournaments);
     map.putIfAbsent(season, () => tuple);
   }
